@@ -10,7 +10,7 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tb_home"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:fontFamily="sans-serif"
-                android:text="foodie"
+                android:text="@string/app_name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/green"
                 android:textSize="28sp"
@@ -65,15 +65,14 @@
         android:id="@+id/rv_restaurants"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="46dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="@+id/cv_swipeButtons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tb_home"
         tools:itemCount="1"
-        tools:listitem="@layout/item_restaurant">
-    </androidx.recyclerview.widget.RecyclerView>
+        tools:listitem="@layout/item_restaurant" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_swipeButtons"
@@ -87,13 +86,13 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="36dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="22dp"
                 app:cardBackgroundColor="#F2E6F5"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/cv_like"
@@ -107,7 +106,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="48dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="360dp"
                 app:cardElevation="5dp"
@@ -132,6 +131,8 @@
                 android:id="@+id/cv_undo"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="14dp"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="360dp"
                 app:cardElevation="5dp"
@@ -159,7 +160,7 @@
                 android:layout_marginStart="48dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="360dp"
                 app:cardElevation="5dp"
