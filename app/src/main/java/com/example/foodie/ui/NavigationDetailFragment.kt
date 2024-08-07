@@ -1,14 +1,12 @@
 package com.example.foodie.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.foodie.MainViewModel
-import com.example.foodie.R
-import com.example.foodie.databinding.FragmentLikesBinding
 import com.example.foodie.databinding.FragmentNavigationDetailBinding
 
 class NavigationDetailFragment : Fragment() {

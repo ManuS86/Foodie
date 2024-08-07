@@ -1,24 +1,24 @@
 package com.example.foodie.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.foodie.MainViewModel
-import com.example.foodie.databinding.FragmentPreferencesDetailBinding
+import com.example.foodie.databinding.FragmentDiscoveryDetailBinding
 
-class PreferencesDetailFragment : Fragment() {
+class DiscoveryDetailFragment : Fragment() {
     private val viewModel: MainViewModel by activityViewModels()
-    private lateinit var binding: FragmentPreferencesDetailBinding
+    private lateinit var binding: FragmentDiscoveryDetailBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentPreferencesDetailBinding.inflate(inflater)
+        binding = FragmentDiscoveryDetailBinding.inflate(inflater)
         return binding.root
     }
 
