@@ -45,7 +45,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.MaterialToolbar>
 
@@ -61,7 +60,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="104dp">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_images"
@@ -75,16 +75,17 @@
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/vp_images"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent" />
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_info"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="8dp">
+                app:cardCornerRadius="8dp"
+                app:strokeWidth="0dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -106,49 +107,63 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_categories"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_info">
+                        app:layout_constraintTop_toBottomOf="@+id/tv_info"
+                        tools:listitem="@layout/item_category">
 
                     </androidx.recyclerview.widget.RecyclerView>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_hours"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="Hours: 9:00-20:00"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_distance"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rv_categories" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/iv_location"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
                         android:src="@drawable/ic_location"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/rv_categories" />
+                        app:layout_constraintStart_toStartOf="parent" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_distance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
+                        android:layout_marginBottom="16dp"
                         android:text="1 km away"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/iv_location"
-                        app:layout_constraintTop_toBottomOf="@+id/rv_categories" />
+                        app:layout_constraintStart_toEndOf="@+id/iv_location" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_quality"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="8dp">
+                app:cardCornerRadius="8dp"
+                app:strokeWidth="0dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -173,7 +188,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="4dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -188,7 +203,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="16dp"
                         android:text="4.5"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         app:layout_constraintStart_toStartOf="parent"
@@ -199,7 +214,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
                         android:text="€€"
@@ -210,6 +225,118 @@
                         app:layout_constraintTop_toBottomOf="@+id/tv_rating" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+                app:strokeWidth="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Location"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textColor="@color/off_grey"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/iv_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/ic_location"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_address"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Warschauer Str. 65, 10243 Berlin"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        app:layout_constraintStart_toEndOf="@+id/iv_address"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_location" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/iv_mapPreview"
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_address"
+                        tools:src="@tools:sample/backgrounds/scenic" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_Website"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+                app:strokeWidth="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_website"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Website"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textColor="@color/off_grey"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/btn_website"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:backgroundTint="@color/green"
+                        android:linksClickable="true"
+                        android:text="Website"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/off_black"
+                        android:textColorLink="@color/off_grey"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_website" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </ScrollView>
 
@@ -217,6 +344,7 @@
         android:id="@+id/iv_gradient"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:alpha="0.75"
         android:src="@drawable/profile_button_blur"
         app:layout_constraintBottom_toBottomOf="@+id/cv_swipeButtons"
         app:layout_constraintEnd_toEndOf="@+id/cv_swipeButtons"
@@ -317,9 +445,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="8dp"
                     android:src="@drawable/ic_likes_active" />
-
             </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
