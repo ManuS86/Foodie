@@ -75,7 +75,14 @@
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/vp_images"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent" >
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/burgermeister" />
+                </androidx.viewpager.widget.ViewPager>
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
@@ -118,7 +125,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_info"
                         tools:listitem="@layout/item_category">
-
                     </androidx.recyclerview.widget.RecyclerView>
 
                     <com.google.android.material.textview.MaterialTextView
@@ -186,17 +192,17 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_rating"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_rating"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/tv_rating"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_quality">
-
-                    </androidx.recyclerview.widget.RecyclerView>
+                        app:layout_constraintTop_toTopOf="@+id/tv_rating"
+                        tools:itemCount="5"
+                        tools:listitem="@layout/item_rating"></androidx.recyclerview.widget.RecyclerView>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_rating"
@@ -206,6 +212,7 @@
                         android:layout_marginTop="16dp"
                         android:text="4.5"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_quality" />
 
@@ -218,6 +225,7 @@
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
                         android:text="€€"
+                        android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -340,17 +348,6 @@
         </LinearLayout>
     </ScrollView>
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/iv_gradient"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:alpha="0.75"
-        android:src="@drawable/profile_button_blur"
-        app:layout_constraintBottom_toBottomOf="@+id/cv_swipeButtons"
-        app:layout_constraintEnd_toEndOf="@+id/cv_swipeButtons"
-        app:layout_constraintStart_toStartOf="@+id/cv_swipeButtons"
-        app:layout_constraintTop_toTopOf="@+id/cv_swipeButtons" />
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_swipeButtons"
         android:layout_width="0dp"
@@ -364,6 +361,17 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_gradient"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:alpha="0.75"
+                android:src="@drawable/gradient_profile_buttons"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_dismiss"
