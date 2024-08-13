@@ -27,7 +27,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:text="Restaurant Name"
+                android:text="Burgermeister"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="28sp"
                 android:textStyle="bold"
@@ -75,9 +75,9 @@
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/vp_images"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
+                    android:layout_height="match_parent">
 
-                    <ImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/imageView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -112,7 +112,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_categories"
+                        android:id="@+id/rv_categoriesHistory"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -124,8 +124,8 @@
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_info"
-                        tools:listitem="@layout/item_category">
-                    </androidx.recyclerview.widget.RecyclerView>
+                        tools:itemCount="2"
+                        tools:listitem="@layout/item_category" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_hours"
@@ -135,9 +135,9 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
                         android:text="Hours: 9:00-20:00"
-                        app:layout_constraintBottom_toTopOf="@+id/tv_distance"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_distanceHistory"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/rv_categories" />
+                        app:layout_constraintTop_toBottomOf="@+id/rv_categoriesHistory" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/iv_location"
@@ -150,7 +150,7 @@
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_distance"
+                        android:id="@+id/tv_distanceHistory"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -189,35 +189,32 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_rating"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="16dp"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_rating"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/tv_rating"
-                        app:layout_constraintTop_toTopOf="@+id/tv_rating"
-                        tools:itemCount="5"
-                        tools:listitem="@layout/item_rating"></androidx.recyclerview.widget.RecyclerView>
-
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:text="4.5"
+                        android:text="4.3"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_quality" />
 
+                    <RatingBar
+                        android:id="@+id/rb_rating"
+                        style="@android:style/Widget.Material.Light.RatingBar.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:numStars="5"
+                        android:rating="4.3"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_rating"
+                        app:layout_constraintStart_toEndOf="@+id/tv_rating"
+                        app:layout_constraintTop_toTopOf="@+id/tv_rating" />
+
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_priceRange"
+                        android:id="@+id/tv_priceRangeDiscovery"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"

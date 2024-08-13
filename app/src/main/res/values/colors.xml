@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="black">#0C000F</color>
     <color name="off_black">#170D1A</color>
+    <color name="m3_default_color_primary_text" tools:ignore="PrivateResource">#170D1A</color>
     <color name="white">#FFFFFF</color>
     <color name="off_white">#FDF7FF</color>
     <color name="off_white_dark">#F1E1F5</color>
