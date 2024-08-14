@@ -10,6 +10,8 @@
     android:textSize="12sp"
     app:chipBackgroundColor="@color/off_grey"
     app:chipCornerRadius="20dp"
+    app:chipEndPadding="4dp"
+    app:chipStartPadding="4dp"
     app:chipStrokeWidth="0dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"

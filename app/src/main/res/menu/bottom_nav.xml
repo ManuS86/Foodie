@@ -2,18 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/statsFragment"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:icon="@drawable/ic_stats_inactive"
-        android:title="Stats" />
-    <item
-        android:id="@+id/historyFragment"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:icon="@drawable/ic_history_inactive"
-        android:title="History" />
-    <item
         android:id="@+id/homeFragment"
         android:layout_width="40dp"
         android:layout_height="56dp"
@@ -25,6 +13,18 @@
         android:layout_height="40dp"
         android:icon="@drawable/ic_like_inactive"
         android:title="Likes" />
+    <item
+        android:id="@+id/historyFragment"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:icon="@drawable/ic_history_inactive"
+        android:title="History" />
+    <item
+        android:id="@+id/statsFragment"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:icon="@drawable/ic_stats_inactive"
+        android:title="Stats" />
     <item
         android:id="@+id/settingsFragment"
         android:layout_width="40dp"

@@ -4,6 +4,8 @@
     <color name="off_black">#170D1A</color>
     <color name="m3_default_color_primary_text" tools:ignore="PrivateResource">#170D1A</color>
     <color name="white">#FFFFFF</color>
+    <color name="rating_yellow">#FFDF20</color>
+    <color name="rating_yellow_secondary">#FFC700</color>
     <color name="off_white">#FDF7FF</color>
     <color name="off_white_dark">#F1E1F5</color>
     <color name="off_grey">#7D7580</color>

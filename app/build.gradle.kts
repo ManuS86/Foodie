@@ -71,4 +71,7 @@ dependencies {
 
     //HttpLoggingInterceptor
     implementation(libs.logging.interceptor)
+
+    //FlexBox
+    implementation(libs.flexbox)
 }

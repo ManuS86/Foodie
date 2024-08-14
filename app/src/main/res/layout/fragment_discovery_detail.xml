@@ -24,18 +24,19 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_back"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_arrow_back" />
+                app:srcCompat="@drawable/ic_arrow_back"
+                app:tint="@color/green" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginEnd="16dp"
                 android:fontFamily="sans-serif"
                 android:text="Discovery Settings"
@@ -89,11 +90,12 @@
                 android:layout_marginEnd="16dp"
                 android:text="10 km"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="#58505B"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <SeekBar
+            <androidx.appcompat.widget.AppCompatSeekBar
                 android:id="@+id/sb_distanceSliderDiscovery"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -105,20 +107,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_distanceDiscovery" />
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/sw_distanceDiscovery"
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/sw_rangeDiscovery"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="4dp"
+                android:checked="true"
                 android:text="Only show Restaurants in this range"
                 android:textColor="@color/off_black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sb_distanceSliderDiscovery"
-                app:thumbTint="@color/green" />
+                app:trackDecorationTint="@color/colorless"
+                app:trackTint="@color/green" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
@@ -161,12 +166,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="Open Now"
+                android:text="Open now"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="16sp"
+                android:textColor="#58505B"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
@@ -210,8 +215,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
+                android:checkable="true"
                 android:text="€"
-                android:textColor="@color/off_grey"
                 app:chipBackgroundColor="@color/white"
                 app:chipCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -224,8 +229,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"
+                android:checkable="true"
                 android:text="€€"
-                android:textColor="@color/off_grey"
                 app:chipBackgroundColor="@color/white"
                 app:chipCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -238,8 +243,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"
+                android:checkable="true"
                 android:text="€€€"
-                android:textColor="@color/off_grey"
                 app:chipBackgroundColor="@color/white"
                 app:chipCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -281,6 +286,23 @@
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal"
+                app:flexDirection="row"
+                app:flexWrap="wrap"
+                app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_foodsDiscovery"
+                tools:listitem="@layout/item_category" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
