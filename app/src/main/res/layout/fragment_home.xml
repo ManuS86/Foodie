@@ -37,14 +37,12 @@
                 android:id="@+id/tv_title"
                 android:layout_width="0dp"
                 android:layout_height="36dp"
-                android:layout_marginEnd="16dp"
                 android:fontFamily="sans-serif"
                 android:text="@string/app_name"
                 android:textColor="@color/green"
                 android:textSize="28sp"
                 android:textStyle="bold|italic"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_logo"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -71,6 +69,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         app:cardBackgroundColor="@color/off_white_dark"
+        app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
         app:cardMaxElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -186,7 +185,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="8dp"
-                    android:src="@drawable/ic_likes_active" />
+                    android:src="@drawable/ic_like" />
             </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

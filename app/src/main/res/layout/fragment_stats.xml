@@ -35,7 +35,6 @@
                 android:id="@+id/tv_title"
                 android:layout_width="0dp"
                 android:layout_height="36dp"
-                android:layout_marginEnd="16dp"
                 android:fontFamily="sans-serif"
                 android:text="@string/app_name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -43,7 +42,6 @@
                 android:textSize="28sp"
                 android:textStyle="bold|italic"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_logo"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>

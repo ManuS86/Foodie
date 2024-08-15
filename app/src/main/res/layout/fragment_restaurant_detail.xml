@@ -27,7 +27,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:text="Burgermeister"
+                android:text="Restaurant Name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="28sp"
                 android:textStyle="bold"
@@ -52,6 +52,7 @@
         android:id="@+id/sv_profile"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +62,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="104dp">
+            android:paddingBottom="104dp"
+            android:scrollbarSize="0dp"
+            android:scrollbars="none">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_images"
@@ -392,8 +395,8 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_dismiss"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="8dp"
                     android:src="@drawable/ic_dismiss" />
@@ -450,7 +453,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="8dp"
-                    android:src="@drawable/ic_likes_active" />
+                    android:src="@drawable/ic_like" />
             </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

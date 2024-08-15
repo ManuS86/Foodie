@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="Burgermeister"
+            android:text="Restaurant Name"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/iv_restaurantPicLikes"
