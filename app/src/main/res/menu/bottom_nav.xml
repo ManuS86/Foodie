@@ -3,22 +3,22 @@
 
     <item
         android:id="@+id/homeFragment"
-        android:icon="@drawable/ic_logo_inactive"
+        android:icon="@drawable/home_selector"
         android:title="Home" />
     <item
         android:id="@+id/likesFragment"
-        android:icon="@drawable/ic_like_inactive"
+        android:icon="@drawable/likes_selector"
         android:title="Likes" />
     <item
         android:id="@+id/historyFragment"
-        android:icon="@drawable/ic_history_inactive"
+        android:icon="@drawable/history_selector"
         android:title="History" />
     <item
         android:id="@+id/statsFragment"
-        android:icon="@drawable/ic_stats_inactive"
+        android:icon="@drawable/stats_selector"
         android:title="Stats" />
     <item
         android:id="@+id/settingsFragment"
-        android:icon="@drawable/ic_settings_inactive"
+        android:icon="@drawable/settings_selector"
         android:title="Settings" />
 </menu>

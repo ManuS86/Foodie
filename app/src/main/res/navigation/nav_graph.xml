@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_preferencesDetailFragment"
-            app:destination="@id/preferencesDetailFragment" />
+            app:destination="@id/discoveryDetailFragment" />
         <action
             android:id="@+id/action_homeFragment_to_restaurantDetailFragment"
             app:destination="@id/restaurantDetailFragment" />
@@ -64,7 +64,7 @@
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
-        android:id="@+id/preferencesDetailFragment"
+        android:id="@+id/discoveryDetailFragment"
         android:name="com.example.foodie.ui.DiscoveryDetailFragment"
         android:label="fragment_preferences_detail"
         tools:layout="@layout/fragment_discovery_detail" />

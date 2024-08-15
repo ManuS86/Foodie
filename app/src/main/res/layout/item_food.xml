@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginEnd="8dp"
     android:checkable="true"
-    android:text="Category"
+    android:text="Food"
     android:textColor="@color/off_white"
     android:textSize="12sp"
     app:chipBackgroundColor="@color/off_grey"

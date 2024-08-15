@@ -112,7 +112,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_restaurantNameHistory"
                     tools:itemCount="2"
-                    tools:listitem="@layout/item_category" />
+                    tools:listitem="@layout/item_food" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_rating"
