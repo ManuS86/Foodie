@@ -1,174 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cv_restaurant"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:cardBackgroundColor="@color/colorless"
-    app:cardElevation="5dp"
-    app:cardForegroundColor="@color/colorless"
-    app:cardMaxElevation="7dp"
-    app:checkedIconTint="@color/green"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:rippleColor="@color/colorless"
-    app:strokeWidth="0dp">
+    android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_restaurant"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="@color/colorless"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="5dp"
+        app:cardMaxElevation="7dp"
+        app:checkedIconTint="@color/green"
+        app:layout_constraintBottom_toBottomOf="@+id/cv_backgroundBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeWidth="0dp">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_restaurant"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/burgermeister" />
+            android:layout_height="match_parent">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cv_infoCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="#00FFFFFF"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:strokeWidth="0dp">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_restaurant"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@drawable/burgermeister" />
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/iv_infoGradient"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:scaleType="fitCenter"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0"
-                    app:srcCompat="@drawable/gradient_restaurant_card" />
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_infoCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#00FFFFFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:strokeWidth="0dp">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_restaurantNameHistory"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:text="Restaurant Name"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                    android:textColor="@color/white"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/iv_decollapseButton"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_priceRangeRestaurant"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:text="€€"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/white"
-                    android:textSize="24sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_restaurantNameHistory"
-                    app:layout_constraintStart_toEndOf="@+id/tv_restaurantNameHistory"
-                    app:layout_constraintTop_toTopOf="@+id/tv_restaurantNameHistory" />
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/iv_decollapseButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="#00FFFFFF"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_decollapse_profile" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_categoriesRestaurant"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_restaurantNameHistory"
-                    tools:itemCount="2"
-                    tools:listitem="@layout/item_food" />
+                    android:layout_height="match_parent">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="4.3"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rv_categoriesRestaurant" />
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/iv_infoGradient"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:scaleType="fitCenter"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="1.0"
+                        app:srcCompat="@drawable/gradient_restaurant_card" />
 
-                <RatingBar
-                    android:id="@+id/rb_rating"
-                    style="@android:style/Widget.Material.RatingBar.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:numStars="5"
-                    android:progressTint="@color/rating_yellow"
-                    android:rating="4.3"
-                    android:secondaryProgressTint="@color/rating_yellow_secondary"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_rating"
-                    app:layout_constraintStart_toEndOf="@+id/tv_rating"
-                    app:layout_constraintTop_toTopOf="@+id/tv_rating">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_restaurantNameHistory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Restaurant Name"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@+id/iv_decollapseButton"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                </RatingBar>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_priceRangeRestaurant"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="€€"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_restaurantNameHistory"
+                        app:layout_constraintStart_toEndOf="@+id/tv_restaurantNameHistory"
+                        app:layout_constraintTop_toTopOf="@+id/tv_restaurantNameHistory" />
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/iv_location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="40dp"
-                    android:src="@drawable/ic_location_white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_rating"
-                    app:layout_constraintVertical_bias="0.0" />
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/iv_decollapseButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#00FFFFFF"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_decollapse_profile" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_distanceRestaurant"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="1 km away"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="@+id/iv_location"
-                    app:layout_constraintStart_toEndOf="@+id/iv_location"
-                    app:layout_constraintTop_toTopOf="@+id/iv_location"
-                    app:layout_constraintVertical_bias="0.0" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_categoriesRestaurant"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_restaurantNameHistory"
+                        tools:itemCount="2"
+                        tools:listitem="@layout/item_food" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="4.3"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rv_categoriesRestaurant" />
+
+                    <RatingBar
+                        android:id="@+id/rb_rating"
+                        style="@android:style/Widget.Material.RatingBar.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:numStars="5"
+                        android:progressTint="@color/rating_yellow"
+                        android:rating="4.3"
+                        android:secondaryProgressTint="@color/rating_yellow_secondary"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_rating"
+                        app:layout_constraintStart_toEndOf="@+id/tv_rating"
+                        app:layout_constraintTop_toTopOf="@+id/tv_rating">
+
+                    </RatingBar>
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/iv_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="40dp"
+                        android:src="@drawable/ic_location_white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_rating"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_distanceRestaurant"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="1 km away"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="@+id/iv_location"
+                        app:layout_constraintStart_toEndOf="@+id/iv_location"
+                        app:layout_constraintTop_toTopOf="@+id/iv_location"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_backgroundBar"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardBackgroundColor="@color/off_white_dark"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:cardMaxElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeWidth="0dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

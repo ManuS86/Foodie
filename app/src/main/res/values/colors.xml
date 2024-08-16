@@ -2,7 +2,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <color name="black">#0C000F</color>
     <color name="off_black">#170D1A</color>
-    <color name="m3_default_color_primary_text" tools:ignore="PrivateResource">#170D1A</color>
     <color name="white">#FFFFFF</color>
     <color name="rating_yellow">#FFDF20</color>
     <color name="rating_yellow_secondary">#FFC700</color>
@@ -13,4 +12,7 @@
     <color name="green">#9EE049</color>
     <color name="dismiss_red">#F60000</color>
     <color name="colorless">#00FFFFFF</color>
+
+    <color name="m3_default_color_primary_text" tools:ignore="PrivateResource">@color/off_black
+    </color>
 </resources>

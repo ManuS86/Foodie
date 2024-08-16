@@ -218,6 +218,7 @@
                 android:layout_marginBottom="8dp"
                 android:checkable="true"
                 android:text="€"
+                android:textColor="@color/off_grey"
                 app:chipBackgroundColor="@color/white"
                 app:chipCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -231,6 +232,7 @@
                 android:layout_marginStart="16dp"
                 android:checkable="true"
                 android:text="€€"
+                android:textColor="@color/off_grey"
                 app:chipBackgroundColor="@color/white"
                 app:chipCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="@+id/cp_priceRangeLowDiscovery"
@@ -244,6 +246,7 @@
                 android:layout_marginStart="16dp"
                 android:checkable="true"
                 android:text="€€€"
+                android:textColor="@color/off_grey"
                 app:chipBackgroundColor="@color/white"
                 app:chipCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="@+id/cp_priceRangeMedDiscovery"
@@ -300,7 +303,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_foodsDiscovery"
-                tools:listitem="@layout/item_food" />
+                tools:listitem="@layout/item_foods_filter" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

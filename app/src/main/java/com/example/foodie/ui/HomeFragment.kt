@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.foodie.MainViewModel
 import com.example.foodie.databinding.FragmentHomeBinding
 
@@ -25,5 +26,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.ivPreferences.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToPreferencesDetailFragment()
+            )
+        }
     }
 }

@@ -21,7 +21,7 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_logo"
-                android:layout_width="22.86dp"
+                android:layout_width="22dp"
                 android:layout_height="32dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_title"
@@ -69,6 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:text="App Settings"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textSize="16sp"
@@ -80,7 +81,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 app:cardBackgroundColor="@color/white"
@@ -124,7 +124,7 @@
                         android:id="@+id/iv_checkmarkEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="12dp"
+                        android:layout_marginEnd="16dp"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_email"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tv_email"
@@ -146,7 +146,7 @@
                         android:id="@+id/iv_checkmarkPush"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="12dp"
+                        android:layout_marginEnd="16dp"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_pushNotifications"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tv_pushNotifications"
@@ -154,6 +154,74 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_appearance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="Appearance"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tb_settings" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_appearanceSettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="1dp"
+                app:cardMaxElevation="3dp"
+                app:layout_constraintBottom_toTopOf="@+id/cv_privacy"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:strokeWidth="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_appearanceSelection"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="Light Mode"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/imageButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_appearanceSelection"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_appearanceSelection"
+                        app:srcCompat="@drawable/ic_arrow_forward_simple_small" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_community"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="Community"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="16sp" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_shareFoodie"
@@ -187,7 +255,9 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
@@ -348,7 +418,7 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_appLogo"
-                android:layout_width="40dp"
+                android:layout_width="36dp"
                 android:layout_height="56dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="52dp"

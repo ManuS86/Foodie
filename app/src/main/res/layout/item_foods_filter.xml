@@ -7,11 +7,10 @@
     android:layout_marginEnd="8dp"
     android:checkable="true"
     android:text="Food"
-    android:textColor="@color/off_white"
+    android:textColor="@color/off_grey"
     android:textSize="12sp"
-    app:chipBackgroundColor="@color/off_grey"
+    app:chipBackgroundColor="@color/white"
     app:chipCornerRadius="16dp"
-    app:chipStrokeWidth="0dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent" />

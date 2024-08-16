@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">foodie</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="map_id">6ac593fa34c42161</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>
