@@ -99,4 +99,7 @@ dependencies {
     // Places SDK for Android
     implementation(platform(libs.kotlin.bom))
     implementation(libs.places)
+
+    //yuyakaido/CardStackView
+    implementation (libs.card.stack.view)
 }

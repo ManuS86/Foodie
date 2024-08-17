@@ -81,11 +81,34 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/iv_restaurant1"
+                    <TableLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/burgermeister" />
+                        android:layout_height="match_parent">
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" >
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/iv_restaurant1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/burgermeister" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </TableLayout>
+
                 </androidx.viewpager.widget.ViewPager>
             </com.google.android.material.card.MaterialCardView>
 
@@ -296,6 +319,15 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_address"
                         map:mapId="@string/map_id" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/iv_googleLogo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:src="@drawable/google_logo"
+                        app:layout_constraintBottom_toBottomOf="@+id/iv_mapPreview"
+                        app:layout_constraintStart_toStartOf="@+id/iv_mapPreview" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>

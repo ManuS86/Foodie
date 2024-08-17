@@ -59,7 +59,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_raderOuter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tb_home" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_radarSeperator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
         app:layout_constraintStart_toStartOf="@+id/iv_raderOuter"
         app:layout_constraintTop_toTopOf="@+id/iv_raderOuter" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_radarInner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
         app:layout_constraintStart_toStartOf="@+id/iv_radarSeperator"
         app:layout_constraintTop_toTopOf="@+id/iv_radarSeperator" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_radarLogo"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -104,19 +104,17 @@
         app:layout_constraintStart_toStartOf="@+id/iv_radarInner"
         app:layout_constraintTop_toTopOf="@+id/iv_radarInner" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_restaurants"
+    <com.yuyakaido.android.cardstackview.CardStackView
+        android:id="@+id/csv_restaurantsStack"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_centerInParent="true"
         android:layout_marginBottom="16dp"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="@+id/cv_swipeButtons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tb_home"
-        tools:itemCount="1"
         tools:listitem="@layout/item_restaurant" />
-
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_swipeButtons"
