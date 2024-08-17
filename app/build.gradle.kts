@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("androidx.navigation.safeargs.kotlin")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.ksp)
 
     //Secrets Gradle Plugin
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
@@ -84,8 +84,8 @@ dependencies {
 
     //Room
     implementation(libs.androidx.room.runtime)
-    ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
     //HttpLoggingInterceptor
     implementation(libs.logging.interceptor)
