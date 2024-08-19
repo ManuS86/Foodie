@@ -3,8 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id("androidx.navigation.safeargs.kotlin")
     alias(libs.plugins.ksp)
-
-    //Secrets Gradle Plugin
+    id("com.google.gms.google-services")
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
@@ -79,7 +78,7 @@ dependencies {
     implementation(libs.converter.moshi)
     implementation(libs.moshi.kotlin)
 
-    // Coil
+    //Coil
     implementation(libs.coil)
 
     //Room
@@ -93,13 +92,21 @@ dependencies {
     //FlexBox
     implementation(libs.flexbox)
 
-    // Maps SDK for Android
+    //Maps SDK for Android
     implementation(libs.play.services.maps)
 
-    // Places SDK for Android
+    //Places SDK for Android
     implementation(platform(libs.kotlin.bom))
     implementation(libs.places)
 
     //yuyakaido/CardStackView
-    implementation (libs.card.stack.view)
+    implementation(libs.card.stack.view)
+
+    //Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.analytics)
+
+    //Facebook SDK
+    implementation(libs.facebook.login)
 }

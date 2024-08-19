@@ -1,5 +1,6 @@
 package com.example.foodie
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -66,5 +67,13 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 .position(LatLng(0.0, 0.0))
                 .title("Marker")
         )
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
+        navHostFragment?.childFragmentManager?.fragments?.forEach { fragment ->
+            fragment.onActivityResult(requestCode, resultCode, data)
+        }
     }
 }
