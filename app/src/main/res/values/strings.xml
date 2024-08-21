@@ -4,6 +4,8 @@
     <string name="map_id">6ac593fa34c42161</string>
     <string name="title_activity_maps">MapsActivity</string>
 
+    <string name="default_web_client_id">114811277841-51t0bv0703lmol6v0n1lhclv8que4bmi.apps.googleusercontent.com</string>
+
     <string name="facebook_app_id">1556577395265374</string>
     <string name="fb_login_protocol_scheme">fb1556577395265374</string>
     <string name="facebook_client_token">cf440a20b9d4d365607695249cf964b9</string>

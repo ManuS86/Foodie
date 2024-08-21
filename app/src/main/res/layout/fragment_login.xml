@@ -97,7 +97,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/btn_loginGoogle"
+        android:id="@+id/btn_google_sign_in"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -116,12 +116,12 @@
         app:iconPadding="0dp"
         app:iconSize="22dp"
         app:iconTint="@null"
-        app:layout_constraintBottom_toTopOf="@+id/btn_loginFacebook"
+        app:layout_constraintBottom_toTopOf="@+id/btn_facebook_sign_in"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btn_loginFacebook"
+        android:id="@+id/btn_facebook_sign_in"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -138,12 +138,12 @@
         app:iconGravity="start"
         app:iconPadding="0dp"
         app:iconSize="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_loginPhoneNumber"
+        app:layout_constraintBottom_toTopOf="@+id/btn_phone_number_sign_in"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btn_loginPhoneNumber"
+        android:id="@+id/btn_phone_number_sign_in"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

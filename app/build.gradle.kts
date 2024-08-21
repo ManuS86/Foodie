@@ -95,7 +95,7 @@ dependencies {
     //Maps SDK for Android
     implementation(libs.play.services.maps)
 
-    //Places SDK for Android
+    //Google Places SDK for Android
     implementation(platform(libs.kotlin.bom))
     implementation(libs.places)
 
@@ -107,6 +107,16 @@ dependencies {
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.analytics)
 
-    //Facebook SDK
+    //Facebook Sign In SDK
     implementation(libs.facebook.login)
+
+    //Google Sign In
+    implementation(libs.play.services.auth)
+
+    //Google Credentials
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+
+    //GoogleID
+    implementation(libs.googleid)
 }

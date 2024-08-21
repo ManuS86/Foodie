@@ -5,21 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.LoginViewModel
 import com.example.foodie.R
 import com.example.foodie.databinding.FragmentLoginBinding
-import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
-import com.facebook.LoginStatusCallback
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import com.facebook.login.widget.LoginButton
 
 
 class LoginFragment : Fragment() {
@@ -34,6 +30,7 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
+
         callbackManager = CallbackManager.Factory.create()
 
         LoginManager.getInstance().registerCallback(callbackManager,
@@ -57,15 +54,19 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnLoginGoogle.setOnClickListener {
-            TODO("Not yet implemented")
+        binding.btnGoogleSignIn.setOnClickListener {
+            viewModel.handleGoogleSignIn(requireActivity())
         }
 
-        binding.btnLoginFacebook.setOnClickListener {
-            LoginManager.getInstance().logInWithReadPermissions(this, callbackManager, listOf("email", "public_profile"))
+        binding.btnFacebookSignIn.setOnClickListener {
+            LoginManager.getInstance().logInWithReadPermissions(
+                requireActivity(),
+                callbackManager,
+                listOf("email", "public_profile")
+            )
         }
 
-        binding.btnLoginPhoneNumber.setOnClickListener {
+        binding.btnPhoneNumberSignIn.setOnClickListener {
             TODO("Not yet implemented")
         }
 
@@ -77,7 +78,7 @@ class LoginFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
         callbackManager.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }
