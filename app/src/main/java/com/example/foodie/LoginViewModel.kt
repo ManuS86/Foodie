@@ -1,7 +1,6 @@
 package com.example.foodie
 
 import android.app.Activity
-import android.content.ContentValues.TAG
 import android.util.Log
 import android.widget.Toast
 import androidx.credentials.CredentialManager

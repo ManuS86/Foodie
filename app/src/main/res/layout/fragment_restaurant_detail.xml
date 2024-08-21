@@ -29,9 +29,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="Restaurant Name"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
                 android:textSize="28sp"
-                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/iv_decollapse"
                 app:layout_constraintStart_toStartOf="parent"
@@ -132,9 +131,8 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:text="Info"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="@color/off_grey"
-                        android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -161,6 +159,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginBottom="8dp"
                         android:text="Hours: 9:00-20:00"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                         app:layout_constraintBottom_toTopOf="@+id/tv_distanceHistory"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/rv_categoriesHistory" />
@@ -180,11 +179,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:layout_marginBottom="16dp"
                         android:text="1 km away"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/iv_location" />
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        app:layout_constraintBottom_toBottomOf="@+id/iv_location"
+                        app:layout_constraintStart_toEndOf="@+id/iv_location"
+                        app:layout_constraintTop_toTopOf="@+id/iv_location" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -208,9 +207,8 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:text="Quality"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="@color/off_grey"
-                        android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -221,8 +219,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:text="4.3"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textSize="14sp"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_quality" />
 
@@ -249,7 +246,7 @@
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
                         android:text="€€"
-                        android:textSize="16sp"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -278,9 +275,8 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:text="Location"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="@color/off_grey"
-                        android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -300,7 +296,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
                         android:text="Warschauer Str. 65, 10243 Berlin"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                         app:layout_constraintStart_toEndOf="@+id/iv_address"
                         app:layout_constraintTop_toBottomOf="@+id/tv_location" />
 
@@ -350,9 +346,8 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:text="Website"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="@color/off_grey"
-                        android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -365,9 +360,9 @@
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
                         android:backgroundTint="@color/green"
-                        android:linksClickable="true"
+                        android:linksClickable="false"
                         android:text="Website"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
                         android:textColor="@color/off_black"
                         android:textColorLink="@color/off_grey"
                         app:layout_constraintBottom_toBottomOf="parent"
