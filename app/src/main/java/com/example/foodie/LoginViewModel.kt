@@ -2,7 +2,6 @@ package com.example.foodie
 
 import android.app.Activity
 import android.content.ContentValues.TAG
-import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.credentials.CredentialManager
@@ -10,7 +9,6 @@ import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialException
-import androidx.credentials.exceptions.NoCredentialException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,41 +26,57 @@ import kotlinx.coroutines.launch
 class LoginViewModel : ViewModel() {
 
     private val auth = FirebaseAuth.getInstance()
+    private val TAG = "LoginViewModel"
 
     private var _currentUser = MutableLiveData<FirebaseUser?>(auth.currentUser)
     val currentUser: LiveData<FirebaseUser?>
         get() = _currentUser
 
-    fun handleGoogleSignIn(activity: Activity) {
-        val credentialManager = CredentialManager.create(activity)
+    private fun getCredentialRequest(
+        activity: Activity,
+        filterByAuthorizedAccounts: Boolean
+    ): GetCredentialRequest {
         val googleIdOption = GetGoogleIdOption.Builder()
-            .setFilterByAuthorizedAccounts(true)
+            .setFilterByAuthorizedAccounts(filterByAuthorizedAccounts)
             .setServerClientId(activity.getString(R.string.default_web_client_id))
             .setAutoSelectEnabled(true)
             .build()
-        val request = GetCredentialRequest.Builder()
+        return GetCredentialRequest.Builder()
             .addCredentialOption(googleIdOption)
             .build()
+    }
+
+    fun handleGoogleSignIn(activity: Activity) {
+        val credentialManager = CredentialManager.create(activity)
 
         viewModelScope.launch {
             try {
-                val result = credentialManager.getCredential(activity, request)
-                    handleSignIn(result, activity)
+                val result =
+                    credentialManager.getCredential(activity, getCredentialRequest(activity, true))
+                handleSignIn(result, activity)
             } catch (ex: GetCredentialException) {
                 Log.e("Credential retrieval failed:", ex.toString())
-            } catch (e: NoCredentialException) {
-                Toast.makeText(
-                    activity,
-                    "No Google Account found.",
-                    Toast.LENGTH_SHORT,
-                ).show()
+                try {
+                    val result = credentialManager.getCredential(
+                        activity,
+                        getCredentialRequest(activity, false)
+                    )
+                    handleSignIn(result, activity)
+                } catch (ex: GetCredentialException) {
+                    Log.e("Credential retrieval failed:", ex.toString())
+                    Toast.makeText(
+                        activity,
+                        "Add a Google account to your device.",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                }
             }
         }
     }
 
-    private fun handleSignIn(result: GetCredentialResponse, context: Context) {
-        when (val credential = result.credential) {
+    private fun handleSignIn(result: GetCredentialResponse, activity: Activity) {
 
+        when (val credential = result.credential) {
             is CustomCredential -> {
                 if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
                     try {
@@ -71,7 +85,7 @@ class LoginViewModel : ViewModel() {
 
                         val idToken = googleIdTokenCredential.idToken
                         // Use ID token for Firebase authentication
-                        firebaseAuthWithGoogle(idToken, context)
+                        firebaseAuthWithGoogle(idToken, activity)
                     } catch (e: GoogleIdTokenParsingException) {
                         Log.e(TAG, "Received an invalid google id token response", e)
                     }
@@ -88,7 +102,7 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    private fun firebaseAuthWithGoogle(idToken: String, context: Context) {
+    private fun firebaseAuthWithGoogle(idToken: String, activity: Activity) {
         Log.d(TAG, "firebaseAuthWithGoogle:$idToken")
 
         val credential = GoogleAuthProvider.getCredential(idToken, null)
@@ -96,19 +110,25 @@ class LoginViewModel : ViewModel() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "signInWithCredential:success")
+                    _currentUser.postValue(auth.currentUser)
+                    Toast.makeText(
+                        activity,
+                        "Welcome back ${_currentUser.value}.",
+                        Toast.LENGTH_SHORT,
+                    ).show()
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                     Toast.makeText(
-                        context,
+                        activity,
                         "Authentication failed.",
                         Toast.LENGTH_SHORT,
                     ).show()
+                    _currentUser.postValue(null)
                 }
-                _currentUser.postValue(auth.currentUser)
             }
     }
 
-    fun handleFacebookAccessToken(token: AccessToken, context: Context) {
+    fun handleFacebookAccessToken(token: AccessToken, activity: Activity) {
         Log.d(TAG, "handleFacebookAccessToken:$token")
 
         val credential = FacebookAuthProvider.getCredential(token.token)
@@ -116,21 +136,27 @@ class LoginViewModel : ViewModel() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "signInWithCredential:success")
+                    _currentUser.postValue(auth.currentUser)
+                    Toast.makeText(
+                        activity,
+                        "Welcome back ${_currentUser.value?.email}.",
+                        Toast.LENGTH_SHORT,
+                    ).show()
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                     Toast.makeText(
-                        context,
+                        activity,
                         "Authentication failed.",
                         Toast.LENGTH_SHORT,
                     ).show()
+                    _currentUser.postValue(null)
                 }
-                _currentUser.postValue(auth.currentUser)
             }
     }
 
     fun logout() {
         auth.signOut()
-        _currentUser.value = auth.currentUser
+        _currentUser.value = null
     }
 
     fun deleteUser() {
@@ -139,7 +165,7 @@ class LoginViewModel : ViewModel() {
                 if (task.isSuccessful) {
                     Log.d(TAG, "User account deleted.")
                 }
-                _currentUser.value = auth.currentUser
+                _currentUser.value = null
             }
     }
 }

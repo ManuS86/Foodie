@@ -110,13 +110,8 @@ dependencies {
     //Facebook Sign In SDK
     implementation(libs.facebook.login)
 
-    //Google Sign In
-    implementation(libs.play.services.auth)
-
-    //Google Credentials
+    //Google Credentials Manager
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
-
-    //GoogleID
     implementation(libs.googleid)
 }
