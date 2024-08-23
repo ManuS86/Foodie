@@ -36,11 +36,12 @@
                 android:id="@+id/tv_title"
                 android:layout_width="0dp"
                 android:layout_height="36dp"
-                android:fontFamily="sans-serif"
+                android:layout_marginStart="1dp"
+                android:fontFamily="sans-serif-medium"
                 android:text="@string/app_logo"
                 android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
                 android:textColor="@color/green"
-                android:textStyle="bold|italic"
+                android:textStyle="italic"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_logo"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -402,7 +403,8 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
                         android:text="Logout"
-                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        app:fontFamily="sans-serif-medium"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -430,7 +432,8 @@
                 android:layout_marginBottom="52dp"
                 android:text="Version 1.0"
                 android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                android:textColor="@color/off_grey" />
+                android:textColor="@color/off_grey"
+                android:textSize="10sp" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_delAcc"
