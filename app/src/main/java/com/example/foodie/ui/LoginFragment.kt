@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.LoginViewModel
+import com.example.foodie.MainViewModel
 import com.example.foodie.R
 import com.example.foodie.databinding.FragmentLoginBinding
 import com.facebook.CallbackManager
@@ -23,21 +24,20 @@ class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private lateinit var callbackManager: CallbackManager
-    private val viewModel: LoginViewModel by activityViewModels()
+    private val viewModel: MainViewModel by activityViewModels()
+    private val loginViewModel: LoginViewModel by activityViewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
 
         callbackManager = CallbackManager.Factory.create()
 
-        LoginManager.getInstance().registerCallback(callbackManager,
-            object : FacebookCallback<LoginResult> {
+        LoginManager.getInstance()
+            .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
                 override fun onSuccess(result: LoginResult) {
-                    viewModel.handleFacebookAccessToken(result.accessToken, requireActivity())
+                    loginViewModel.handleFacebookAccessToken(result.accessToken, requireActivity())
                 }
 
                 override fun onCancel() {
@@ -60,14 +60,12 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnGoogleSignIn.setOnClickListener {
-            viewModel.handleGoogleSignIn(requireActivity())
+            loginViewModel.handleGoogleSignIn(requireActivity())
         }
 
         binding.btnFacebookSignIn.setOnClickListener {
             LoginManager.getInstance().logInWithReadPermissions(
-                requireActivity(),
-                callbackManager,
-                listOf("email", "public_profile")
+                requireActivity(), callbackManager, listOf("email", "public_profile")
             )
         }
 
@@ -75,9 +73,14 @@ class LoginFragment : Fragment() {
             TODO("Not yet implemented")
         }
 
-        viewModel.currentUser.observe(viewLifecycleOwner) {
-            if (it != null) {
-                findNavController().navigate(R.id.homeFragment)
+        loginViewModel.currentUser.observe(viewLifecycleOwner) { user ->
+            if (user != null) {
+                if (viewModel.locationPermissionGranted.value == true) {
+                    // Permissions granted, start location tracking
+                    findNavController().navigate(R.id.homeFragment)
+                } else {
+                    findNavController().navigate(R.id.locationPermissionFragment)
+                }
             }
         }
     }

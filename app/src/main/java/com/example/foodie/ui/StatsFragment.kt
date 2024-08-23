@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.MainViewModel
+import com.example.foodie.R
 import com.example.foodie.databinding.FragmentStatsBinding
 
 class StatsFragment : Fragment() {
@@ -19,6 +20,7 @@ class StatsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewModel.checkLocationRequest(requireActivity())
         binding = FragmentStatsBinding.inflate(inflater)
         return binding.root
     }
@@ -26,9 +28,19 @@ class StatsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.locationPermissionGranted.observe(viewLifecycleOwner) { granted ->
+            if (granted) {
+                // Permissions granted, start location tracking
+            } else {
+                findNavController().navigate(
+                    R.id.locationPermissionFragment
+                )
+            }
+        }
+
         binding.ibtnOpenCategoryRestaurants.setOnClickListener {
             findNavController().navigate(
-                StatsFragmentDirections.actionStatsFragmentToStatsDetailFragment()
+                R.id.statsDetailFragment
             )
         }
     }

@@ -170,7 +170,7 @@
                         android:layout_height="20dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginBottom="16dp"
-                        android:src="@drawable/ic_location"
+                        android:src="@drawable/ic_location_thick"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
 
@@ -285,7 +285,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:layout_marginStart="16dp"
-                        android:src="@drawable/ic_location"
+                        android:src="@drawable/ic_location_thick"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_address"
                         app:layout_constraintStart_toStartOf="parent" />
 

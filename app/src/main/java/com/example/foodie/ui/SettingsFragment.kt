@@ -9,11 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.LoginViewModel
+import com.example.foodie.MainViewModel
 import com.example.foodie.R
 import com.example.foodie.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {
-    private val viewModel: LoginViewModel by activityViewModels()
+    private val loginViewModel: LoginViewModel by activityViewModels()
     private lateinit var binding: FragmentSettingsBinding
 
     override fun onCreateView(
@@ -32,7 +33,7 @@ class SettingsFragment : Fragment() {
             .setMessage("Are you sure you want to logout?")
             .setTitle("Logout")
             .setPositiveButton("Logout") { _, _ ->
-                viewModel.logout()
+                loginViewModel.logout()
             }
             .setNegativeButton("Cancel") { _, _ ->
             }
@@ -42,7 +43,7 @@ class SettingsFragment : Fragment() {
             .setMessage("Are you sure you want to delete your account?")
             .setTitle("Delete Account")
             .setPositiveButton("Delete") { _, _ ->
-                viewModel.deleteUser()
+                loginViewModel.deleteUser()
             }
             .setNegativeButton("Cancel") { _, _ ->
             }
@@ -56,7 +57,7 @@ class SettingsFragment : Fragment() {
             alertDialogDel.show()
         }
 
-        viewModel.currentUser.observe(viewLifecycleOwner) {
+        loginViewModel.currentUser.observe(viewLifecycleOwner) {
             if (it == null) {
                 findNavController().navigate(R.id.loginFragment)
             }

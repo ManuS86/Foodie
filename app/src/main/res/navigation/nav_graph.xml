@@ -82,4 +82,25 @@
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/locationPermissionFragment"
+        android:name="com.example.foodie.ui.LocationPermissionFragment"
+        android:label="LocationPermissionFragment"
+        tools:layout="@layout/fragment_location_permission">
+        <action
+            android:id="@+id/action_locationPermissionFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_locationPermissionFragment_to_locationDeniedFragment"
+            app:destination="@id/locationDeniedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/locationDeniedFragment"
+        android:name="com.example.foodie.ui.LocationDeniedFragment"
+        android:label="fragment_location_denied"
+        tools:layout="@layout/fragment_location_denied">
+        <action
+            android:id="@+id/action_locationDeniedFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>

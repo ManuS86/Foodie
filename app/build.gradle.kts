@@ -92,8 +92,9 @@ dependencies {
     //FlexBox
     implementation(libs.flexbox)
 
-    //Maps SDK for Android
+    //Play Services for Map and Location
     implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
 
     //Google Places SDK for Android
     implementation(platform(libs.kotlin.bom))

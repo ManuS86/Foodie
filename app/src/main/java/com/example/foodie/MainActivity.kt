@@ -1,6 +1,7 @@
 package com.example.foodie
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +18,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityMainBinding
-    lateinit var navController: NavController
+    private lateinit var navController: NavController
+    private val REQUEST_CODE_LOCATION_PERMISSION = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +65,19 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
         navHostFragment?.childFragmentManager?.fragments?.forEach { fragment ->
             fragment.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_LOCATION_PERMISSION && grantResults.isNotEmpty() &&
+            grantResults[0] == PackageManager.PERMISSION_GRANTED
+        ) {
+            // Permission granted, start tracking location
         }
     }
 }

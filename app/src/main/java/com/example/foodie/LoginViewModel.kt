@@ -53,6 +53,11 @@ class LoginViewModel : ViewModel() {
                 val result =
                     credentialManager.getCredential(activity, getCredentialRequest(activity, true))
                 handleSignIn(result, activity)
+                Toast.makeText(
+                    activity,
+                    "Welcome back ${_currentUser.value}.",
+                    Toast.LENGTH_SHORT,
+                ).show()
             } catch (ex: GetCredentialException) {
                 Log.e("Credential retrieval failed:", ex.toString())
                 try {
@@ -61,6 +66,11 @@ class LoginViewModel : ViewModel() {
                         getCredentialRequest(activity, false)
                     )
                     handleSignIn(result, activity)
+                    Toast.makeText(
+                        activity,
+                        "Welcome ${_currentUser.value}.",
+                        Toast.LENGTH_SHORT,
+                    ).show()
                 } catch (ex: GetCredentialException) {
                     Log.e("Credential retrieval failed:", ex.toString())
                     Toast.makeText(
@@ -110,11 +120,6 @@ class LoginViewModel : ViewModel() {
                 if (task.isSuccessful) {
                     Log.d(TAG, "signInWithCredential:success")
                     _currentUser.postValue(auth.currentUser)
-                    Toast.makeText(
-                        activity,
-                        "Welcome back ${_currentUser.value}.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                     Toast.makeText(
