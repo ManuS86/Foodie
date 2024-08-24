@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_grey"
-    tools:context="ui.DiscoveryDetailFragment">
+    tools:context=".ui.restaurants.DiscoveryDetailFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tb_preferencesDetail"

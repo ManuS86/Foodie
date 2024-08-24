@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:foregroundTint="@color/colorless"
-    tools:context="ui.NavigationDetailFragment">
+    tools:context=".ui.restaurants.NavigationDetailFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tb_navigationDetail"

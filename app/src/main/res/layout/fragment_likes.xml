@@ -37,6 +37,7 @@
                 android:id="@+id/tv_title"
                 android:layout_width="0dp"
                 android:layout_height="36dp"
+                android:layout_marginStart="1dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/app_logo"
                 android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"

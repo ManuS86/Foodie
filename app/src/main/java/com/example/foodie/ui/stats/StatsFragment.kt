@@ -1,9 +1,6 @@
-package com.example.foodie.ui
+package com.example.foodie.ui.stats
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +9,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.MainViewModel
 import com.example.foodie.R
-import com.example.foodie.databinding.FragmentLocationDeniedBinding
+import com.example.foodie.databinding.FragmentStatsBinding
 
-class LocationDeniedFragment : Fragment() {
+class StatsFragment : Fragment() {
     private val viewModel: MainViewModel by activityViewModels()
-    private lateinit var binding: FragmentLocationDeniedBinding
+    private lateinit var binding: FragmentStatsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,7 +22,7 @@ class LocationDeniedFragment : Fragment() {
     ): View {
         viewModel.isGPSEnabled(requireContext())
         viewModel.checkLocationPermission(requireContext())
-        binding = FragmentLocationDeniedBinding.inflate(inflater)
+        binding = FragmentStatsBinding.inflate(inflater)
         return binding.root
     }
 
@@ -38,30 +35,22 @@ class LocationDeniedFragment : Fragment() {
                 viewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
                     if (enabled) {
                         // GPS enabled
-                        findNavController().navigate(
-                            R.id.homeFragment
-                        )
                     } else {
-                        findNavController().navigate(
-                            R.id.noGpsFragment
-                        )
+                        findNavController().navigate(R.id.noGpsFragment)
                     }
                 }
+            } else {
+                findNavController().navigate(R.id.locationPermissionFragment)
             }
         }
 
-        binding.btnGoToSettings.setOnClickListener {
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            val uri = Uri.parse("package:com.example.foodie")
-            intent.data = uri
-            startActivity(intent)
+        binding.btnOpenCategoryRestaurants.setOnClickListener {
+            findNavController().navigate(R.id.statsDetailFragment)
         }
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.isGPSEnabled(requireContext())
-        viewModel.checkLocationPermission(requireContext())
     }
 }

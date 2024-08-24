@@ -23,7 +23,7 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_logo"
-                android:layout_width="22dp"
+                android:layout_width="22.86dp"
                 android:layout_height="32dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_title"

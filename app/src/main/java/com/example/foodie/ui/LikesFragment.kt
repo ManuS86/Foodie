@@ -36,15 +36,11 @@ class LikesFragment : Fragment() {
                     if (enabled) {
                         // GPS enabled
                     } else {
-                        findNavController().navigate(
-                            R.id.noGpsFragment
-                        )
+                        findNavController().navigate(R.id.noGpsFragment)
                     }
                 }
             } else {
-                findNavController().navigate(
-                    R.id.locationPermissionFragment
-                )
+                findNavController().navigate(R.id.locationPermissionFragment)
             }
         }
     }

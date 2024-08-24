@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.foodie.ui.HomeFragment"
+        android:name="com.example.foodie.ui.restaurants.RestaurantsFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home">
+        tools:layout="@layout/fragment_restaurants">
         <action
             android:id="@+id/action_homeFragment_to_preferencesDetailFragment"
             app:destination="@id/discoveryDetailFragment" />
@@ -52,9 +52,9 @@
     </fragment>
     <fragment
         android:id="@+id/restaurantDetailFragment"
-        android:name="com.example.foodie.ui.RestaurantDetailFragment"
+        android:name="com.example.foodie.ui.restaurants.RestaurantsDetailFragment"
         android:label="fragment_restaurant_detail"
-        tools:layout="@layout/fragment_restaurant_detail">
+        tools:layout="@layout/fragment_restaurants_detail">
         <action
             android:id="@+id/action_restaurantDetailFragment_to_navigationDetailFragment"
             app:destination="@id/navigationDetailFragment" />
@@ -67,7 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/statsFragment"
-        android:name="com.example.foodie.ui.StatsFragment"
+        android:name="com.example.foodie.ui.stats.StatsFragment"
         android:label="fragment_stats"
         tools:layout="@layout/fragment_stats">
         <action
@@ -82,7 +82,7 @@
     </fragment>
     <fragment
         android:id="@+id/statsDetailFragment"
-        android:name="com.example.foodie.ui.StatsDetailFragment"
+        android:name="com.example.foodie.ui.stats.StatsDetailFragment"
         android:label="fragment_stats_detail"
         tools:layout="@layout/fragment_stats_detail" />
     <fragment
@@ -96,12 +96,12 @@
     </fragment>
     <fragment
         android:id="@+id/discoveryDetailFragment"
-        android:name="com.example.foodie.ui.DiscoveryDetailFragment"
+        android:name="com.example.foodie.ui.restaurants.DiscoveryDetailFragment"
         android:label="fragment_preferences_detail"
         tools:layout="@layout/fragment_discovery_detail" />
     <fragment
         android:id="@+id/navigationDetailFragment"
-        android:name="com.example.foodie.ui.NavigationDetailFragment"
+        android:name="com.example.foodie.ui.restaurants.NavigationDetailFragment"
         android:label="NavigationDetailFragment"
         tools:layout="@layout/fragment_navigation_detail">
         <action
@@ -125,7 +125,7 @@
     </fragment>
     <fragment
         android:id="@+id/locationPermissionFragment"
-        android:name="com.example.foodie.ui.LocationPermissionFragment"
+        android:name="com.example.foodie.ui.permissions.LocationPermissionFragment"
         android:label="LocationPermissionFragment"
         tools:layout="@layout/fragment_location_permission">
         <action
@@ -140,7 +140,7 @@
     </fragment>
     <fragment
         android:id="@+id/locationDeniedFragment"
-        android:name="com.example.foodie.ui.LocationDeniedFragment"
+        android:name="com.example.foodie.ui.permissions.LocationDeniedFragment"
         android:label="fragment_location_denied"
         tools:layout="@layout/fragment_location_denied">
         <action
@@ -152,7 +152,7 @@
     </fragment>
     <fragment
         android:id="@+id/noGpsFragment"
-        android:name="com.example.foodie.ui.NoGpsFragment"
+        android:name="com.example.foodie.ui.permissions.NoGpsFragment"
         android:label="NoGpsFragment"
         tools:layout="@layout/fragment_no_gps">
         <action

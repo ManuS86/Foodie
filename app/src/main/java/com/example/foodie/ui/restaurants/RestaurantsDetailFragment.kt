@@ -1,4 +1,4 @@
-package com.example.foodie.ui
+package com.example.foodie.ui.restaurants
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,11 +9,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.MainViewModel
 import com.example.foodie.R
-import com.example.foodie.databinding.FragmentRestaurantDetailBinding
+import com.example.foodie.databinding.FragmentRestaurantsDetailBinding
 
-class RestaurantDetailFragment : Fragment() {
+class RestaurantsDetailFragment : Fragment() {
     private val viewModel: MainViewModel by activityViewModels()
-    private lateinit var binding: FragmentRestaurantDetailBinding
+    private lateinit var binding: FragmentRestaurantsDetailBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,7 +22,7 @@ class RestaurantDetailFragment : Fragment() {
     ): View {
         viewModel.isGPSEnabled(requireContext())
         viewModel.checkLocationPermission(requireContext())
-        binding = FragmentRestaurantDetailBinding.inflate(inflater)
+        binding = FragmentRestaurantsDetailBinding.inflate(inflater)
         return binding.root
     }
 
@@ -36,15 +36,11 @@ class RestaurantDetailFragment : Fragment() {
                     if (enabled) {
                         // GPS enabled
                     } else {
-                        findNavController().navigate(
-                            R.id.noGpsFragment
-                        )
+                        findNavController().navigate(R.id.noGpsFragment)
                     }
                 }
             } else {
-                findNavController().navigate(
-                    R.id.locationPermissionFragment
-                )
+                findNavController().navigate(R.id.locationPermissionFragment)
             }
         }
 

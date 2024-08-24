@@ -1,4 +1,4 @@
-package com.example.foodie.ui
+package com.example.foodie.ui.restaurants
 
 import android.os.Bundle
 import android.view.LayoutInflater

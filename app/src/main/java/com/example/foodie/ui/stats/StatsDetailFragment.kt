@@ -1,4 +1,4 @@
-package com.example.foodie.ui
+package com.example.foodie.ui.stats
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -43,7 +43,7 @@ class StatsDetailFragment : Fragment() {
                 findNavController().navigate(R.id.locationPermissionFragment)
             }
         }
-binding.ivBack.setOnClickListener {
+        binding.ivBack.setOnClickListener {
             findNavController().navigateUp()
         }
     }
