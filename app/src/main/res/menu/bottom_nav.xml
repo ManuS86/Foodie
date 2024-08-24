@@ -4,7 +4,7 @@
     <item
         android:id="@+id/homeFragment"
         android:icon="@drawable/home_selector"
-        android:title="Home" />
+        android:title="View Restaurant Profiles" />
     <item
         android:id="@+id/likesFragment"
         android:icon="@drawable/likes_selector"

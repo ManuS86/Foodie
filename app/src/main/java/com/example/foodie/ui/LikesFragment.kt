@@ -30,7 +30,7 @@ class LikesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
-            if (granted) {
+            if (granted == true) {
                 // Permissions granted, start location tracking
                 viewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
                     if (enabled) {

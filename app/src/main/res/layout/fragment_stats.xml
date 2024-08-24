@@ -481,13 +481,13 @@
                         android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
                         android:textColor="@color/green"
                         app:fontFamily="sans-serif-medium"
-                        app:layout_constraintEnd_toStartOf="@+id/ibtn_openCategoryRestaurants"
+                        app:layout_constraintEnd_toStartOf="@+id/btn_open_category_restaurants"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageButton
-                        android:id="@+id/ibtn_openCategoryRestaurants"
+                        android:id="@+id/btn_open_category_restaurants"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="12dp"
@@ -522,7 +522,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toEndOf="@+id/tv_top5Restaurant1"
-                        app:layout_constraintTop_toBottomOf="@+id/ibtn_openCategoryRestaurants" />
+                        app:layout_constraintTop_toBottomOf="@+id/btn_open_category_restaurants" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_top5Restaurant2"

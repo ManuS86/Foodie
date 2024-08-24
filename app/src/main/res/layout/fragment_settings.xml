@@ -284,7 +284,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="16dp"
                         android:text="Privacy"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         app:layout_constraintStart_toStartOf="parent"
@@ -343,7 +343,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="16dp"
                         android:text="Legal"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         app:layout_constraintStart_toStartOf="parent"
@@ -414,7 +414,7 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_appLogo"
-                android:layout_width="40dp"
+                android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="4dp"

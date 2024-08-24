@@ -30,33 +30,30 @@ class LocationPermissionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
-            if (granted) {
+            if (granted == true) {
                 // Permissions granted, start location tracking
                 viewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
                     if (enabled) {
                         // GPS enabled
-                        findNavController().navigate(
-                            R.id.homeFragment
-                        )
+                        findNavController().navigate(R.id.homeFragment)
                     } else {
-                        findNavController().navigate(
-                            R.id.noGpsFragment
-                        )
+                        findNavController().navigate(R.id.noGpsFragment)
                     }
                 }
             }
         }
 
         binding.btnAllow.setOnClickListener {
+            viewModel.nullLocationPermission()
             viewModel.handleLocationRequest(requireActivity())
-            if (viewModel.locationPermission.value == true) {
-                findNavController().navigate(
-                    R.id.homeFragment
-                )
-            } else {
-                findNavController().navigate(
-                    R.id.locationDeniedFragment
-                )
+            viewModel.locationPermission.observe(viewLifecycleOwner) { hasPermission ->
+                if (hasPermission != null) {
+                    if (hasPermission) {
+                        findNavController().navigate(R.id.homeFragment)
+                    } else {
+                        findNavController().navigate(R.id.locationDeniedFragment)
+                    }
+                }
             }
         }
     }

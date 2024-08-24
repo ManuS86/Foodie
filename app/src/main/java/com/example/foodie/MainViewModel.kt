@@ -24,8 +24,8 @@ class MainViewModel : ViewModel() {
     val gpsProvider: LiveData<Boolean>
         get() = _gpsProvider
 
-    private var _locationPermission = MutableLiveData<Boolean>()
-    val locationPermission: LiveData<Boolean>
+    private var _locationPermission = MutableLiveData<Boolean?>()
+    val locationPermission: LiveData<Boolean?>
         get() = _locationPermission
 
     private var _currentLocation = MutableLiveData<Location?>()
@@ -63,6 +63,10 @@ class MainViewModel : ViewModel() {
             context,
             Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED)
+    }
+
+    fun nullLocationPermission() {
+        _locationPermission.value = null
     }
 
     fun isGPSEnabled(context: Context) {

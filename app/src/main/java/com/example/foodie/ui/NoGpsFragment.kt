@@ -29,7 +29,7 @@ class NoGpsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
-            if (granted) {
+            if (granted == true) {
                 // Permissions granted, start location tracking
             } else {
                 findNavController().navigate(

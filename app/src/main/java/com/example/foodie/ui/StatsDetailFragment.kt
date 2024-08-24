@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.MainViewModel
+import com.example.foodie.R
 import com.example.foodie.databinding.FragmentStatsDetailBinding
 
 class StatsDetailFragment : Fragment() {
@@ -19,6 +20,8 @@ class StatsDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewModel.isGPSEnabled(requireContext())
+        viewModel.checkLocationPermission(requireContext())
         binding = FragmentStatsDetailBinding.inflate(inflater)
         return binding.root
     }
@@ -26,8 +29,27 @@ class StatsDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.ivBack.setOnClickListener {
+        viewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
+            if (granted == true) {
+                // Permissions granted, start location tracking
+                viewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
+                    if (enabled) {
+                        // GPS enabled
+                    } else {
+                        findNavController().navigate(R.id.noGpsFragment)
+                    }
+                }
+            } else {
+                findNavController().navigate(R.id.locationPermissionFragment)
+            }
+        }
+binding.ivBack.setOnClickListener {
             findNavController().navigateUp()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.isGPSEnabled(requireContext())
     }
 }
