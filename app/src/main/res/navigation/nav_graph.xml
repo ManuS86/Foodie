@@ -16,6 +16,12 @@
         <action
             android:id="@+id/action_homeFragment_to_restaurantDetailFragment"
             app:destination="@id/restaurantDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_locationPermissionFragment"
+            app:destination="@id/locationPermissionFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_noGpsFragment"
+            app:destination="@id/noGpsFragment" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
@@ -25,6 +31,12 @@
         <action
             android:id="@+id/action_historyFragment_to_restaurantDetailFragment"
             app:destination="@id/restaurantDetailFragment" />
+        <action
+            android:id="@+id/action_historyFragment_to_noGpsFragment"
+            app:destination="@id/noGpsFragment" />
+        <action
+            android:id="@+id/action_historyFragment_to_locationPermissionFragment"
+            app:destination="@id/locationPermissionFragment" />
     </fragment>
     <fragment
         android:id="@+id/likesFragment"
@@ -34,6 +46,9 @@
         <action
             android:id="@+id/action_likesFragment_to_restaurantDetailFragment"
             app:destination="@id/restaurantDetailFragment" />
+        <action
+            android:id="@+id/action_likesFragment_to_locationPermissionFragment"
+            app:destination="@id/locationPermissionFragment" />
     </fragment>
     <fragment
         android:id="@+id/restaurantDetailFragment"
@@ -43,6 +58,12 @@
         <action
             android:id="@+id/action_restaurantDetailFragment_to_navigationDetailFragment"
             app:destination="@id/navigationDetailFragment" />
+        <action
+            android:id="@+id/action_restaurantDetailFragment_to_locationPermissionFragment"
+            app:destination="@id/locationPermissionFragment" />
+        <action
+            android:id="@+id/action_restaurantDetailFragment_to_noGpsFragment2"
+            app:destination="@id/noGpsFragment" />
     </fragment>
     <fragment
         android:id="@+id/statsFragment"
@@ -52,6 +73,12 @@
         <action
             android:id="@+id/action_statsFragment_to_statsDetailFragment"
             app:destination="@id/statsDetailFragment" />
+        <action
+            android:id="@+id/action_statsFragment_to_locationPermissionFragment"
+            app:destination="@id/locationPermissionFragment" />
+        <action
+            android:id="@+id/action_statsFragment_to_noGpsFragment"
+            app:destination="@id/noGpsFragment" />
     </fragment>
     <fragment
         android:id="@+id/statsDetailFragment"
@@ -62,7 +89,11 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.foodie.ui.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/discoveryDetailFragment"
         android:name="com.example.foodie.ui.DiscoveryDetailFragment"
@@ -72,7 +103,17 @@
         android:id="@+id/navigationDetailFragment"
         android:name="com.example.foodie.ui.NavigationDetailFragment"
         android:label="NavigationDetailFragment"
-        tools:layout="@layout/fragment_navigation_detail" />
+        tools:layout="@layout/fragment_navigation_detail">
+        <action
+            android:id="@+id/action_navigationDetailFragment_to_locationPermissionFragment"
+            app:destination="@id/locationPermissionFragment" />
+        <action
+            android:id="@+id/action_navigationDetailFragment_to_noGpsFragment"
+            app:destination="@id/noGpsFragment" />
+        <action
+            android:id="@+id/action_navigationDetailFragment_to_restaurantDetailFragment"
+            app:destination="@id/restaurantDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.foodie.ui.LoginFragment"
@@ -93,6 +134,9 @@
         <action
             android:id="@+id/action_locationPermissionFragment_to_locationDeniedFragment"
             app:destination="@id/locationDeniedFragment" />
+        <action
+            android:id="@+id/action_locationPermissionFragment_to_noGpsFragment"
+            app:destination="@id/noGpsFragment" />
     </fragment>
     <fragment
         android:id="@+id/locationDeniedFragment"
@@ -101,6 +145,18 @@
         tools:layout="@layout/fragment_location_denied">
         <action
             android:id="@+id/action_locationDeniedFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_locationDeniedFragment_to_noGpsFragment"
+            app:destination="@id/noGpsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/noGpsFragment"
+        android:name="com.example.foodie.ui.NoGpsFragment"
+        android:label="NoGpsFragment"
+        tools:layout="@layout/fragment_no_gps">
+        <action
+            android:id="@+id/action_noGpsFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

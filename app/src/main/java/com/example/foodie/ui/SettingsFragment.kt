@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.LoginViewModel
-import com.example.foodie.MainViewModel
 import com.example.foodie.R
 import com.example.foodie.databinding.FragmentSettingsBinding
 

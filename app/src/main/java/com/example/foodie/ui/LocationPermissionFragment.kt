@@ -1,6 +1,5 @@
 package com.example.foodie.ui
 
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +20,8 @@ class LocationPermissionFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel.checkLocationRequest(requireActivity())
+        viewModel.isGPSEnabled(requireContext())
+        viewModel.checkLocationPermission(requireContext())
         binding = FragmentLocationPermissionBinding.inflate(inflater)
         return binding.root
     }
@@ -29,9 +29,27 @@ class LocationPermissionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
+            if (granted) {
+                // Permissions granted, start location tracking
+                viewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
+                    if (enabled) {
+                        // GPS enabled
+                        findNavController().navigate(
+                            R.id.homeFragment
+                        )
+                    } else {
+                        findNavController().navigate(
+                            R.id.noGpsFragment
+                        )
+                    }
+                }
+            }
+        }
+
         binding.btnAllow.setOnClickListener {
             viewModel.handleLocationRequest(requireActivity())
-            if (viewModel.locationPermissionGranted.value == true) {
+            if (viewModel.locationPermission.value == true) {
                 findNavController().navigate(
                     R.id.homeFragment
                 )
@@ -41,19 +59,11 @@ class LocationPermissionFragment : Fragment() {
                 )
             }
         }
-
-        viewModel.locationPermissionGranted.observe(viewLifecycleOwner) { granted ->
-            if (granted) {
-                // Permissions granted, start location tracking
-                findNavController().navigate(
-                    R.id.homeFragment
-                )
-            }
-        }
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.checkLocationRequest(requireActivity())
+        viewModel.isGPSEnabled(requireContext())
+        viewModel.checkLocationPermission(requireContext())
     }
 }

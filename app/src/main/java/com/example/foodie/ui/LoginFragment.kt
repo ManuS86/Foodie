@@ -75,7 +75,7 @@ class LoginFragment : Fragment() {
 
         loginViewModel.currentUser.observe(viewLifecycleOwner) { user ->
             if (user != null) {
-                if (viewModel.locationPermissionGranted.value == true) {
+                if (viewModel.locationPermission.value == true) {
                     // Permissions granted, start location tracking
                     findNavController().navigate(R.id.homeFragment)
                 } else {

@@ -9,7 +9,7 @@
         android:id="@+id/cv_restaurant"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="24dp"
         app:cardBackgroundColor="@color/colorless"
         app:cardCornerRadius="8dp"
         app:cardElevation="5dp"
@@ -38,12 +38,15 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_infoCard"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="-8dp"
+                android:layout_marginEnd="-8dp"
                 app:cardBackgroundColor="#00FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:shapeAppearanceOverlay="@style/TopCornerCardview"
                 app:strokeWidth="0dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,7 +71,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginEnd="16dp"
                         android:text="Restaurant Name"
                         android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
                         android:textColor="@color/white"
@@ -83,10 +87,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
+                        android:layout_marginEnd="16dp"
                         android:text="€€"
-                        android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+                        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
                         android:textColor="@color/white"
+                        app:fontFamily="sans-serif-light"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_restaurantNameHistory"
+                        app:layout_constraintEnd_toStartOf="@+id/iv_decollapseButton"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/tv_restaurantNameHistory"
                         app:layout_constraintTop_toTopOf="@+id/tv_restaurantNameHistory" />
 
@@ -94,11 +102,11 @@
                         android:id="@+id/iv_decollapseButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
                         android:background="#00FFFFFF"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_priceRangeRestaurant"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_priceRangeRestaurant"
                         app:srcCompat="@drawable/ic_decollapse_profile" />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -122,6 +130,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
                         android:text="4.3"
                         android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
                         android:textColor="@color/white"
@@ -150,8 +159,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="40dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="64dp"
                         android:src="@drawable/ic_location_white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -180,7 +189,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_backgroundBar"
         android:layout_width="0dp"
-        android:layout_height="24dp"
+        android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         app:cardBackgroundColor="@color/off_white_dark"

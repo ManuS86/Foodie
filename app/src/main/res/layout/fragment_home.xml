@@ -46,7 +46,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/iv_preferences"
+                android:id="@+id/iv_discoverySettings"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_marginEnd="16dp"
@@ -103,16 +103,18 @@
         app:layout_constraintStart_toStartOf="@+id/iv_radarInner"
         app:layout_constraintTop_toTopOf="@+id/iv_radarInner" />
 
-    <com.yuyakaido.android.cardstackview.CardStackView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/csv_restaurantsStack"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toBottomOf="@+id/cv_swipeButtons"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tb_home"
+        app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/item_restaurant" />
 
     <com.google.android.material.card.MaterialCardView
@@ -130,18 +132,19 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/cv_dismiss"
+                android:id="@+id/fab_dismiss"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="16dp"
                 android:src="@drawable/ic_dismiss"
                 app:backgroundTint="@color/white"
                 app:elevation="2dp"
+                app:fabCustomSize="72dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/cv_undo"
+                app:layout_constraintEnd_toStartOf="@+id/fab_undo"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -150,15 +153,14 @@
                 app:tint="@null" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/cv_undo"
+                android:id="@+id/fab_undo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:src="@drawable/ic_undo_inactive"
                 app:backgroundTint="@color/white"
                 app:elevation="2dp"
-                app:fabCustomSize="40dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -167,25 +169,25 @@
                 app:tint="@null" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/cv_like"
+                android:id="@+id/fab_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="16dp"
                 android:src="@drawable/ic_like"
                 app:backgroundTint="@color/white"
                 app:elevation="2dp"
+                app:fabCustomSize="72dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/cv_undo"
+                app:layout_constraintStart_toEndOf="@+id/fab_undo"
                 app:layout_constraintTop_toTopOf="parent"
                 app:maxImageSize="40dp"
                 app:shapeAppearance="@style/ShapeAppearanceOverlay.Material3.Button"
                 app:tint="@null" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 

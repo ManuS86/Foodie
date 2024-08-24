@@ -1,7 +1,6 @@
 package com.example.foodie.ui
 
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -24,13 +23,32 @@ class LocationDeniedFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel.checkLocationRequest(requireActivity())
+        viewModel.isGPSEnabled(requireContext())
+        viewModel.checkLocationPermission(requireContext())
         binding = FragmentLocationDeniedBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
+            if (granted) {
+                // Permissions granted, start location tracking
+                viewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
+                    if (enabled) {
+                        // GPS enabled
+                        findNavController().navigate(
+                            R.id.homeFragment
+                        )
+                    } else {
+                        findNavController().navigate(
+                            R.id.noGpsFragment
+                        )
+                    }
+                }
+            }
+        }
 
         binding.btnGoToSettings.setOnClickListener {
             val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
@@ -39,19 +57,11 @@ class LocationDeniedFragment : Fragment() {
             intent.data = uri
             startActivity(intent)
         }
-
-        viewModel.locationPermissionGranted.observe(viewLifecycleOwner) { granted ->
-            if (granted) {
-                // Permissions granted, start location tracking
-                findNavController().navigate(
-                    R.id.homeFragment
-                )
-            }
-        }
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.checkLocationRequest(requireActivity())
+        viewModel.isGPSEnabled(requireContext())
+        viewModel.checkLocationPermission(requireContext())
     }
 }

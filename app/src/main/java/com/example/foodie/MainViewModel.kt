@@ -2,29 +2,39 @@ package com.example.foodie
 
 import android.Manifest
 import android.app.Activity
+import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 
 class MainViewModel : ViewModel() {
-
-    //    private val fusedLocationProviderClient =
-//        LocationServices.getFusedLocationProviderClient(activity)
     private val REQUEST_CODE_LOCATION_PERMISSION = 1
 
-    private var _locationPermissionGranted = MutableLiveData<Boolean>()
-    val locationPermissionGranted: LiveData<Boolean>
-        get() = _locationPermissionGranted
+    private var _gpsProvider = MutableLiveData<Boolean>()
+    val gpsProvider: LiveData<Boolean>
+        get() = _gpsProvider
 
-    private var _currentLocation = MutableLiveData<LatLng>()
-    val currentLocation: LiveData<LatLng>
+    private var _locationPermission = MutableLiveData<Boolean>()
+    val locationPermission: LiveData<Boolean>
+        get() = _locationPermission
+
+    private var _currentLocation = MutableLiveData<Location?>()
+    val currentLocation: LiveData<Location?>
         get() = _currentLocation
+
+    private val _lastLocationUpdate = MutableLiveData<Long>()
+    val lastLocationUpdate: LiveData<Long>
+        get() = _lastLocationUpdate
 
     private var _currentRestaurants = MutableLiveData<List<Place>>()
     val currentRestaurants: LiveData<List<Place>>
@@ -36,7 +46,7 @@ class MainViewModel : ViewModel() {
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // Request permissions
+            // Request permission
             ActivityCompat.requestPermissions(
                 activity,
                 arrayOf(
@@ -44,24 +54,48 @@ class MainViewModel : ViewModel() {
                 ), REQUEST_CODE_LOCATION_PERMISSION
             )
         } else {
-            _locationPermissionGranted.value = true
+            _locationPermission.value = true
         }
     }
 
-    fun checkLocationRequest(activity: Activity) {
-        if (ActivityCompat.checkSelfPermission(
-                activity,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            _locationPermissionGranted.value = false
-        } else {
-            _locationPermissionGranted.value = true
+    fun checkLocationPermission(context: Context) {
+        _locationPermission.postValue(ActivityCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED)
+    }
+
+    fun isGPSEnabled(context: Context) {
+        try {
+            val locationManager = context.getSystemService(LocationManager::class.java)
+            val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+
+            _gpsProvider.postValue(isGpsEnabled)
+        } catch (e: Exception) {
+            Log.e(TAG, "GPS enabled check failed: $e")
         }
     }
 
-    fun updateLocationPermission() {
-        _locationPermissionGranted.value = true
+//    fun requestLocationUpdates(activity: Activity) {
+//        val fusedLocationClient =
+//            LocationServices.getFusedLocationProviderClient(activity)
+//
+//        val locationRequest = LocationRequest.Builder()
+//            .setPriority(LocationRequestCompat.PRIORITY_HIGH_ACCURACY)
+//            .setInterval(10000) // Update interval in milliseconds
+//            .setFastestInterval(5000) // Fastest update interval in milliseconds
+//            .build()
+//
+//        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback)
+//    }
+
+    private val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            val location = locationResult.lastLocation
+
+            _currentLocation.postValue(location)
+            _lastLocationUpdate.postValue(System.currentTimeMillis())
+        }
     }
 
 //        fun getCurrentLocation(activity: Activity) {

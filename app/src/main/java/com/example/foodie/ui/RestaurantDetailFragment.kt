@@ -1,6 +1,5 @@
 package com.example.foodie.ui
 
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +20,8 @@ class RestaurantDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel.checkLocationRequest(requireActivity())
+        viewModel.isGPSEnabled(requireContext())
+        viewModel.checkLocationPermission(requireContext())
         binding = FragmentRestaurantDetailBinding.inflate(inflater)
         return binding.root
     }
@@ -29,9 +29,18 @@ class RestaurantDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.locationPermissionGranted.observe(viewLifecycleOwner) { granted ->
+        viewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
             if (granted) {
                 // Permissions granted, start location tracking
+                viewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
+                    if (enabled) {
+                        // GPS enabled
+                    } else {
+                        findNavController().navigate(
+                            R.id.noGpsFragment
+                        )
+                    }
+                }
             } else {
                 findNavController().navigate(
                     R.id.locationPermissionFragment
@@ -42,5 +51,10 @@ class RestaurantDetailFragment : Fragment() {
         binding.ivDecollapse.setOnClickListener {
             findNavController().navigateUp()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.isGPSEnabled(requireContext())
     }
 }

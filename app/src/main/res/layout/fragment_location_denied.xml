@@ -8,12 +8,12 @@
     tools:context="ui.LocationDeniedFragment">
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_headline"
+        android:id="@+id/tv_headlineLocationDenied"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="48dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="24dp"
         android:gravity="center"
         android:text="Unable to Connect"
         android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
@@ -23,25 +23,25 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_explanation"
+        android:id="@+id/tv_explanationLocationDenied"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="24dp"
         android:gravity="center"
         android:text="To use Foodie, you need to enable your location sharing so we can show you restaurants around you."
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_headline" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_headlineLocationDenied" />
 
     <Button
         android:id="@+id/btn_goToSettings"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="16dp"
         android:text="Open settings"
         android:textColor="@color/off_black"
@@ -51,23 +51,23 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/iv_circle"
+        android:id="@+id/iv_circleLocationDenied"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/location_circle"
         app:layout_constraintBottom_toTopOf="@+id/btn_goToSettings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_explanation" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_explanationLocationDenied" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_locationIcon"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:src="@drawable/ic_location_thin"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_circle"
-        app:layout_constraintEnd_toEndOf="@+id/iv_circle"
-        app:layout_constraintStart_toStartOf="@+id/iv_circle"
-        app:layout_constraintTop_toTopOf="@+id/iv_circle" />
+        app:layout_constraintBottom_toBottomOf="@+id/iv_circleLocationDenied"
+        app:layout_constraintEnd_toEndOf="@+id/iv_circleLocationDenied"
+        app:layout_constraintStart_toStartOf="@+id/iv_circleLocationDenied"
+        app:layout_constraintTop_toTopOf="@+id/iv_circleLocationDenied" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
