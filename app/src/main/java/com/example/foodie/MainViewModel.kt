@@ -17,6 +17,7 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 
@@ -89,11 +90,10 @@ class MainViewModel : ViewModel() {
         val fusedLocationClient =
             LocationServices.getFusedLocationProviderClient(activity)
 
-        val locationRequest = LocationRequest.create().apply {
-            interval = 10000 // Update interval in milliseconds
-            fastestInterval = 5000 // Fastest update interval in milliseconds
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY // Location accuracy priority
-        }
+        val locationRequest = LocationRequest.Builder(10000)
+            .setMinUpdateIntervalMillis(5000)
+            .setPriority(PRIORITY_HIGH_ACCURACY)
+            .build()
 
         val locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {

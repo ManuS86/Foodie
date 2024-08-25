@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.foodie.data.model.Restaurant
 import com.example.foodie.databinding.ItemRestaurantBinding
 
-class RestaurantAdapter(
+class RestaurantsAdapter(
     private val dataset: List<Restaurant>
-) : RecyclerView.Adapter<RestaurantAdapter.ItemViewHolder>() {
+) : RecyclerView.Adapter<RestaurantsAdapter.ItemViewHolder>() {
 
     inner class ItemViewHolder(val binding: ItemRestaurantBinding) :
         RecyclerView.ViewHolder(binding.root)
