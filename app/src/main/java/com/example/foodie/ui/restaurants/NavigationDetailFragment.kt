@@ -28,9 +28,11 @@ class NavigationDetailFragment : Fragment() {
     ): View {
         viewModel.isGPSEnabled(requireContext())
         viewModel.checkLocationPermission(requireContext())
+
         binding = FragmentNavigationDetailBinding.inflate(inflater)
         mapView = binding.mvNavigation
         mapView.onCreate(savedInstanceState)
+
         return binding.root
     }
 
@@ -45,16 +47,6 @@ class NavigationDetailFragment : Fragment() {
             googleMap.addMarker(markerOptions)
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerOptions.position, 15f))
         }
-
-//        viewModel.currentLocation.observe(viewLifecycleOwner)
-//        { location ->
-//            location?.let {
-//                val initialPosition = LatLng(location.latitude, location.longitude)
-//                binding.mvNavigation.getMapAsync { googleMap ->
-//                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(initialPosition, 15f))
-//                }
-//            }
-//        }
 
         viewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
             if (granted == true) {
@@ -71,11 +63,16 @@ class NavigationDetailFragment : Fragment() {
             }
         }
 
-        binding.fabMyLocationNavigation.setOnClickListener {
-
+        binding.fabMyLocation.setOnClickListener {
+            viewModel.currentLocation.value?.let { location ->
+                val currentPosition = LatLng(location.latitude, location.longitude)
+                mapView.getMapAsync { googleMap ->
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15f))
+                }
+            }
         }
 
-        binding.fabDirectionsNavigation.setOnClickListener {
+        binding.fabDirections.setOnClickListener {
 
         }
 

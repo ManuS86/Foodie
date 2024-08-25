@@ -50,7 +50,6 @@ class MainViewModel : ViewModel() {
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // Request permission
             ActivityCompat.requestPermissions(
                 activity,
                 arrayOf(
@@ -111,29 +110,6 @@ class MainViewModel : ViewModel() {
             Looper.getMainLooper()
         )
     }
-
-//    fun getCurrentLocation(activity: Activity) {
-//        val fusedLocationClient =
-//            LocationServices.getFusedLocationProviderClient(activity)
-//
-//        fusedLocationProviderClient.getCurrentLocation(
-//            Priority.PRIORITY_HIGH_ACCURACY,
-//            object : CancellationToken() {
-//                override fun onCanceledRequested(p0: OnTokenCanceledListener) =
-//                    CancellationTokenSource().token
-//
-//                override fun isCancellationRequested() = false
-//            })
-//            .addOnSuccessListener { location: Location? ->
-//                if (location == null)
-//                    Toast.makeText(activity, "Cannot get location.", Toast.LENGTH_SHORT).show()
-//                else {
-//                    val lat = location.latitude
-//                    val lon = location.longitude
-//                }
-//
-//            }
-//    }
 
     fun createPlacesClient(activity: Activity) {
         // Define a variable to hold the Places API key.
