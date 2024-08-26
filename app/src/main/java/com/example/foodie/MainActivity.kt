@@ -1,6 +1,5 @@
 package com.example.foodie
 
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
@@ -42,14 +41,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
-        navHostFragment?.childFragmentManager?.fragments?.forEach { fragment ->
-            fragment.onActivityResult(requestCode, resultCode, data)
-        }
-    }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -62,4 +53,12 @@ class MainActivity : AppCompatActivity() {
             // Permission granted, start tracking location
         }
     }
+
+//        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
+//        navHostFragment?.childFragmentManager?.fragments?.forEach { fragment ->
+//            fragment.onActivityResult(requestCode, resultCode, data)
+//        }
+//    }
 }
