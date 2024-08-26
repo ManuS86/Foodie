@@ -79,13 +79,15 @@ class MainViewModel : ViewModel() {
             val locationManager = context.getSystemService(LocationManager::class.java)
             val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
-            _gpsProvider.postValue(isGpsEnabled)
+            _gpsProvider.value = isGpsEnabled
         } catch (e: Exception) {
             Log.e(TAG, "GPS enabled check failed: $e")
         }
     }
 
     fun requestLocationUpdates(activity: Activity) {
+        checkLocationPermission(activity)
+
         val fusedLocationClient =
             LocationServices.getFusedLocationProviderClient(activity)
 
@@ -103,7 +105,6 @@ class MainViewModel : ViewModel() {
             }
         }
 
-        checkLocationPermission(activity)
         fusedLocationClient.requestLocationUpdates(
             locationRequest,
             locationCallback,

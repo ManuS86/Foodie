@@ -35,7 +35,7 @@ class LocationPermissionFragment : Fragment() {
                 viewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
                     if (enabled) {
                         // GPS enabled
-                        findNavController().navigate(R.id.homeFragment)
+                        findNavController().navigate(R.id.restaurantsFragment)
                     } else {
                         findNavController().navigate(R.id.noGpsFragment)
                     }
@@ -49,7 +49,7 @@ class LocationPermissionFragment : Fragment() {
             viewModel.locationPermission.observe(viewLifecycleOwner) { hasPermission ->
                 if (hasPermission != null) {
                     if (hasPermission) {
-                        findNavController().navigate(R.id.homeFragment)
+                        findNavController().navigate(R.id.restaurantsFragment)
                     } else {
                         findNavController().navigate(R.id.locationDeniedFragment)
                     }

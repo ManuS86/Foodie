@@ -34,7 +34,7 @@ class NoGpsFragment : Fragment() {
                 viewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
                     if (enabled) {
                         // GPS enabled
-                        findNavController().navigate(R.id.homeFragment)
+                        findNavController().navigate(R.id.restaurantsFragment)
                     }
                 }
             } else {
@@ -44,9 +44,6 @@ class NoGpsFragment : Fragment() {
 
         binding.btnTryAgain.setOnClickListener {
             viewModel.isGPSEnabled(requireContext())
-            if (viewModel.gpsProvider.value == true) {
-                findNavController().navigate(R.id.homeFragment)
-            }
         }
     }
 

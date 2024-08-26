@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -28,6 +30,37 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val nightMode = AppCompatDelegate.getDefaultNightMode()
+
+        when (nightMode) {
+            AppCompatDelegate.MODE_NIGHT_YES -> {
+                binding.btnDarkModeCheckmark.alpha = 1f
+                    binding.btnLightModeCheckmark.alpha = 0f
+                    binding.btnSystemDefaultCheckmark.alpha = 0f
+            }
+
+            AppCompatDelegate.MODE_NIGHT_NO -> {
+                binding.btnDarkModeCheckmark.alpha = 0f
+                    binding.btnLightModeCheckmark.alpha = 1f
+                    binding.btnSystemDefaultCheckmark.alpha = 0f
+            }
+
+            MODE_NIGHT_FOLLOW_SYSTEM -> {
+                binding.btnDarkModeCheckmark.alpha = 0f
+                    binding.btnLightModeCheckmark.alpha = 0f
+                    binding.btnSystemDefaultCheckmark.alpha = 1f
+            }
+
+            else -> {
+            }
+        }
+
+        loginViewModel.currentUser.observe(viewLifecycleOwner) {
+            if (it == null) {
+                findNavController().navigate(R.id.loginFragment)
+            }
+        }
+
         val alertDialogLogout = AlertDialog.Builder(view.context)
             .setMessage("Are you sure you want to logout?")
             .setTitle("Logout")
@@ -48,18 +81,33 @@ class SettingsFragment : Fragment() {
             }
             .create()
 
+        binding.btnDarkModeCheckmark.setOnClickListener {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            binding.btnDarkModeCheckmark.alpha = 1f
+            binding.btnLightModeCheckmark.alpha = 0f
+            binding.btnSystemDefaultCheckmark.alpha = 0f
+        }
+
+        binding.btnLightModeCheckmark.setOnClickListener {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            binding.btnDarkModeCheckmark.alpha = 0f
+            binding.btnLightModeCheckmark.alpha = 1f
+            binding.btnSystemDefaultCheckmark.alpha = 0f
+        }
+
+        binding.btnSystemDefaultCheckmark.setOnClickListener {
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM)
+            binding.btnDarkModeCheckmark.alpha = 0f
+            binding.btnLightModeCheckmark.alpha = 0f
+            binding.btnSystemDefaultCheckmark.alpha = 1f
+        }
+
         binding.cvLogOut.setOnClickListener {
             alertDialogLogout.show()
         }
 
         binding.cvDelAcc.setOnClickListener {
             alertDialogDel.show()
-        }
-
-        loginViewModel.currentUser.observe(viewLifecycleOwner) {
-            if (it == null) {
-                findNavController().navigate(R.id.loginFragment)
-            }
         }
     }
 }

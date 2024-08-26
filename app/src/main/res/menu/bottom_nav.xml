@@ -2,23 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/homeFragment"
-        android:icon="@drawable/home_selector"
+        android:id="@+id/restaurantsFragment"
+        android:icon="@drawable/selector_home"
         android:title="View Foodie Profiles" />
     <item
         android:id="@+id/likesFragment"
-        android:icon="@drawable/likes_selector"
+        android:icon="@drawable/selector_like"
         android:title="Likes" />
     <item
         android:id="@+id/historyFragment"
-        android:icon="@drawable/history_selector"
+        android:icon="@drawable/selector_history"
         android:title="History" />
     <item
         android:id="@+id/statsFragment"
-        android:icon="@drawable/stats_selector"
+        android:icon="@drawable/selector_stats"
         android:title="Stats" />
     <item
         android:id="@+id/settingsFragment"
-        android:icon="@drawable/settings_selector"
+        android:icon="@drawable/selector_setting"
         android:title="Settings" />
 </menu>

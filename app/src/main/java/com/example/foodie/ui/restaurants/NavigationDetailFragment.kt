@@ -45,6 +45,7 @@ class NavigationDetailFragment : Fragment() {
             googleMap.isMyLocationEnabled = true
             googleMap.uiSettings.isCompassEnabled = true
             googleMap.uiSettings.isZoomControlsEnabled = true
+            googleMap.uiSettings.isMapToolbarEnabled = true
             googleMap.uiSettings.setAllGesturesEnabled(true)
 
             val markerOptions = MarkerOptions()
@@ -56,18 +57,18 @@ class NavigationDetailFragment : Fragment() {
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerOptions.position, 15f))
         }
 
-        viewModel.currentLocation.observe(viewLifecycleOwner) { location ->
-            location?.let {
-                val currentPosition = LatLng(location.latitude, location.longitude)
-                mapView.getMapAsync { googleMap ->
-                    val markerOptions = MarkerOptions()
-                        .position(currentPosition)
-                        .title("Current Location")
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
-                    googleMap.addMarker(markerOptions)
-                }
-            }
-        }
+//        viewModel.currentLocation.observe(viewLifecycleOwner) { location ->
+//            location?.let {
+//                val currentPosition = LatLng(location.latitude, location.longitude)
+//                mapView.getMapAsync { googleMap ->
+//                    val markerOptions = MarkerOptions()
+//                        .position(currentPosition)
+//                        .title("Current Location")
+//                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+//                    googleMap.addMarker(markerOptions)
+//                }
+//            }
+//        }
 
         viewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
             if (granted == true) {
@@ -84,18 +85,18 @@ class NavigationDetailFragment : Fragment() {
             }
         }
 
-        binding.fabMyLocation.setOnClickListener {
-            viewModel.currentLocation.value?.let { location ->
-                val currentPosition = LatLng(location.latitude, location.longitude)
-                mapView.getMapAsync { googleMap ->
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15f))
-                }
-            }
-        }
-
-        binding.fabDirections.setOnClickListener {
-
-        }
+//        binding.fabMyLocation.setOnClickListener {
+//            viewModel.currentLocation.value?.let { location ->
+//                val currentPosition = LatLng(location.latitude, location.longitude)
+//                mapView.getMapAsync { googleMap ->
+//                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15f))
+//                }
+//            }
+//        }
+//
+//        binding.fabDirections.setOnClickListener {
+//
+//        }
 
         binding.ivBack.setOnClickListener {
             findNavController().navigateUp()
@@ -104,33 +105,33 @@ class NavigationDetailFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        binding.mvNavigation.onStart()
+        mapView.onStart()
         viewModel.requestLocationUpdates(requireActivity())
     }
 
     override fun onResume() {
         super.onResume()
-        binding.mvNavigation.onResume()
+        mapView.onResume()
         viewModel.isGPSEnabled(requireContext())
     }
 
     override fun onPause() {
         super.onPause()
-        binding.mvNavigation.onPause()
+        mapView.onPause()
     }
 
     override fun onStop() {
         super.onStop()
-        binding.mvNavigation.onStop()
+        mapView.onStop()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        binding.mvNavigation.onDestroy()
+        mapView.onDestroy()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        binding.mvNavigation.onLowMemory()
+        mapView.onLowMemory()
     }
 }
