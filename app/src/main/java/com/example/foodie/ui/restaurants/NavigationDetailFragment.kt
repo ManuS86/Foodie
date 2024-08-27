@@ -48,27 +48,13 @@ class NavigationDetailFragment : Fragment() {
             googleMap.uiSettings.isMapToolbarEnabled = true
             googleMap.uiSettings.setAllGesturesEnabled(true)
 
-            val markerOptions = MarkerOptions()
-                .position(LatLng(0.0, 0.0))
-                .title("Current Location")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+            val currentPosition =  viewModel.currentLocation.value.let { location ->
+                location?.let { LatLng(location.latitude, location.longitude) }
+            }
 
-            googleMap.addMarker(markerOptions)
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerOptions.position, 15f))
+            currentPosition?.let { CameraUpdateFactory.newLatLngZoom(it, 15f) }
+                ?.let { googleMap.moveCamera(it) }
         }
-
-//        viewModel.currentLocation.observe(viewLifecycleOwner) { location ->
-//            location?.let {
-//                val currentPosition = LatLng(location.latitude, location.longitude)
-//                mapView.getMapAsync { googleMap ->
-//                    val markerOptions = MarkerOptions()
-//                        .position(currentPosition)
-//                        .title("Current Location")
-//                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
-//                    googleMap.addMarker(markerOptions)
-//                }
-//            }
-//        }
 
         viewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
             if (granted == true) {

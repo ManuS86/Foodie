@@ -3,22 +3,22 @@
 
     <item
         android:id="@+id/restaurantsFragment"
-        android:icon="@drawable/selector_home"
+        android:icon="@drawable/selector_restaurants_bottom_bar"
         android:title="View Foodie Profiles" />
     <item
         android:id="@+id/likesFragment"
-        android:icon="@drawable/selector_like"
+        android:icon="@drawable/selector_like_bottom_bar"
         android:title="Likes" />
     <item
-        android:id="@+id/historyFragment"
-        android:icon="@drawable/selector_history"
-        android:title="History" />
-    <item
         android:id="@+id/statsFragment"
-        android:icon="@drawable/selector_stats"
+        android:icon="@drawable/selector_stats_bottom_bar"
         android:title="Stats" />
     <item
+        android:id="@+id/historyFragment"
+        android:icon="@drawable/selector_history_bottom_bar"
+        android:title="History" />
+    <item
         android:id="@+id/settingsFragment"
-        android:icon="@drawable/selector_setting"
+        android:icon="@drawable/selector_setting_bottom_bar"
         android:title="Settings" />
 </menu>

@@ -35,19 +35,13 @@ class SettingsFragment : Fragment() {
         when (nightMode) {
             AppCompatDelegate.MODE_NIGHT_YES -> {
                 binding.btnDarkModeCheckmark.alpha = 1f
-                binding.btnLightModeCheckmark.alpha = 0f
-                binding.btnSystemDefaultCheckmark.alpha = 0f
             }
 
             AppCompatDelegate.MODE_NIGHT_NO -> {
-                binding.btnDarkModeCheckmark.alpha = 0f
                 binding.btnLightModeCheckmark.alpha = 1f
-                binding.btnSystemDefaultCheckmark.alpha = 0f
             }
 
             AppCompatDelegate.MODE_NIGHT_UNSPECIFIED, MODE_NIGHT_FOLLOW_SYSTEM -> {
-                binding.btnDarkModeCheckmark.alpha = 0f
-                binding.btnLightModeCheckmark.alpha = 0f
                 binding.btnSystemDefaultCheckmark.alpha = 1f
             }
 

@@ -15,6 +15,5 @@
         <item name="cornerSizeTopLeft">0dp</item>
         <item name="cornerSizeBottomRight">8dp</item>
         <item name="cornerSizeBottomLeft">8dp</item>
-        <item name="contentPadding">0dp</item>
     </style>
 </resources>

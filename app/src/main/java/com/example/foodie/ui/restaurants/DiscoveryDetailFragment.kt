@@ -26,6 +26,10 @@ class DiscoveryDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.rbRatingDiscovery.setOnClickListener {
+
+        }
+
         binding.ivBack.setOnClickListener {
             findNavController().navigateUp()
         }

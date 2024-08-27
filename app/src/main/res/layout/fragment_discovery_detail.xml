@@ -97,29 +97,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
                 android:progress="50"
                 android:progressTint="@color/green"
                 android:thumbTint="@color/green"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_distanceDiscovery" />
-
-            <com.google.android.material.materialswitch.MaterialSwitch
-                android:id="@+id/sw_rangeDiscovery"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="4dp"
-                android:checked="true"
-                android:text="Only show Restaurants in this range"
-                android:textColor="@color/off_black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sb_distanceSliderDiscovery"
-                app:trackDecorationTint="@color/colorless"
-                app:trackTint="@color/green" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_distanceDiscovery" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -259,8 +244,7 @@
                 android:layout_marginBottom="8dp"
                 android:checkable="true"
                 android:text="€"
-                android:textColor="@color/off_grey"
-                app:chipBackgroundColor="@color/white"
+                app:chipBackgroundColor="@drawable/selector_discovery_settings_chip"
                 app:chipCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -273,8 +257,7 @@
                 android:layout_marginStart="16dp"
                 android:checkable="true"
                 android:text="€€"
-                android:textColor="@color/off_grey"
-                app:chipBackgroundColor="@color/white"
+                app:chipBackgroundColor="@drawable/selector_discovery_settings_chip"
                 app:chipCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="@+id/cp_priceRangeLowDiscovery"
                 app:layout_constraintStart_toEndOf="@+id/cp_priceRangeLowDiscovery"
@@ -287,8 +270,7 @@
                 android:layout_marginStart="16dp"
                 android:checkable="true"
                 android:text="€€€"
-                android:textColor="@color/off_grey"
-                app:chipBackgroundColor="@color/white"
+                app:chipBackgroundColor="@drawable/selector_discovery_settings_chip"
                 app:chipCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="@+id/cp_priceRangeMedDiscovery"
                 app:layout_constraintStart_toEndOf="@+id/cp_priceRangeMedDiscovery"

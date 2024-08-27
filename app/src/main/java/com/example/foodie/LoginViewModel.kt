@@ -55,7 +55,7 @@ class LoginViewModel : ViewModel() {
                 handleSignIn(result, activity)
                 Toast.makeText(
                     activity,
-                    "Welcome back ${_currentUser.value}.",
+                    "Welcome back ${_currentUser.value?.email}",
                     Toast.LENGTH_SHORT,
                 ).show()
             } catch (ex: GetCredentialException) {
@@ -68,7 +68,7 @@ class LoginViewModel : ViewModel() {
                     handleSignIn(result, activity)
                     Toast.makeText(
                         activity,
-                        "Welcome ${_currentUser.value}.",
+                        "Welcome ${_currentUser.value?.email}",
                         Toast.LENGTH_SHORT,
                     ).show()
                 } catch (ex: GetCredentialException) {
@@ -119,7 +119,7 @@ class LoginViewModel : ViewModel() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "signInWithCredential:success")
-                    _currentUser.postValue(auth.currentUser)
+                    _currentUser.value = auth.currentUser
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                     Toast.makeText(
@@ -140,10 +140,10 @@ class LoginViewModel : ViewModel() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "signInWithCredential:success")
-                    _currentUser.postValue(auth.currentUser)
+                    _currentUser.value = (auth.currentUser)
                     Toast.makeText(
                         activity,
-                        "Welcome back ${_currentUser.value?.email}.",
+                        "Welcome ${_currentUser.value?.email}",
                         Toast.LENGTH_SHORT,
                     ).show()
                 } else {

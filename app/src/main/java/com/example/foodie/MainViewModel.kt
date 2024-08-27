@@ -20,6 +20,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.PlacesClient
 
 class MainViewModel : ViewModel() {
     private val REQUEST_CODE_LOCATION_PERMISSION = 1
@@ -40,9 +41,9 @@ class MainViewModel : ViewModel() {
     val lastLocationUpdate: LiveData<Long>
         get() = _lastLocationUpdate
 
-    private var _currentRestaurants = MutableLiveData<List<Place>>()
-    val currentRestaurants: LiveData<List<Place>>
-        get() = _currentRestaurants
+    private var _nearbyRestaurants = MutableLiveData<List<Place>>()
+    val nearbyRestaurants: LiveData<List<Place>>
+        get() = _nearbyRestaurants
 
     fun handleLocationRequest(activity: Activity) {
         if (ActivityCompat.checkSelfPermission(
@@ -128,4 +129,21 @@ class MainViewModel : ViewModel() {
         // Create a new PlacesClient instance
         val placesClient = Places.createClient(activity)
     }
+
+//    fun searchNearbyRestaurants() {
+//        val nearbySearchRequest = NearbySearchRequest.Builder()
+//            .location(currentLocation)
+//            .radius(5000) // Adjust radius as needed
+//            .keyword("restaurant")
+//            .build()
+//
+//        placesClient.findPlaces(nearbySearchRequest)
+//            .addOnSuccessListener { response: NearbySearchResponse ->
+//                _nearbyRestaurants.postValue(response.places)
+//            }
+//            .addOnFailureListener { exception ->
+//                // Handle failure
+//                Log.e("NearbySearch", "Failed to retrieve nearby places", exception)
+//            }
+//    }
 }
