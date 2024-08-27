@@ -13,9 +13,7 @@ import com.example.foodie.R
 import com.example.foodie.databinding.FragmentNavigationDetailBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 
 class NavigationDetailFragment : Fragment() {
     private val viewModel: MainViewModel by activityViewModels()
@@ -44,16 +42,13 @@ class NavigationDetailFragment : Fragment() {
         mapView.getMapAsync { googleMap ->
             googleMap.isMyLocationEnabled = true
             googleMap.uiSettings.isCompassEnabled = true
-            googleMap.uiSettings.isZoomControlsEnabled = true
-            googleMap.uiSettings.isMapToolbarEnabled = true
+            googleMap.uiSettings.isMyLocationButtonEnabled = false
             googleMap.uiSettings.setAllGesturesEnabled(true)
 
-            val currentPosition =  viewModel.currentLocation.value.let { location ->
-                location?.let { LatLng(location.latitude, location.longitude) }
+            viewModel.currentLocation.value?.let { location ->
+                val currentPosition = LatLng(location.latitude, location.longitude)
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15f))
             }
-
-            currentPosition?.let { CameraUpdateFactory.newLatLngZoom(it, 15f) }
-                ?.let { googleMap.moveCamera(it) }
         }
 
         viewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
@@ -71,18 +66,14 @@ class NavigationDetailFragment : Fragment() {
             }
         }
 
-//        binding.fabMyLocation.setOnClickListener {
-//            viewModel.currentLocation.value?.let { location ->
-//                val currentPosition = LatLng(location.latitude, location.longitude)
-//                mapView.getMapAsync { googleMap ->
-//                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15f))
-//                }
-//            }
-//        }
-//
-//        binding.fabDirections.setOnClickListener {
-//
-//        }
+        binding.fabMyLocation.setOnClickListener {
+            viewModel.currentLocation.value?.let { location ->
+                val currentPosition = LatLng(location.latitude, location.longitude)
+                mapView.getMapAsync { googleMap ->
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15f))
+                }
+            }
+        }
 
         binding.ivBack.setOnClickListener {
             findNavController().navigateUp()

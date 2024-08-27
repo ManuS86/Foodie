@@ -11,9 +11,8 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tb_restaurant_detail"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:background="@color/white"
-        android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +77,7 @@
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/vp_images"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
@@ -101,7 +100,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:text="Info"
-                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
                         android:textColor="@color/off_grey"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -128,33 +127,33 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
-                        android:layout_marginBottom="16dp"
                         android:text="Hours: 9:00-20:00"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                        app:layout_constraintBottom_toTopOf="@+id/tv_distanceHistory"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/rv_categoriesHistory" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/iv_location"
                         android:layout_width="wrap_content"
-                        android:layout_height="20dp"
+                        android:layout_height="0dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginBottom="16dp"
                         android:src="@drawable/ic_location_thick"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_distanceHistory"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_distanceHistory" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_distanceHistory"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
                         android:text="1 km away"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                        app:layout_constraintBottom_toBottomOf="@+id/iv_location"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/iv_location"
-                        app:layout_constraintTop_toTopOf="@+id/iv_location" />
+                        app:layout_constraintTop_toBottomOf="@+id/tv_hours" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -178,7 +177,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:text="Quality"
-                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
                         android:textColor="@color/off_grey"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -247,7 +246,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:text="Location"
-                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
                         android:textColor="@color/off_grey"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -255,11 +254,13 @@
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/iv_address"
                         android:layout_width="wrap_content"
-                        android:layout_height="20dp"
+                        android:layout_height="0dp"
                         android:layout_marginStart="16dp"
+                        android:layout_marginTop="1dp"
                         android:src="@drawable/ic_location_thick"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_address"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_address" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_address"
@@ -268,7 +269,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
                         android:text="Warschauer Str. 65, 10243 Berlin"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                         app:layout_constraintStart_toEndOf="@+id/iv_address"
                         app:layout_constraintTop_toBottomOf="@+id/tv_location" />
 
@@ -303,7 +304,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="Get me there"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                         app:layout_constraintBottom_toBottomOf="@+id/imageButton"
                         app:layout_constraintStart_toEndOf="@+id/imageButton"
                         app:layout_constraintTop_toTopOf="@+id/imageButton" />
@@ -331,7 +332,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:text="Website"
-                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
                         android:textColor="@color/off_grey"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -350,6 +351,7 @@
                         android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
                         android:textColor="@color/off_black"
                         android:textColorLink="@color/off_grey"
+                        android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

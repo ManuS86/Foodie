@@ -20,7 +20,6 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.PlacesClient
 
 class MainViewModel : ViewModel() {
     private val REQUEST_CODE_LOCATION_PERMISSION = 1

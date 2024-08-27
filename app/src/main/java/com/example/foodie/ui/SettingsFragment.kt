@@ -19,9 +19,7 @@ class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentSettingsBinding.inflate(inflater)
         return binding.root
@@ -31,7 +29,6 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val nightMode = AppCompatDelegate.getDefaultNightMode()
-
         when (nightMode) {
             AppCompatDelegate.MODE_NIGHT_YES -> {
                 binding.btnDarkModeCheckmark.alpha = 1f
@@ -55,25 +52,23 @@ class SettingsFragment : Fragment() {
             }
         }
 
-        val alertDialogLogout = AlertDialog.Builder(view.context)
-            .setMessage("Are you sure you want to logout?")
-            .setTitle("Logout")
-            .setPositiveButton("Logout") { _, _ ->
-                loginViewModel.logout()
-            }
-            .setNegativeButton("Cancel") { _, _ ->
-            }
-            .create()
+        val alertDialogLogout =
+            AlertDialog.Builder(view.context).setMessage("Are you sure you want to logout?")
+                .setTitle("Logout").setPositiveButton("Logout") { _, _ ->
+                    loginViewModel.logout()
+                }.setNegativeButton("Cancel") { _, _ ->
+                }.create()
 
         val alertDialogDel = AlertDialog.Builder(view.context)
-            .setMessage("Are you sure you want to delete your account?")
-            .setTitle("Delete Account")
+            .setMessage("Are you sure you want to delete your account?").setTitle("Delete Account")
             .setPositiveButton("Delete") { _, _ ->
                 loginViewModel.deleteUser()
-            }
-            .setNegativeButton("Cancel") { _, _ ->
-            }
-            .create()
+            }.setNegativeButton("Cancel") { _, _ ->
+            }.create()
+
+        binding.tglBtnSettings.setOnClickListener {
+
+        }
 
         binding.btnDarkModeCheckmark.setOnClickListener {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)

@@ -10,10 +10,10 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tb_preferencesDetail"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:background="@color/white"
-        android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -34,12 +34,13 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_title"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="16dp"
                 android:text="Discovery Settings"
                 android:textAppearance="@style/TextAppearance.Material3.ActionBar.Title"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -74,9 +75,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
-                android:text="Distance"
+                android:layout_marginTop="16dp"
+                android:text="Maximum Distance"
                 android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,16 +86,18 @@
                 android:id="@+id/tv_distanceKmDiscovery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="5 km"
                 android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                 android:textColor="#58505B"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatSeekBar
                 android:id="@+id/sb_distanceSliderDiscovery"
+                style="@android:style/Widget.Material.Light.SeekBar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -135,9 +139,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 android:text="Status"
                 android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -145,11 +150,12 @@
                 android:id="@+id/tv_statusIndicatorDiscovery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="Open now"
                 android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                 android:textColor="#58505B"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -166,6 +172,7 @@
                 android:paddingTop="6dp"
                 android:paddingEnd="8dp"
                 android:paddingBottom="6dp"
+                app:checkedButton="@id/btn_openNow"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -174,25 +181,32 @@
                 app:singleSelection="true">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_any"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Open now"
-                    android:textColor="@color/off_black"
-                    app:cornerRadius="5dp" />
-
-                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_openNow"
                     style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Any"
+                    android:text="Open now"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
                     android:textColor="@color/off_black"
-                    app:backgroundTint="@color/white"
+                    android:textSize="16sp"
+                    app:backgroundTint="@drawable/selector_chip_color"
                     app:cornerRadius="5dp"
-                    app:strokeColor="#CCCCCC" />
+                    app:strokeColor="@color/light_grey" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_any"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Any"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                    android:textColor="@color/off_black"
+                    android:textSize="16sp"
+                    app:backgroundTint="@drawable/selector_chip_color"
+                    app:cornerRadius="5dp"
+                    app:strokeColor="@color/light_grey" />
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
@@ -224,9 +238,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 android:text="Rating"
                 android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -243,7 +258,7 @@
                 android:rating="3"
                 android:scaleX="0.7"
                 android:scaleY="0.7"
-                android:secondaryProgressTint="@color/rating_yellow_secondary"
+                android:secondaryProgressTint="@color/colorless"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_ratingDiscovery" />
@@ -275,9 +290,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 android:text="Price Range"
                 android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -317,8 +333,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:checkable="true"
-                android:textColor="@drawable/selector_chip_text"
                 android:text="€€€"
+                android:textColor="@drawable/selector_chip_text"
                 app:chipBackgroundColor="@drawable/selector_chip_color"
                 app:chipCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="@+id/cp_priceRangeMedDiscovery"
@@ -354,9 +370,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 android:text="Foods"
                 android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

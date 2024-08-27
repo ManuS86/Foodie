@@ -7,9 +7,8 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tb_likes"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:background="@color/white"
-        android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,11 +80,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_top5Cities"
                         app:srcCompat="@drawable/cities_watermark" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -93,10 +94,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="16dp"
                         android:text="Top 5 Cities"
                         android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
-                        android:textColor="@color/green"
                         app:fontFamily="sans-serif-medium"
                         app:layout_constraintEnd_toStartOf="@+id/ibtn_openCategoryCities"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -119,9 +119,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="16dp"
                         android:text="1. Top 5 Item"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textSize="18sp"
                         android:textStyle="normal"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_top5Cities" />
@@ -131,23 +132,26 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="6dp"
                         android:layout_marginEnd="16dp"
                         android:text="100%"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="@color/off_grey"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_top5Cities1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toEndOf="@+id/tv_top5Cities1"
-                        app:layout_constraintTop_toBottomOf="@+id/ibtn_openCategoryCities" />
+                        app:layout_constraintTop_toTopOf="@+id/tv_top5Cities1" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_top5Cities2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
                         android:text="2. Top 5 Item"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textSize="18sp"
                         android:textStyle="normal"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_top5Cities1" />
@@ -161,18 +165,22 @@
                         android:text="100%"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="@color/off_grey"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_top5Cities2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toEndOf="@+id/tv_top5Cities2"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_percentageCities1" />
+                        app:layout_constraintTop_toTopOf="@+id/tv_top5Cities2" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_top5Cities3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
                         android:text="3. Top 5 Item"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textSize="18sp"
                         android:textStyle="normal"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_top5Cities2" />
@@ -186,18 +194,22 @@
                         android:text="100%"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="@color/off_grey"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_top5Cities3"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toEndOf="@+id/tv_top5Cities3"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_percentageCities2" />
+                        app:layout_constraintTop_toTopOf="@+id/tv_top5Cities3" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_top5Cities4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
                         android:text="4. Top 5 Item"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textSize="18sp"
                         android:textStyle="normal"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_top5Cities3" />
@@ -211,19 +223,23 @@
                         android:text="100%"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="@color/off_grey"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_top5Cities4"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toEndOf="@+id/tv_top5Cities4"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_percentageCities3" />
+                        app:layout_constraintTop_toTopOf="@+id/tv_top5Cities4" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_top5Cities5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginBottom="12dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
                         android:text="5. Top 5 Item"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textSize="18sp"
                         android:textStyle="normal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -236,15 +252,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="12dp"
                         android:text="100%"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="@color/off_grey"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_top5Cities5"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toEndOf="@+id/tv_top5Cities5"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_percentageCities4"
+                        app:layout_constraintTop_toTopOf="@+id/tv_top5Cities5"
                         app:layout_constraintVertical_bias="0.0" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -272,11 +288,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginTop="15dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_top5Foods"
                         app:srcCompat="@drawable/foods_watermark" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -284,10 +302,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="16dp"
                         android:text="Top 5 Foods"
                         android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
-                        android:textColor="@color/green"
                         app:fontFamily="sans-serif-medium"
                         app:layout_constraintEnd_toStartOf="@+id/ibtn_openCategoryFoods"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -310,9 +327,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="16dp"
                         android:text="1. Top 5 Item"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textSize="18sp"
                         android:textStyle="normal"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_top5Foods" />
@@ -322,23 +340,26 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="6dp"
                         android:layout_marginEnd="16dp"
                         android:text="100%"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="@color/off_grey"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_top5Food1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toEndOf="@+id/tv_top5Food1"
-                        app:layout_constraintTop_toBottomOf="@+id/ibtn_openCategoryFoods" />
+                        app:layout_constraintTop_toTopOf="@+id/tv_top5Food1" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_top5Food2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
                         android:text="2. Top 5 Item"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textSize="18sp"
                         android:textStyle="normal"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_top5Food1" />
@@ -352,18 +373,22 @@
                         android:text="100%"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="@color/off_grey"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_top5Food2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toEndOf="@+id/tv_top5Food2"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_percentageFoods1" />
+                        app:layout_constraintTop_toTopOf="@+id/tv_top5Food2" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_top5Food3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
                         android:text="3. Top 5 Item"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textSize="18sp"
                         android:textStyle="normal"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_top5Food2" />
@@ -377,18 +402,22 @@
                         android:text="100%"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="@color/off_grey"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_top5Food3"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toEndOf="@+id/tv_top5Food3"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_percentageFoods2" />
+                        app:layout_constraintTop_toTopOf="@+id/tv_top5Food3" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_top5Food4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
                         android:text="4. Top 5 Item"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textSize="18sp"
                         android:textStyle="normal"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_top5Food3" />
@@ -402,19 +431,23 @@
                         android:text="100%"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="@color/off_grey"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_top5Food4"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toEndOf="@+id/tv_top5Food4"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_percentageFoods3" />
+                        app:layout_constraintTop_toTopOf="@+id/tv_top5Food4" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_top5Food5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginBottom="12dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
                         android:text="5. Top 5 Item"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textSize="18sp"
                         android:textStyle="normal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -427,15 +460,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="12dp"
                         android:text="100%"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="@color/off_grey"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_top5Food5"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toEndOf="@+id/tv_top5Food5"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_percentageFoods4"
+                        app:layout_constraintTop_toTopOf="@+id/tv_top5Food5"
                         app:layout_constraintVertical_bias="0.0" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -464,11 +497,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_top5Restaurants"
                         app:srcCompat="@drawable/restaurants_watermark" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -476,10 +511,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="16dp"
                         android:text="Top 5 Restaurants"
                         android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
-                        android:textColor="@color/green"
                         app:fontFamily="sans-serif-medium"
                         app:layout_constraintEnd_toStartOf="@+id/btn_open_category_restaurants"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -502,9 +536,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="16dp"
                         android:text="1. Top 5 Item"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textSize="18sp"
                         android:textStyle="normal"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_top5Restaurants" />
@@ -514,23 +549,26 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="6dp"
                         android:layout_marginEnd="16dp"
                         android:text="100%"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="@color/off_grey"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_top5Restaurant1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toEndOf="@+id/tv_top5Restaurant1"
-                        app:layout_constraintTop_toBottomOf="@+id/btn_open_category_restaurants" />
+                        app:layout_constraintTop_toTopOf="@+id/tv_top5Restaurant1" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_top5Restaurant2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
                         android:text="2. Top 5 Item"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_top5Restaurant1" />
 
@@ -543,18 +581,22 @@
                         android:text="100%"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="@color/off_grey"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_top5Restaurant2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toEndOf="@+id/tv_top5Restaurant2"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_percentageRestaurants1" />
+                        app:layout_constraintTop_toTopOf="@+id/tv_top5Restaurant2" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_top5Restaurant3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
                         android:text="3. Top 5 Item"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_top5Restaurant2" />
 
@@ -567,18 +609,22 @@
                         android:text="100%"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="@color/off_grey"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_top5Restaurant3"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toEndOf="@+id/tv_top5Restaurant3"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_percentageRestaurants2" />
+                        app:layout_constraintTop_toTopOf="@+id/tv_top5Restaurant3" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_top5Restaurant4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
                         android:text="4. Top 5 Item"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_top5Restaurant3" />
 
@@ -591,19 +637,23 @@
                         android:text="100%"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="@color/off_grey"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_top5Restaurant4"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toEndOf="@+id/tv_top5Restaurant4"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_percentageRestaurants3" />
+                        app:layout_constraintTop_toTopOf="@+id/tv_top5Restaurant4" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_top5Restaurant5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginBottom="12dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
                         android:text="5. Top 5 Item"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_top5Restaurant4"
@@ -615,15 +665,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="12dp"
                         android:text="100%"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="@color/off_grey"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_top5Restaurant5"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toEndOf="@+id/tv_top5Restaurant5"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_percentageRestaurants4"
+                        app:layout_constraintTop_toTopOf="@+id/tv_top5Restaurant5"
                         app:layout_constraintVertical_bias="0.0" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

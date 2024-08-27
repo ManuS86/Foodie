@@ -9,9 +9,8 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tb_settings"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:background="@color/white"
-        android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,11 +68,12 @@
                 android:id="@+id/tv_appSettings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="App Settings"
                 android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tb_settings" />
 
@@ -105,6 +105,7 @@
                         android:layout_marginTop="16dp"
                         android:text="Notifications"
                         android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+                        android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -116,6 +117,7 @@
                         android:layout_marginTop="16dp"
                         android:text="Email"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_notificationsSettings" />
 
@@ -125,7 +127,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:alpha="0"
-                        android:padding="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="6dp"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_email"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tv_email"
@@ -140,6 +145,7 @@
                         android:layout_marginBottom="16dp"
                         android:text="Push Notifications"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_email" />
@@ -150,7 +156,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:alpha="0"
-                        android:padding="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="6dp"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_pushNotifications"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tv_pushNotifications"
@@ -185,8 +194,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="12dp"
-                        android:text="Show distance in"
+                        android:text="Show Distance in"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -199,6 +209,7 @@
                         android:text="Km"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="#58505B"
+                        android:textSize="18sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -207,7 +218,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="24dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
                         android:background="@drawable/toggle_button_outline"
@@ -215,6 +226,7 @@
                         android:paddingTop="6dp"
                         android:paddingEnd="8dp"
                         android:paddingBottom="6dp"
+                        app:checkedButton="@id/btn_Km"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -224,12 +236,17 @@
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_Km"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Km"
+                            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
                             android:textColor="@color/off_black"
-                            app:cornerRadius="5dp" />
+                            android:textSize="16sp"
+                            app:backgroundTint="@drawable/selector_chip_color"
+                            app:cornerRadius="5dp"
+                            app:strokeColor="@color/light_grey" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_Mi"
@@ -238,10 +255,12 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Mi"
+                            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
                             android:textColor="@color/off_black"
-                            app:backgroundTint="@color/white"
+                            android:textSize="16sp"
+                            app:backgroundTint="@drawable/selector_chip_color"
                             app:cornerRadius="5dp"
-                            app:strokeColor="#CCCCCC" />
+                            app:strokeColor="@color/light_grey" />
                     </com.google.android.material.button.MaterialButtonToggleGroup>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -255,6 +274,7 @@
                 android:layout_marginBottom="8dp"
                 android:text="Appearance"
                 android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tb_settings" />
 
@@ -286,6 +306,7 @@
                         android:layout_marginTop="16dp"
                         android:text="Dark Mode"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -295,7 +316,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:alpha="0"
-                        android:padding="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="6dp"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_darkMode"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tv_darkMode"
@@ -309,6 +333,7 @@
                         android:layout_marginTop="16dp"
                         android:text="Light Mode"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_darkMode" />
 
@@ -318,7 +343,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:alpha="0"
-                        android:padding="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="6dp"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_lightMode"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tv_lightMode"
@@ -333,6 +361,7 @@
                         android:layout_marginBottom="16dp"
                         android:text="System Default"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_lightMode" />
@@ -342,12 +371,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
-                        android:padding="8dp"
+                        android:alpha="0"
+                        android:paddingStart="8dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="6dp"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_systemDefault"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tv_systemDefault"
-                        app:srcCompat="@drawable/ic_checkmark"
-                        android:alpha="0" />
+                        app:srcCompat="@drawable/ic_checkmark" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -360,7 +392,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="Community"
-                android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:textSize="18sp" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_shareFoodie"
@@ -391,6 +424,7 @@
                         android:layout_marginBottom="16dp"
                         android:text="Share Foodie"
                         android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+                        android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -428,6 +462,7 @@
                         android:layout_marginTop="16dp"
                         android:text="Privacy"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -436,9 +471,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="24dp"
                         android:text="Cookie Policy"
                         android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+                        android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_privacy" />
 
@@ -447,10 +483,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="24dp"
                         android:layout_marginBottom="16dp"
                         android:text="Privacy Policy"
                         android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+                        android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_cookiePolicy" />
@@ -487,6 +524,7 @@
                         android:layout_marginTop="16dp"
                         android:text="Legal"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -495,9 +533,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="24dp"
                         android:text="Licenses"
                         android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+                        android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_legalSettings" />
 
@@ -510,6 +549,7 @@
                         android:layout_marginBottom="16dp"
                         android:text="Terms of Service"
                         android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+                        android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_licenses" />
@@ -544,7 +584,8 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
                         android:text="Logout"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textSize="18sp"
                         app:fontFamily="sans-serif-medium"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -603,6 +644,7 @@
                         android:layout_marginBottom="16dp"
                         android:text="Delete Account"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
