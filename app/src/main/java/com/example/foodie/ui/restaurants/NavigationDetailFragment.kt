@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.foodie.MainViewModel
+import com.example.foodie.LocationViewModel
 import com.example.foodie.R
 import com.example.foodie.databinding.FragmentNavigationDetailBinding
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -16,7 +16,7 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 
 class NavigationDetailFragment : Fragment() {
-    private val viewModel: MainViewModel by activityViewModels()
+    private val locationViewModel: LocationViewModel by activityViewModels()
     private lateinit var binding: FragmentNavigationDetailBinding
     private lateinit var mapView: MapView
 
@@ -25,8 +25,8 @@ class NavigationDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel.isGPSEnabled(requireContext())
-        viewModel.checkLocationPermission(requireContext())
+        locationViewModel.isGPSEnabled(requireContext())
+        locationViewModel.checkLocationPermission(requireContext())
 
         binding = FragmentNavigationDetailBinding.inflate(inflater)
         mapView = binding.mvNavigation
@@ -45,16 +45,16 @@ class NavigationDetailFragment : Fragment() {
             googleMap.uiSettings.isMyLocationButtonEnabled = false
             googleMap.uiSettings.setAllGesturesEnabled(true)
 
-            viewModel.currentLocation.value?.let { location ->
+            locationViewModel.currentLocation.value?.let { location ->
                 val currentPosition = LatLng(location.latitude, location.longitude)
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15f))
             }
         }
 
-        viewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
+        locationViewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
             if (granted == true) {
                 // Permissions granted, start location tracking
-                viewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
+                locationViewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
                     if (enabled) {
                         // GPS enabled
                     } else {
@@ -67,7 +67,7 @@ class NavigationDetailFragment : Fragment() {
         }
 
         binding.fabMyLocation.setOnClickListener {
-            viewModel.currentLocation.value?.let { location ->
+            locationViewModel.currentLocation.value?.let { location ->
                 val currentPosition = LatLng(location.latitude, location.longitude)
                 mapView.getMapAsync { googleMap ->
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15f))
@@ -83,13 +83,13 @@ class NavigationDetailFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         mapView.onStart()
-        viewModel.requestLocationUpdates(requireActivity())
+        locationViewModel.requestLocationUpdates(requireActivity())
     }
 
     override fun onResume() {
         super.onResume()
         mapView.onResume()
-        viewModel.isGPSEnabled(requireContext())
+        locationViewModel.isGPSEnabled(requireContext())
     }
 
     override fun onPause() {

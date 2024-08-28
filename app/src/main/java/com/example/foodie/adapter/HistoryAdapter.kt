@@ -3,11 +3,11 @@ package com.example.foodie.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.foodie.data.model.Restaurant
 import com.example.foodie.databinding.ItemHistoryBinding
+import com.google.android.libraries.places.api.model.Place
 
 class HistoryAdapter(
-    private val dataset: List<Restaurant>
+    private val dataset: List<Place>
 ) : RecyclerView.Adapter<HistoryAdapter.ItemViewHolder>() {
 
     inner class ItemViewHolder(val binding: ItemHistoryBinding) :

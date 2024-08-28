@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="Restaurant Name"
-                android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+                android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
                 app:fontFamily="sans-serif-medium"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/iv_decollapse"
@@ -208,6 +208,17 @@
                         app:layout_constraintStart_toEndOf="@+id/tv_rating"
                         app:layout_constraintTop_toTopOf="@+id/tv_rating" />
 
+                    <TextView
+                        android:id="@+id/tv_ratingsTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="(600)"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        app:layout_constraintBottom_toBottomOf="@+id/rb_rating"
+                        app:layout_constraintStart_toEndOf="@+id/rb_rating"
+                        app:layout_constraintTop_toTopOf="@+id/rb_rating" />
+
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_priceRangeDiscovery"
                         android:layout_width="wrap_content"
@@ -256,7 +267,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="1dp"
                         android:src="@drawable/ic_location_thick"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_address"
                         app:layout_constraintStart_toStartOf="parent"
@@ -296,7 +306,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/iv_mapPreview"
-                        app:tint="@color/off_black" />
+                        app:tint="@color/off_grey" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/textView"

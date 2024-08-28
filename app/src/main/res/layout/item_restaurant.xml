@@ -67,7 +67,7 @@
                         app:srcCompat="@drawable/gradient_restaurant_card" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_restaurantNameHistory"
+                        android:id="@+id/tv_restaurantName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -92,11 +92,11 @@
                         android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
                         android:textColor="@color/white"
                         app:fontFamily="sans-serif-light"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_restaurantNameHistory"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_restaurantName"
                         app:layout_constraintEnd_toStartOf="@+id/iv_decollapseButton"
                         app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/tv_restaurantNameHistory"
-                        app:layout_constraintTop_toTopOf="@+id/tv_restaurantNameHistory" />
+                        app:layout_constraintStart_toEndOf="@+id/tv_restaurantName"
+                        app:layout_constraintTop_toTopOf="@+id/tv_restaurantName" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/iv_decollapseButton"
@@ -121,7 +121,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_restaurantNameHistory"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_restaurantName"
                         tools:itemCount="2"
                         tools:listitem="@layout/item_food" />
 
@@ -132,9 +132,8 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
                         android:text="4.3"
-                        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                         android:textColor="@color/white"
-                        app:fontFamily="sans-serif"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/rv_categoriesRestaurant" />
 
@@ -147,24 +146,33 @@
                         android:numStars="5"
                         android:progressTint="@color/rating_yellow"
                         android:rating="4.3"
-                        android:secondaryProgressTint="@color/rating_yellow_secondary"
+                        android:secondaryProgressTint="@color/colorless"
+                        android:stepSize="0.1"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_rating"
                         app:layout_constraintStart_toEndOf="@+id/tv_rating"
-                        app:layout_constraintTop_toTopOf="@+id/tv_rating">
+                        app:layout_constraintTop_toTopOf="@+id/tv_rating" />
 
-                    </RatingBar>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_ratingTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="(600)"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="@+id/rb_rating"
+                        app:layout_constraintStart_toEndOf="@+id/rb_rating"
+                        app:layout_constraintTop_toTopOf="@+id/rb_rating" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/iv_location"
                         android:layout_width="wrap_content"
-                        android:layout_height="20dp"
+                        android:layout_height="0dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="64dp"
                         android:src="@drawable/ic_location_white"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_distanceRestaurant"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_rating"
+                        app:layout_constraintTop_toTopOf="@+id/tv_distanceRestaurant"
                         app:layout_constraintVertical_bias="0.0" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -172,12 +180,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="64dp"
                         android:text="1 km away"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                         android:textColor="@color/white"
-                        app:layout_constraintBottom_toBottomOf="@+id/iv_location"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/iv_location"
-                        app:layout_constraintTop_toTopOf="@+id/iv_location"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_rating"
                         app:layout_constraintVertical_bias="0.0" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

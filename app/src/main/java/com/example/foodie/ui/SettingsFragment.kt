@@ -66,8 +66,13 @@ class SettingsFragment : Fragment() {
             }.setNegativeButton("Cancel") { _, _ ->
             }.create()
 
-        binding.tglBtnSettings.setOnClickListener {
-
+        binding.tglBtnKmMi.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked) {
+                when (checkedId) {
+                    R.id.btn_Km -> binding.tvDistUnit.text = "Km"
+                    R.id.btn_Mi -> binding.tvDistUnit.text = "Mi"
+                }
+            }
         }
 
         binding.btnDarkModeCheckmark.setOnClickListener {

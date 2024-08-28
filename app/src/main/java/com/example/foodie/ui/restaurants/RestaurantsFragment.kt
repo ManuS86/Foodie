@@ -7,12 +7,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.foodie.MainViewModel
+import com.example.foodie.LocationViewModel
+import com.example.foodie.NearbyRestaurantsViewModel
 import com.example.foodie.R
+import com.example.foodie.adapter.RestaurantsAdapter
 import com.example.foodie.databinding.FragmentRestaurantsBinding
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.libraries.places.api.net.SearchNearbyRequest
 
 class RestaurantsFragment : Fragment() {
-    private val viewModel: MainViewModel by activityViewModels()
+    private val locationViewModel: LocationViewModel by activityViewModels()
+    private val nearbyRestaurantsViewModel: NearbyRestaurantsViewModel by activityViewModels()
     private lateinit var binding: FragmentRestaurantsBinding
 
     override fun onCreateView(
@@ -20,8 +25,25 @@ class RestaurantsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel.isGPSEnabled(requireContext())
-        viewModel.checkLocationPermission(requireContext())
+
+        val location = locationViewModel.currentLocation
+
+        if (location.value != null) {
+            val currentPosition = LatLng(location.value!!.latitude, location.value!!.longitude)
+
+            nearbyRestaurantsViewModel.getNearbyRestaurants(
+                requireActivity(),
+                currentPosition,
+                500.0,
+                listOf(),
+                SearchNearbyRequest.RankPreference.POPULARITY,
+                "de"
+            )
+        }
+
+        locationViewModel.isGPSEnabled(requireContext())
+        locationViewModel.checkLocationPermission(requireContext())
+
         binding = FragmentRestaurantsBinding.inflate(inflater)
         return binding.root
     }
@@ -29,10 +51,16 @@ class RestaurantsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
+        nearbyRestaurantsViewModel.nearbyRestaurants.observe(viewLifecycleOwner) { nearbyRestaurants ->
+            binding.rvRestaurantsStack.adapter =
+                RestaurantsAdapter(nearbyRestaurants)
+            binding.rvRestaurantsStack.setHasFixedSize(true)
+        }
+
+        locationViewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
             if (granted == true) {
                 // Permissions granted, start location tracking
-                viewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
+                locationViewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
                     if (enabled) {
                         // GPS enabled
                     } else {
@@ -55,6 +83,6 @@ class RestaurantsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.isGPSEnabled(requireContext())
+        locationViewModel.isGPSEnabled(requireContext())
     }
 }

@@ -18,10 +18,9 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.Place
 
-class MainViewModel : ViewModel() {
+class LocationViewModel : ViewModel() {
+
     private val REQUEST_CODE_LOCATION_PERMISSION = 1
 
     private var _gpsProvider = MutableLiveData<Boolean>()
@@ -39,10 +38,6 @@ class MainViewModel : ViewModel() {
     private val _lastLocationUpdate = MutableLiveData<Long>()
     val lastLocationUpdate: LiveData<Long>
         get() = _lastLocationUpdate
-
-    private var _nearbyRestaurants = MutableLiveData<List<Place>>()
-    val nearbyRestaurants: LiveData<List<Place>>
-        get() = _nearbyRestaurants
 
     fun handleLocationRequest(activity: Activity) {
         if (ActivityCompat.checkSelfPermission(
@@ -111,38 +106,4 @@ class MainViewModel : ViewModel() {
             Looper.getMainLooper()
         )
     }
-
-    fun createPlacesClient(activity: Activity) {
-        // Define a variable to hold the Places API key.
-        val apiKey = BuildConfig.PLACES_API_KEY
-
-        // Log an error if apiKey is not set.
-        if (apiKey.isEmpty() || apiKey == "DEFAULT_API_KEY") {
-            Log.e("Places test", "No api key")
-            return
-        }
-
-        // Initialize the SDK
-        Places.initializeWithNewPlacesApiEnabled(activity, apiKey)
-
-        // Create a new PlacesClient instance
-        val placesClient = Places.createClient(activity)
-    }
-
-//    fun searchNearbyRestaurants() {
-//        val nearbySearchRequest = NearbySearchRequest.Builder()
-//            .location(currentLocation)
-//            .radius(5000) // Adjust radius as needed
-//            .keyword("restaurant")
-//            .build()
-//
-//        placesClient.findPlaces(nearbySearchRequest)
-//            .addOnSuccessListener { response: NearbySearchResponse ->
-//                _nearbyRestaurants.postValue(response.places)
-//            }
-//            .addOnFailureListener { exception ->
-//                // Handle failure
-//                Log.e("NearbySearch", "Failed to retrieve nearby places", exception)
-//            }
-//    }
 }

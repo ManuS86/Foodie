@@ -9,8 +9,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.foodie.LocationViewModel
 import com.example.foodie.LoginViewModel
-import com.example.foodie.MainViewModel
 import com.example.foodie.R
 import com.example.foodie.databinding.FragmentLoginBinding
 import com.facebook.CallbackManager
@@ -24,7 +24,7 @@ class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private lateinit var callbackManager: CallbackManager
-    private val viewModel: MainViewModel by activityViewModels()
+    private val viewModel: LocationViewModel by activityViewModels()
     private val loginViewModel: LoginViewModel by activityViewModels()
 
     override fun onCreateView(

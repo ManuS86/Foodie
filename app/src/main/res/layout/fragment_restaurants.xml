@@ -103,7 +103,7 @@
         app:layout_constraintTop_toTopOf="@+id/iv_radarInner" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/csv_restaurantsStack"
+        android:id="@+id/rv_restaurantsStack"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_centerInParent="true"

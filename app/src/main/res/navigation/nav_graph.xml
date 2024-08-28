@@ -11,17 +11,17 @@
         android:label="HomeFragment"
         tools:layout="@layout/fragment_restaurants">
         <action
-            android:id="@+id/action_homeFragment_to_preferencesDetailFragment"
+            android:id="@+id/action_restaurantsFragment_to_discoveryDetailFragment"
             app:destination="@id/discoveryDetailFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_restaurantDetailFragment"
+            android:id="@+id/action_restaurantsFragment_to_restaurantDetailFragment"
             app:destination="@id/restaurantDetailFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_locationPermissionFragment"
-            app:destination="@id/locationPermissionFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_noGpsFragment"
+            android:id="@+id/action_restaurantsFragment_to_noGpsFragment"
             app:destination="@id/noGpsFragment" />
+        <action
+            android:id="@+id/action_restaurantsFragment_to_locationPermissionFragment"
+            app:destination="@id/locationPermissionFragment" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
@@ -129,14 +129,14 @@
         android:label="LocationPermissionFragment"
         tools:layout="@layout/fragment_location_permission">
         <action
-            android:id="@+id/action_locationPermissionFragment_to_homeFragment"
-            app:destination="@id/restaurantsFragment" />
-        <action
             android:id="@+id/action_locationPermissionFragment_to_locationDeniedFragment"
             app:destination="@id/locationDeniedFragment" />
         <action
             android:id="@+id/action_locationPermissionFragment_to_noGpsFragment"
             app:destination="@id/noGpsFragment" />
+        <action
+            android:id="@+id/action_locationPermissionFragment_to_restaurantsFragment"
+            app:destination="@id/restaurantsFragment" />
     </fragment>
     <fragment
         android:id="@+id/locationDeniedFragment"
@@ -144,11 +144,11 @@
         android:label="fragment_location_denied"
         tools:layout="@layout/fragment_location_denied">
         <action
-            android:id="@+id/action_locationDeniedFragment_to_homeFragment"
-            app:destination="@id/restaurantsFragment" />
-        <action
             android:id="@+id/action_locationDeniedFragment_to_noGpsFragment"
             app:destination="@id/noGpsFragment" />
+        <action
+            android:id="@+id/action_locationDeniedFragment_to_restaurantsFragment"
+            app:destination="@id/restaurantsFragment" />
     </fragment>
     <fragment
         android:id="@+id/noGpsFragment"
@@ -156,7 +156,7 @@
         android:label="NoGpsFragment"
         tools:layout="@layout/fragment_no_gps">
         <action
-            android:id="@+id/action_noGpsFragment_to_homeFragment"
+            android:id="@+id/action_noGpsFragment_to_restaurantsFragment"
             app:destination="@id/restaurantsFragment" />
     </fragment>
 </navigation>
