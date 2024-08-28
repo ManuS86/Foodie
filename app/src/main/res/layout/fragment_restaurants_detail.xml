@@ -296,7 +296,7 @@
                         map:mapId="@string/map_id" />
 
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/imageButton"
+                        android:id="@+id/btn_navigateThere"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:layout_marginStart="16dp"
@@ -313,11 +313,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="Get me there"
+                        android:text="Get me there!"
                         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageButton"
-                        app:layout_constraintStart_toEndOf="@+id/imageButton"
-                        app:layout_constraintTop_toTopOf="@+id/imageButton" />
+                        app:layout_constraintBottom_toBottomOf="@+id/btn_navigateThere"
+                        app:layout_constraintStart_toEndOf="@+id/btn_navigateThere"
+                        app:layout_constraintTop_toTopOf="@+id/btn_navigateThere" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>

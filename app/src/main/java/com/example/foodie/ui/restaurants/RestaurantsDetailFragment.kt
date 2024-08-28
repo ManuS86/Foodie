@@ -47,6 +47,10 @@ class RestaurantsDetailFragment : Fragment() {
         binding.ivDecollapse.setOnClickListener {
             findNavController().navigateUp()
         }
+
+        binding.btnNavigateThere.setOnClickListener {
+            findNavController().navigate(R.id.navigationDetailFragment)
+        }
     }
 
     override fun onResume() {

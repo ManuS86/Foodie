@@ -29,7 +29,9 @@ class RestaurantsAdapter(
                 it.tvRestaurantName.text = restaurant.name
                 it.tvPriceRangeRestaurant.text = restaurant.priceLevel?.toString() ?: "N/A"
                 it.tvRating.text = restaurant.rating?.toString() ?: "N/A"
-                it.rbRating.rating = (restaurant.rating?.toFloat() ?: 0) as Float
+                if (restaurant.rating != null) {
+                    it.rbRating.rating = restaurant.rating?.toFloat()!!
+                }
                 it.tvRatingTotal.text = "(${restaurant.userRatingsTotal?.toString() ?: "0"})"
                 it.ivDecollapseButton.setOnClickListener {
                     holder.itemView.findNavController().navigate(

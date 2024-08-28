@@ -95,7 +95,6 @@ dependencies {
     //Play Services for Map, Location and Places
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
-//    implementation (libs.play.services.places)
 
     //Google Places SDK for Android
     implementation(platform(libs.kotlin.bom))

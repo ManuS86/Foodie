@@ -8,11 +8,14 @@ import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.CircularBounds
+import com.google.android.libraries.places.api.model.PhotoMetadata
 import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.FetchPhotoRequest
 import com.google.android.libraries.places.api.net.SearchNearbyRequest
 import com.google.android.libraries.places.api.net.SearchNearbyResponse
 
 class NearbyRestaurantsViewModel : ViewModel() {
+    val TAG = "NearbyRestaurantsViewModel"
 
     private var _nearbyRestaurants = MutableLiveData<List<Place>>()
     val nearbyRestaurants: LiveData<List<Place>>
@@ -31,12 +34,23 @@ class NearbyRestaurantsViewModel : ViewModel() {
 
         // Log an error if apiKey is not set.
         if (apiKey.isEmpty() || apiKey == "DEFAULT_API_KEY") {
-            Log.e("Places test", "No api key")
+            Log.e(
+                "Places test",
+                "No api key"
+            )
             return
         }
 
         // Initialize the SDK
-        Places.initializeWithNewPlacesApiEnabled(activity, apiKey)
+        try {
+            Places.initializeWithNewPlacesApiEnabled(activity, apiKey)
+        } catch (e: Exception) {
+            Log.e(
+                TAG,
+                "Error initializing Places API",
+                e
+            )
+        }
 
         // Create a new PlacesClient instance
         val placesClient = Places.createClient(activity)
@@ -44,6 +58,7 @@ class NearbyRestaurantsViewModel : ViewModel() {
         val circle = CircularBounds.newInstance(center, radius)
 
         val placeFields = listOf(
+            Place.Field.ID,
             Place.Field.NAME,
             Place.Field.PHOTO_METADATAS,
             Place.Field.ADDRESS,
@@ -63,15 +78,80 @@ class NearbyRestaurantsViewModel : ViewModel() {
             .setRankPreference(preference)
             .setRegionCode(regionCode)
             .build()
+        Log.d(
+            TAG,
+            "Search request built with fields: $placeFields"
+        )
 
-        placesClient.searchNearby(searchNearbyRequest)
-            .addOnSuccessListener { response: SearchNearbyResponse ->
-                Log.e("APIResponse", "${response.places}")
-                _nearbyRestaurants.value = response.places
-            }
-            .addOnFailureListener { exception ->
-                // Handle failure
-                Log.e("NearbySearch", "Failed to retrieve nearby places", exception)
-            }
+        try {
+            placesClient.searchNearby(searchNearbyRequest)
+                .addOnSuccessListener { response: SearchNearbyResponse ->
+                    _nearbyRestaurants.value = response.places
+                }
+                .addOnFailureListener { exception ->
+                    Log.e(
+                        TAG,
+                        "Failed to retrieve nearby places",
+                        exception
+                    )
+                }
+        } catch (e: Exception) {
+            Log.e(
+                TAG,
+                "Error searching nearby places",
+                e
+            )
+        }
+    }
+
+    fun getPhotos(activity: Activity, photoMetadataList: List<PhotoMetadata>) {
+
+        // Define a variable to hold the Places API key.
+        val apiKey = BuildConfig.PLACES_API_KEY
+
+        // Log an error if apiKey is not set.
+        if (apiKey.isEmpty() || apiKey == "DEFAULT_API_KEY") {
+            Log.e(
+                "Places test",
+                "No api key"
+            )
+            return
+        }
+
+        // Initialize the SDK
+        try {
+            Places.initializeWithNewPlacesApiEnabled(activity, apiKey)
+        } catch (e: Exception) {
+            Log.e(
+                TAG,
+                "Error initializing Places API",
+                e
+            )
+        }
+
+        // Create a new PlacesClient instance
+        val placesClient = Places.createClient(activity)
+
+        // Get the individual photo metadata.
+        photoMetadataList.forEach { photoMetadata ->
+
+            // Create a FetchPhotoRequest.
+            val photoRequest = FetchPhotoRequest.builder(photoMetadata)
+                .setMaxWidth(400)
+                .setMaxHeight(400)
+                .build()
+
+            placesClient.fetchPhoto(photoRequest)
+                .addOnSuccessListener { fetchPhotoResponse ->
+                    val bitmap = fetchPhotoResponse.getBitmap()
+                }.addOnFailureListener { exception ->
+                    // Handle error with given status code.
+                    Log.e(
+                        TAG,
+                        "Failed to fetch photo",
+                        exception
+                    )
+                }
+        }
     }
 }

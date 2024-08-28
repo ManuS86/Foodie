@@ -42,8 +42,37 @@ class DiscoveryDetailFragment : Fragment() {
         binding.rvFoodCategories.adapter = FoodCategoryFilterAdapter(foodCategories)
         binding.rvFoodCategories.setHasFixedSize(true)
 
-        binding.rbRatingDiscovery.setOnClickListener {
+        binding.rbRatingDiscovery.setOnRatingBarChangeListener { _, rating, fromUser ->
+            if (fromUser) {
+                // User clicked on a star
+                val clickedStarIndex = rating.toInt() - 1 // Adjust index as needed
+                // Perform actions based on the clicked star index
+                when (clickedStarIndex) {
+                    0 -> {
+                        binding.rbRatingDiscovery.rating = 0f
+                    }
 
+                    1 -> {
+                        binding.rbRatingDiscovery.rating = 1f
+                    }
+
+                    2 -> {
+                        binding.rbRatingDiscovery.rating = 2f
+                    }
+
+                    3 -> {
+                        binding.rbRatingDiscovery.rating = 3f
+                    }
+
+                    4 -> {
+                        binding.rbRatingDiscovery.rating = 4f
+                    }
+
+                    5 -> {
+                        binding.rbRatingDiscovery.rating = 5f
+                    }
+                }
+            }
         }
 
         binding.ivBack.setOnClickListener {

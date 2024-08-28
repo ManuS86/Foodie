@@ -12,8 +12,6 @@ import com.example.foodie.NearbyRestaurantsViewModel
 import com.example.foodie.R
 import com.example.foodie.adapter.RestaurantsAdapter
 import com.example.foodie.databinding.FragmentRestaurantsBinding
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.libraries.places.api.net.SearchNearbyRequest
 
 class RestaurantsFragment : Fragment() {
     private val locationViewModel: LocationViewModel by activityViewModels()
@@ -26,21 +24,6 @@ class RestaurantsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val location = locationViewModel.currentLocation
-
-        if (location.value != null) {
-            val currentPosition = LatLng(location.value!!.latitude, location.value!!.longitude)
-
-            nearbyRestaurantsViewModel.getNearbyRestaurants(
-                requireActivity(),
-                currentPosition,
-                500.0,
-                listOf(),
-                SearchNearbyRequest.RankPreference.POPULARITY,
-                "de"
-            )
-        }
-
         locationViewModel.isGPSEnabled(requireContext())
         locationViewModel.checkLocationPermission(requireContext())
 
@@ -50,6 +33,29 @@ class RestaurantsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val location = locationViewModel.currentLocation
+
+//        if (location.value != null) {
+//            val currentPosition = LatLng(location.value!!.latitude, location.value!!.longitude)
+//            Log.d(
+//                "RestaurantsFragment",
+//                "Current location: ${location.value!!.latitude}, ${location.value!!.longitude}"
+//            )
+//        nearbyRestaurantsViewModel.getNearbyRestaurants(
+//            requireActivity(),
+//            LatLng(40.7580, -73.9855),
+//            500.0,
+//            listOf(),
+//            SearchNearbyRequest.RankPreference.POPULARITY,
+//            "de"
+//        )
+//        } else {
+//            Log.e(
+//                "RestaurantsFragment",
+//                "Failed to obtain location."
+//            )
+//        }
 
         nearbyRestaurantsViewModel.nearbyRestaurants.observe(viewLifecycleOwner) { nearbyRestaurants ->
             binding.rvRestaurantsStack.adapter =
@@ -63,6 +69,7 @@ class RestaurantsFragment : Fragment() {
                 locationViewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
                     if (enabled) {
                         // GPS enabled
+                        locationViewModel.requestLocationUpdates(requireActivity())
                     } else {
                         findNavController().navigate(R.id.noGpsFragment)
                     }
@@ -72,8 +79,16 @@ class RestaurantsFragment : Fragment() {
             }
         }
 
+        binding.fabDismiss.setOnClickListener {
+
+        }
+
+        binding.fabUndo.setOnClickListener {
+            binding.rvRestaurantsStack.rewind()
+        }
+
         binding.fabLike.setOnClickListener {
-            findNavController().navigate(R.id.navigationDetailFragment)
+            binding.rvRestaurantsStack.swipe()
         }
 
         binding.ivDiscoverySettings.setOnClickListener {

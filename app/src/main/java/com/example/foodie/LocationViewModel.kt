@@ -95,7 +95,7 @@ class LocationViewModel : ViewModel() {
             override fun onLocationResult(locationResult: LocationResult) {
                 val location = locationResult.lastLocation
 
-                _currentLocation.postValue(location)
+                _currentLocation.value = (location)
                 _lastLocationUpdate.postValue(System.currentTimeMillis())
             }
         }

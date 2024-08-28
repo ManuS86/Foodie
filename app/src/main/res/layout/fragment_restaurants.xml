@@ -102,7 +102,7 @@
         app:layout_constraintStart_toStartOf="@+id/iv_radarInner"
         app:layout_constraintTop_toTopOf="@+id/iv_radarInner" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/rv_restaurantsStack"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -113,8 +113,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tb_home"
-        app:layout_constraintVertical_bias="0.0"
-        tools:listitem="@layout/item_restaurant" />
+        app:layout_constraintVertical_bias="0.0"></com.yuyakaido.android.cardstackview.CardStackView>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_swipeButtons"
@@ -190,5 +189,14 @@
                 app:tint="@null" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/tv_searchText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Finding restaurants near you ..."
+        app:layout_constraintStart_toStartOf="@+id/iv_raderOuter"
+        app:layout_constraintTop_toBottomOf="@+id/iv_raderOuter" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

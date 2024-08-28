@@ -5,6 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <FrameLayout
+        android:id="@+id/right_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_like"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="24dp"
+            android:alpha="0.5"
+            android:src="@drawable/ic_like" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/left_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_dismiss"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="24dp"
+            android:alpha="0.5"
+            android:src="@drawable/ic_dismiss" />
+    </FrameLayout>
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_restaurant"
         android:layout_width="match_parent"
