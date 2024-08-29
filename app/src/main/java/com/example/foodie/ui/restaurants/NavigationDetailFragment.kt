@@ -25,8 +25,8 @@ class NavigationDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        locationViewModel.isGPSEnabled(requireContext())
-        locationViewModel.checkLocationPermission(requireContext())
+        locationViewModel.isGPSEnabled()
+        locationViewModel.checkLocationPermission()
 
         binding = FragmentNavigationDetailBinding.inflate(inflater)
         mapView = binding.mvNavigation
@@ -51,20 +51,7 @@ class NavigationDetailFragment : Fragment() {
             }
         }
 
-        locationViewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
-            if (granted == true) {
-                // Permissions granted, start location tracking
-                locationViewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
-                    if (enabled) {
-                        // GPS enabled
-                    } else {
-                        findNavController().navigate(R.id.noGpsFragment)
-                    }
-                }
-            } else {
-                findNavController().navigate(R.id.locationPermissionFragment)
-            }
-        }
+        addLocationPermissionObserver()
 
         binding.fabMyLocation.setOnClickListener {
             locationViewModel.currentLocation.value?.let { location ->
@@ -80,16 +67,36 @@ class NavigationDetailFragment : Fragment() {
         }
     }
 
+    private fun addLocationPermissionObserver() {
+        locationViewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
+            if (granted == true) {
+                // Permissions granted, start location tracking
+                addGPSObserver()
+            } else {
+                findNavController().navigate(R.id.locationPermissionFragment)
+            }
+        }
+    }
+
+    private fun addGPSObserver() {
+        locationViewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
+            if (enabled) {
+                // GPS enabled
+            } else {
+                findNavController().navigate(R.id.noGpsFragment)
+            }
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         mapView.onStart()
-        locationViewModel.requestLocationUpdates(requireActivity())
     }
 
     override fun onResume() {
         super.onResume()
         mapView.onResume()
-        locationViewModel.isGPSEnabled(requireContext())
+        locationViewModel.isGPSEnabled()
     }
 
     override fun onPause() {

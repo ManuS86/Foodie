@@ -2,6 +2,7 @@ package com.example.foodie
 
 import android.Manifest
 import android.app.Activity
+import android.app.Application
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.pm.PackageManager
@@ -10,6 +11,7 @@ import android.location.LocationManager
 import android.os.Looper
 import android.util.Log
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,9 +21,9 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
 
-class LocationViewModel : ViewModel() {
-
+class LocationViewModel(application: Application) : AndroidViewModel(application) {
     private val REQUEST_CODE_LOCATION_PERMISSION = 1
+    private val applicationContext = application
 
     private var _gpsProvider = MutableLiveData<Boolean>()
     val gpsProvider: LiveData<Boolean>
@@ -38,6 +40,10 @@ class LocationViewModel : ViewModel() {
     private val _lastLocationUpdate = MutableLiveData<Long>()
     val lastLocationUpdate: LiveData<Long>
         get() = _lastLocationUpdate
+
+    init {
+        requestLocationUpdates()
+    }
 
     fun handleLocationRequest(activity: Activity) {
         if (ActivityCompat.checkSelfPermission(
@@ -56,10 +62,10 @@ class LocationViewModel : ViewModel() {
         }
     }
 
-    fun checkLocationPermission(context: Context) {
+    fun checkLocationPermission() {
         _locationPermission.postValue(
             ActivityCompat.checkSelfPermission(
-                context,
+                applicationContext,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         )
@@ -69,9 +75,9 @@ class LocationViewModel : ViewModel() {
         _locationPermission.value = null
     }
 
-    fun isGPSEnabled(context: Context) {
+    fun isGPSEnabled() {
         try {
-            val locationManager = context.getSystemService(LocationManager::class.java)
+            val locationManager = applicationContext.getSystemService(LocationManager::class.java)
             val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
             _gpsProvider.value = isGpsEnabled
@@ -80,11 +86,11 @@ class LocationViewModel : ViewModel() {
         }
     }
 
-    fun requestLocationUpdates(activity: Activity) {
-        checkLocationPermission(activity)
+    fun requestLocationUpdates() {
+        checkLocationPermission()
 
         val fusedLocationClient =
-            LocationServices.getFusedLocationProviderClient(activity)
+            LocationServices.getFusedLocationProviderClient(applicationContext)
 
         val locationRequest = LocationRequest.Builder(10000)
             .setMinUpdateIntervalMillis(5000)
@@ -95,8 +101,9 @@ class LocationViewModel : ViewModel() {
             override fun onLocationResult(locationResult: LocationResult) {
                 val location = locationResult.lastLocation
 
-                _currentLocation.value = (location)
+                _currentLocation.value = location
                 _lastLocationUpdate.postValue(System.currentTimeMillis())
+                Log.d("LocationUpdate", "LiveData Updated")
             }
         }
 

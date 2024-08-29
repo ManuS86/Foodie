@@ -5,42 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/right_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_like"
-            android:layout_width="240dp"
-            android:layout_height="240dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="24dp"
-            android:alpha="0.5"
-            android:src="@drawable/ic_like" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/left_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_dismiss"
-            android:layout_width="240dp"
-            android:layout_height="240dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="24dp"
-            android:alpha="0.5"
-            android:src="@drawable/ic_dismiss" />
-    </FrameLayout>
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_restaurant"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="24dp"
-        app:cardBackgroundColor="@color/colorless"
         app:cardCornerRadius="8dp"
         app:cardElevation="5dp"
         app:cardMaxElevation="7dp"
@@ -54,6 +23,15 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vp_restaurantImages"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_restaurant"
@@ -72,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="-3dp"
                 android:layout_marginEnd="-3dp"
+                android:layout_marginBottom="-3dp"
                 app:cardBackgroundColor="#00FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -93,40 +72,24 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="1.0"
+                        app:layout_constraintVertical_bias="0.0"
                         app:srcCompat="@drawable/gradient_restaurant_card" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_restaurantName"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="32dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:text="Restaurant Name"
-                        android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+                        android:maxLines="2"
+                        android:text="Restaurant Name €€€"
+                        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
                         android:textColor="@color/white"
                         app:fontFamily="sans-serif-medium"
                         app:layout_constraintEnd_toStartOf="@+id/iv_decollapseButton"
-                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_priceRangeRestaurant"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginEnd="16dp"
-                        android:text="€€"
-                        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-                        android:textColor="@color/white"
-                        app:fontFamily="sans-serif-light"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_restaurantName"
-                        app:layout_constraintEnd_toStartOf="@+id/iv_decollapseButton"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/tv_restaurantName"
-                        app:layout_constraintTop_toTopOf="@+id/tv_restaurantName" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/iv_decollapseButton"
@@ -134,26 +97,22 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
                         android:background="#00FFFFFF"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_priceRangeRestaurant"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_restaurantName"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tv_priceRangeRestaurant"
+                        app:layout_constraintTop_toTopOf="@+id/tv_restaurantName"
                         app:srcCompat="@drawable/ic_decollapse_profile" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_categoriesRestaurant"
-                        android:layout_width="match_parent"
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/cpg_categoriesRestaurant"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_restaurantName"
-                        tools:itemCount="2"
-                        tools:listitem="@layout/item_food" />
+                        app:layout_constraintTop_toBottomOf="@+id/tv_restaurantName" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_rating"
@@ -165,14 +124,14 @@
                         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                         android:textColor="@color/white"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/rv_categoriesRestaurant" />
+                        app:layout_constraintTop_toBottomOf="@+id/cpg_categoriesRestaurant" />
 
                     <RatingBar
                         android:id="@+id/rb_rating"
                         style="@android:style/Widget.Material.RatingBar.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="4dp"
                         android:numStars="5"
                         android:progressTint="@color/rating_yellow"
                         android:rating="4.3"
@@ -186,9 +145,9 @@
                         android:id="@+id/tv_ratingTotal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="4dp"
                         android:text="(600)"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="@+id/rb_rating"
                         app:layout_constraintStart_toEndOf="@+id/rb_rating"
@@ -211,7 +170,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
-                        android:layout_marginBottom="64dp"
+                        android:layout_marginBottom="56dp"
                         android:text="1 km away"
                         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                         android:textColor="@color/white"
@@ -232,6 +191,7 @@
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
         app:cardBackgroundColor="@color/off_white_dark"
         app:cardCornerRadius="12dp"
         app:cardElevation="0dp"
@@ -240,5 +200,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:strokeWidth="0dp" />
+
+    <FrameLayout
+        android:id="@+id/left_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteY="131dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_dismiss"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="24dp"
+            android:alpha="0.5"
+            android:src="@drawable/ic_dismiss" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/right_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteY="131dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_like"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="24dp"
+            android:alpha="0.5"
+            android:src="@drawable/ic_like" />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,18 +4,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodie.data.model.Category
-import com.example.foodie.databinding.ItemFoodsFilterBinding
+import com.example.foodie.databinding.ItemFoodFilterBinding
 
-class FoodCategoryFilterAdapter(
+class FoodFilterAdapter(
     private val dataset: List<Category>
-) : RecyclerView.Adapter<FoodCategoryFilterAdapter.ItemViewHolder>() {
+) : RecyclerView.Adapter<FoodFilterAdapter.ItemViewHolder>() {
 
-    inner class ItemViewHolder(val binding: ItemFoodsFilterBinding) :
+    inner class ItemViewHolder(val binding: ItemFoodFilterBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val binding =
-            ItemFoodsFilterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemFoodFilterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(binding)
     }
 

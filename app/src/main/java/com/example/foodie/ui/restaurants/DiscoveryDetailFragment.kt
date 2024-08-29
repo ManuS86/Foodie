@@ -9,13 +9,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.LocationViewModel
 import com.example.foodie.R
-import com.example.foodie.adapter.FoodCategoryFilterAdapter
+import com.example.foodie.adapter.FoodFilterAdapter
 import com.example.foodie.data.Repository
 import com.example.foodie.databinding.FragmentDiscoveryDetailBinding
 
 class DiscoveryDetailFragment : Fragment() {
     private val foodCategories = Repository().foodCategories
-    private val viewModel: LocationViewModel by activityViewModels()
+    private val locationViewModel: LocationViewModel by activityViewModels()
     private lateinit var binding: FragmentDiscoveryDetailBinding
 
     override fun onCreateView(
@@ -39,7 +39,7 @@ class DiscoveryDetailFragment : Fragment() {
             }
         }
 
-        binding.rvFoodCategories.adapter = FoodCategoryFilterAdapter(foodCategories)
+        binding.rvFoodCategories.adapter = FoodFilterAdapter(foodCategories)
         binding.rvFoodCategories.setHasFixedSize(true)
 
         binding.rbRatingDiscovery.setOnRatingBarChangeListener { _, rating, fromUser ->

@@ -1,6 +1,7 @@
 package com.example.foodie
 
 import android.app.Activity
+import android.app.Application
 import android.util.Log
 import android.widget.Toast
 import androidx.credentials.CredentialManager
@@ -8,9 +9,9 @@ import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialException
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.facebook.AccessToken
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
@@ -22,39 +23,37 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.launch
 
-class LoginViewModel : ViewModel() {
-
-    private val auth = FirebaseAuth.getInstance()
+class LoginViewModel(application: Application) : AndroidViewModel(application) {
     private val TAG = "LoginViewModel"
+    private val auth = FirebaseAuth.getInstance()
+    private val applicationContext = application
 
     private var _currentUser = MutableLiveData<FirebaseUser?>(auth.currentUser)
     val currentUser: LiveData<FirebaseUser?>
         get() = _currentUser
 
-    private fun getCredentialRequest(
-        activity: Activity,
-        filterByAuthorizedAccounts: Boolean
-    ): GetCredentialRequest {
+    private fun getCredentialRequest(filterByAuthorizedAccounts: Boolean): GetCredentialRequest {
         val googleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(filterByAuthorizedAccounts)
-            .setServerClientId(activity.getString(R.string.default_web_client_id))
+            .setServerClientId(applicationContext.getString(R.string.default_web_client_id))
             .setAutoSelectEnabled(true)
             .build()
+
         return GetCredentialRequest.Builder()
             .addCredentialOption(googleIdOption)
             .build()
     }
 
-    fun handleGoogleSignIn(activity: Activity) {
-        val credentialManager = CredentialManager.create(activity)
+    fun handleGoogleSignIn() {
+        val credentialManager = CredentialManager.create(applicationContext)
 
         viewModelScope.launch {
             try {
                 val result =
-                    credentialManager.getCredential(activity, getCredentialRequest(activity, true))
-                handleSignIn(result, activity)
+                    credentialManager.getCredential(applicationContext, getCredentialRequest(true))
+                handleSignIn(result)
                 Toast.makeText(
-                    activity,
+                    applicationContext,
                     "Welcome back ${_currentUser.value?.email}",
                     Toast.LENGTH_SHORT,
                 ).show()
@@ -62,19 +61,19 @@ class LoginViewModel : ViewModel() {
                 Log.e("Credential retrieval failed:", ex.toString())
                 try {
                     val result = credentialManager.getCredential(
-                        activity,
-                        getCredentialRequest(activity, false)
+                        applicationContext,
+                        getCredentialRequest(false)
                     )
-                    handleSignIn(result, activity)
+                    handleSignIn(result)
                     Toast.makeText(
-                        activity,
+                        applicationContext,
                         "Welcome ${_currentUser.value?.email}",
                         Toast.LENGTH_SHORT,
                     ).show()
                 } catch (ex: GetCredentialException) {
                     Log.e("Credential retrieval failed:", ex.toString())
                     Toast.makeText(
-                        activity,
+                        applicationContext,
                         "Add a Google account to your device.",
                         Toast.LENGTH_SHORT,
                     ).show()
@@ -83,8 +82,7 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    private fun handleSignIn(result: GetCredentialResponse, activity: Activity) {
-
+    private fun handleSignIn(result: GetCredentialResponse) {
         when (val credential = result.credential) {
             is CustomCredential -> {
                 if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
@@ -94,7 +92,7 @@ class LoginViewModel : ViewModel() {
 
                         val idToken = googleIdTokenCredential.idToken
                         // Use ID token for Firebase authentication
-                        firebaseAuthWithGoogle(idToken, activity)
+                        firebaseAuthWithGoogle(idToken)
                     } catch (e: GoogleIdTokenParsingException) {
                         Log.e(TAG, "Received an invalid google id token response", e)
                     }
@@ -111,7 +109,7 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    private fun firebaseAuthWithGoogle(idToken: String, activity: Activity) {
+    private fun firebaseAuthWithGoogle(idToken: String) {
         Log.d(TAG, "firebaseAuthWithGoogle:$idToken")
 
         val credential = GoogleAuthProvider.getCredential(idToken, null)
@@ -123,7 +121,7 @@ class LoginViewModel : ViewModel() {
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                     Toast.makeText(
-                        activity,
+                        applicationContext,
                         "Authentication failed.",
                         Toast.LENGTH_SHORT,
                     ).show()

@@ -23,12 +23,12 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_title"
+                android:id="@+id/tv_nameTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="Restaurant Name"
-                android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+                android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
                 app:fontFamily="sans-serif-medium"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/iv_decollapse"
@@ -105,32 +105,32 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_categoriesHistory"
-                        android:layout_width="match_parent"
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/cpg_restaurantCategories"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="12dp"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_info"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_hours"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_info"
-                        tools:itemCount="2"
-                        tools:listitem="@layout/item_food" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_hours"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
                         android:text="Hours: 9:00-20:00"
                         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/rv_categoriesHistory" />
+                        app:layout_constraintTop_toBottomOf="@+id/cpg_restaurantCategories" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/iv_location"
@@ -198,7 +198,7 @@
                         style="@android:style/Widget.Material.Light.RatingBar.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="4dp"
                         android:numStars="5"
                         android:progressTint="@color/rating_yellow"
                         android:rating="4.3"
@@ -212,9 +212,9 @@
                         android:id="@+id/tv_ratingsTotal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="4dp"
                         android:text="(600)"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                         app:layout_constraintBottom_toBottomOf="@+id/rb_rating"
                         app:layout_constraintStart_toEndOf="@+id/rb_rating"
                         app:layout_constraintTop_toTopOf="@+id/rb_rating" />
@@ -274,12 +274,14 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_address"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
                         android:text="Warschauer Str. 65, 10243 Berlin"
                         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/iv_address"
                         app:layout_constraintTop_toBottomOf="@+id/tv_location" />
 
@@ -295,29 +297,24 @@
                         app:layout_constraintTop_toBottomOf="@+id/tv_address"
                         map:mapId="@string/map_id" />
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/btn_navigateThere"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:src="@drawable/ic_directions"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/iv_mapPreview"
-                        app:tint="@color/off_grey" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/textView"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_navigate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="Get me there!"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-                        app:layout_constraintBottom_toBottomOf="@+id/btn_navigateThere"
-                        app:layout_constraintStart_toEndOf="@+id/btn_navigateThere"
-                        app:layout_constraintTop_toTopOf="@+id/btn_navigateThere" />
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="24dp"
+                        android:text="Navigate to Restaurant"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:backgroundTint="@color/google_blue"
+                        app:icon="@drawable/ic_directions"
+                        app:iconSize="20dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/iv_mapPreview" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -354,13 +351,12 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="24dp"
                         android:backgroundTint="@color/green"
                         android:linksClickable="false"
-                        android:text="Website"
+                        android:text="Open Website"
                         android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
                         android:textColor="@color/off_black"
-                        android:textColorLink="@color/off_grey"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

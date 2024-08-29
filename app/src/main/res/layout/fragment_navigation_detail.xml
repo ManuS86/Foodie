@@ -33,7 +33,7 @@
                 app:tint="@color/green" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_title"
+                android:id="@+id/tv_nameTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -69,7 +69,7 @@
         app:layout_constraintBottom_toTopOf="@+id/fab_directions"
         app:layout_constraintEnd_toEndOf="parent"
         app:shapeAppearance="@style/ShapeAppearanceOverlay.Material3.Button"
-        app:tint="#1A73E8" />
+        app:tint="@color/google_blue" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_directions"

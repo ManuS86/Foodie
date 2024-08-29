@@ -1,34 +1,45 @@
 package com.example.foodie
 
-import android.app.Activity
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.CircularBounds
 import com.google.android.libraries.places.api.model.PhotoMetadata
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPhotoRequest
+import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.api.net.SearchNearbyRequest
 import com.google.android.libraries.places.api.net.SearchNearbyResponse
 
-class NearbyRestaurantsViewModel : ViewModel() {
+class NearbyRestaurantsViewModel(application: Application) : AndroidViewModel(application) {
     val TAG = "NearbyRestaurantsViewModel"
+    private val applicationContext = application
+
+    private var _placesClient = MutableLiveData<PlacesClient>()
+    val placesClient: LiveData<PlacesClient>
+        get() = _placesClient
 
     private var _nearbyRestaurants = MutableLiveData<List<Place>>()
     val nearbyRestaurants: LiveData<List<Place>>
         get() = _nearbyRestaurants
 
-    fun getNearbyRestaurants(
-        activity: Activity,
-        center: LatLng,
-        radius: Double,
-        categories: List<String>,
-        preference: SearchNearbyRequest.RankPreference,
-        regionCode: String
-    ) {
+    private var _currentRestaurant = MutableLiveData<Place>()
+    val currentRestaurant: LiveData<Place>
+        get() = _currentRestaurant
+
+    fun setCurrentRestaurant(position: Int) {
+        _currentRestaurant.postValue(nearbyRestaurants.value?.get(position))
+    }
+
+    init {
+        createPlacesClient()
+    }
+
+    private fun createPlacesClient() {
         // Define a variable to hold the Places API key.
         val apiKey = BuildConfig.PLACES_API_KEY
 
@@ -43,7 +54,7 @@ class NearbyRestaurantsViewModel : ViewModel() {
 
         // Initialize the SDK
         try {
-            Places.initializeWithNewPlacesApiEnabled(activity, apiKey)
+            Places.initializeWithNewPlacesApiEnabled(applicationContext, apiKey)
         } catch (e: Exception) {
             Log.e(
                 TAG,
@@ -53,19 +64,25 @@ class NearbyRestaurantsViewModel : ViewModel() {
         }
 
         // Create a new PlacesClient instance
-        val placesClient = Places.createClient(activity)
+        val placesClient = Places.createClient(applicationContext)
+        _placesClient.value = placesClient
+    }
 
+    fun getNearbyRestaurants(
+        center: LatLng,
+        radius: Double,
+        categories: List<String>,
+        regionCode: String
+    ) {
         val circle = CircularBounds.newInstance(center, radius)
 
         val placeFields = listOf(
-            Place.Field.ID,
             Place.Field.NAME,
             Place.Field.PHOTO_METADATAS,
             Place.Field.ADDRESS,
             Place.Field.LAT_LNG,
             Place.Field.TYPES,
             Place.Field.CURRENT_OPENING_HOURS,
-            Place.Field.OPENING_HOURS,
             Place.Field.RATING,
             Place.Field.USER_RATINGS_TOTAL,
             Place.Field.PRICE_LEVEL,
@@ -75,7 +92,7 @@ class NearbyRestaurantsViewModel : ViewModel() {
         val searchNearbyRequest = SearchNearbyRequest.builder(circle, placeFields)
             .setIncludedPrimaryTypes(listOf("restaurant"))
             .setIncludedTypes(categories)
-            .setRankPreference(preference)
+            .setRankPreference(SearchNearbyRequest.RankPreference.POPULARITY)
             .setRegionCode(regionCode)
             .build()
         Log.d(
@@ -84,7 +101,7 @@ class NearbyRestaurantsViewModel : ViewModel() {
         )
 
         try {
-            placesClient.searchNearby(searchNearbyRequest)
+            _placesClient.value!!.searchNearby(searchNearbyRequest)
                 .addOnSuccessListener { response: SearchNearbyResponse ->
                     _nearbyRestaurants.value = response.places
                 }
@@ -104,34 +121,7 @@ class NearbyRestaurantsViewModel : ViewModel() {
         }
     }
 
-    fun getPhotos(activity: Activity, photoMetadataList: List<PhotoMetadata>) {
-
-        // Define a variable to hold the Places API key.
-        val apiKey = BuildConfig.PLACES_API_KEY
-
-        // Log an error if apiKey is not set.
-        if (apiKey.isEmpty() || apiKey == "DEFAULT_API_KEY") {
-            Log.e(
-                "Places test",
-                "No api key"
-            )
-            return
-        }
-
-        // Initialize the SDK
-        try {
-            Places.initializeWithNewPlacesApiEnabled(activity, apiKey)
-        } catch (e: Exception) {
-            Log.e(
-                TAG,
-                "Error initializing Places API",
-                e
-            )
-        }
-
-        // Create a new PlacesClient instance
-        val placesClient = Places.createClient(activity)
-
+    fun getPhotos(photoMetadataList: List<PhotoMetadata>) {
         // Get the individual photo metadata.
         photoMetadataList.forEach { photoMetadata ->
 
@@ -141,9 +131,9 @@ class NearbyRestaurantsViewModel : ViewModel() {
                 .setMaxHeight(400)
                 .build()
 
-            placesClient.fetchPhoto(photoRequest)
+            _placesClient.value!!.fetchPhoto(photoRequest)
                 .addOnSuccessListener { fetchPhotoResponse ->
-                    val bitmap = fetchPhotoResponse.getBitmap()
+                    val bitmap = fetchPhotoResponse.bitmap
                 }.addOnFailureListener { exception ->
                     // Handle error with given status code.
                     Log.e(

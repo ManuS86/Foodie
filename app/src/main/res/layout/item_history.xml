@@ -60,7 +60,7 @@
             app:layout_constraintStart_toEndOf="@+id/iv_restaurantPicHistory"
             app:layout_constraintTop_toBottomOf="@+id/tv_restaurantNameHistory"
             tools:itemCount="3"
-            tools:listitem="@layout/item_food" />
+            tools:listitem="@layout/item_food_category" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_locationIconHistory"

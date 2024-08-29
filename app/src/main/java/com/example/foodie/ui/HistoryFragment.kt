@@ -20,8 +20,9 @@ class HistoryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel.isGPSEnabled(requireContext())
-        viewModel.checkLocationPermission(requireContext())
+        viewModel.isGPSEnabled()
+        viewModel.checkLocationPermission()
+
         binding = FragmentHistoryBinding.inflate(inflater)
         return binding.root
     }
@@ -29,24 +30,32 @@ class HistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        addLocationPermissionObserver()
+    }
+
+    private fun addLocationPermissionObserver() {
         viewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
             if (granted == true) {
                 // Permissions granted, start location tracking
-                viewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
-                    if (enabled) {
-                        // GPS enabled
-                    } else {
-                        findNavController().navigate(R.id.noGpsFragment)
-                    }
-                }
+                addGPSObserver()
             } else {
                 findNavController().navigate(R.id.locationPermissionFragment)
             }
         }
     }
 
+    private fun addGPSObserver() {
+        viewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
+            if (enabled) {
+                // GPS enabled
+            } else {
+                findNavController().navigate(R.id.noGpsFragment)
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-        viewModel.isGPSEnabled(requireContext())
+        viewModel.isGPSEnabled()
     }
 }

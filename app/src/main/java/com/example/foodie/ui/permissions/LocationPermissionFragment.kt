@@ -12,7 +12,7 @@ import com.example.foodie.R
 import com.example.foodie.databinding.FragmentLocationPermissionBinding
 
 class LocationPermissionFragment : Fragment() {
-    private val viewModel: LocationViewModel by activityViewModels()
+    private val locationViewModel: LocationViewModel by activityViewModels()
     private lateinit var binding: FragmentLocationPermissionBinding
 
     override fun onCreateView(
@@ -20,8 +20,8 @@ class LocationPermissionFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel.isGPSEnabled(requireContext())
-        viewModel.checkLocationPermission(requireContext())
+        locationViewModel.isGPSEnabled()
+        locationViewModel.checkLocationPermission()
         binding = FragmentLocationPermissionBinding.inflate(inflater)
         return binding.root
     }
@@ -29,24 +29,12 @@ class LocationPermissionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
-            if (granted == true) {
-                // Permissions granted, start location tracking
-                viewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
-                    if (enabled) {
-                        // GPS enabled
-                        findNavController().navigate(R.id.restaurantsFragment)
-                    } else {
-                        findNavController().navigate(R.id.noGpsFragment)
-                    }
-                }
-            }
-        }
+        addLocationPermissionObserver()
 
         binding.btnAllow.setOnClickListener {
-            viewModel.nullLocationPermission()
-            viewModel.handleLocationRequest(requireActivity())
-            viewModel.locationPermission.observe(viewLifecycleOwner) { hasPermission ->
+            locationViewModel.nullLocationPermission()
+            locationViewModel.handleLocationRequest(requireActivity())
+            locationViewModel.locationPermission.observe(viewLifecycleOwner) { hasPermission ->
                 if (hasPermission != null) {
                     if (hasPermission) {
                         findNavController().navigate(R.id.restaurantsFragment)
@@ -58,9 +46,30 @@ class LocationPermissionFragment : Fragment() {
         }
     }
 
+    private fun addLocationPermissionObserver() {
+        locationViewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
+            if (granted == true) {
+                // Permissions granted, start location tracking
+                locationViewModel.requestLocationUpdates()
+                addGPSObserver()
+            }
+        }
+    }
+
+    private fun addGPSObserver() {
+        locationViewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
+            if (enabled) {
+                // GPS enabled
+                findNavController().navigate(R.id.restaurantsFragment)
+            } else {
+                findNavController().navigate(R.id.noGpsFragment)
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-        viewModel.isGPSEnabled(requireContext())
-        viewModel.checkLocationPermission(requireContext())
+        locationViewModel.isGPSEnabled()
+        locationViewModel.checkLocationPermission()
     }
 }

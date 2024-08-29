@@ -12,7 +12,7 @@ import com.example.foodie.R
 import com.example.foodie.databinding.FragmentNoGpsBinding
 
 class NoGpsFragment : Fragment() {
-    private val viewModel: LocationViewModel by activityViewModels()
+    private val locationViewModel: LocationViewModel by activityViewModels()
     private lateinit var binding: FragmentNoGpsBinding
 
     override fun onCreateView(
@@ -20,7 +20,7 @@ class NoGpsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel.checkLocationPermission(requireContext())
+        locationViewModel.checkLocationPermission()
         binding = FragmentNoGpsBinding.inflate(inflater)
         return binding.root
     }
@@ -28,28 +28,37 @@ class NoGpsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
+        addLocationPermissionObserver()
+
+        binding.btnTryAgain.setOnClickListener {
+            locationViewModel.isGPSEnabled()
+        }
+    }
+
+    private fun addLocationPermissionObserver() {
+        locationViewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
             if (granted == true) {
                 // Permissions granted, start location tracking
-                viewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
-                    if (enabled) {
-                        // GPS enabled
-                        findNavController().navigate(R.id.restaurantsFragment)
-                    }
-                }
+                locationViewModel.requestLocationUpdates()
+                addGPSObserver()
             } else {
                 findNavController().navigate(R.id.locationPermissionFragment)
             }
         }
+    }
 
-        binding.btnTryAgain.setOnClickListener {
-            viewModel.isGPSEnabled(requireContext())
+    private fun addGPSObserver() {
+        locationViewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
+            if (enabled) {
+                // GPS enabled
+                findNavController().navigate(R.id.restaurantsFragment)
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.isGPSEnabled(requireContext())
-        viewModel.checkLocationPermission(requireContext())
+        locationViewModel.isGPSEnabled()
+        locationViewModel.checkLocationPermission()
     }
 }

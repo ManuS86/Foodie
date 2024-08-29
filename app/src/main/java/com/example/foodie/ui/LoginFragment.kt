@@ -21,10 +21,9 @@ import com.facebook.login.LoginResult
 
 
 class LoginFragment : Fragment() {
-
     private lateinit var binding: FragmentLoginBinding
     private lateinit var callbackManager: CallbackManager
-    private val viewModel: LocationViewModel by activityViewModels()
+    private val locationViewModel: LocationViewModel by activityViewModels()
     private val loginViewModel: LoginViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -34,6 +33,14 @@ class LoginFragment : Fragment() {
 
         callbackManager = CallbackManager.Factory.create()
 
+        getLoginManager()
+
+        locationViewModel.handleLocationRequest(requireActivity())
+
+        return binding.root
+    }
+
+    private fun getLoginManager() {
         LoginManager.getInstance()
             .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
                 override fun onSuccess(result: LoginResult) {
@@ -52,15 +59,13 @@ class LoginFragment : Fragment() {
                     ).show()
                 }
             })
-
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnGoogleSignIn.setOnClickListener {
-            loginViewModel.handleGoogleSignIn(requireActivity())
+            loginViewModel.handleGoogleSignIn()
         }
 
         binding.btnFacebookSignIn.setOnClickListener {
@@ -73,9 +78,13 @@ class LoginFragment : Fragment() {
             TODO("Not yet implemented")
         }
 
+        addCurrentUserObserver()
+    }
+
+    private fun addCurrentUserObserver() {
         loginViewModel.currentUser.observe(viewLifecycleOwner) { user ->
             if (user != null) {
-                if (viewModel.locationPermission.value == true) {
+                if (locationViewModel.locationPermission.value == true) {
                     // Permissions granted, start location tracking
                     findNavController().navigate(R.id.restaurantsFragment)
                 } else {
