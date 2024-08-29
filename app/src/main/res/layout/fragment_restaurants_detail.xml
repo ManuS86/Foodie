@@ -116,7 +116,7 @@
                         android:paddingEnd="4dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_info"/>
+                        app:layout_constraintTop_toBottomOf="@+id/tv_info" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_hours"
@@ -308,6 +308,7 @@
                         android:text="Navigate to Restaurant"
                         android:textColor="@color/white"
                         android:textSize="16sp"
+                        android:visibility="gone"
                         app:backgroundTint="@color/google_blue"
                         app:icon="@drawable/ic_directions"
                         app:iconSize="20dp"
@@ -315,6 +316,32 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/iv_mapPreview" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_navigateToRestaurant"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Navigate to Restaurant"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        app:layout_constraintBottom_toBottomOf="@+id/fab_navigate"
+                        app:layout_constraintEnd_toStartOf="@id/fab_navigate"
+                        app:layout_constraintStart_toStartOf="@+id/iv_mapPreview"
+                        app:layout_constraintTop_toTopOf="@+id/fab_navigate" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fab_navigate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:src="@drawable/ic_directions"
+                        app:backgroundTint="@color/google_blue"
+                        app:fabCustomSize="48dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/iv_mapPreview"
+                        app:layout_constraintStart_toEndOf="@+id/tv_navigateToRestaurant"
+                        app:layout_constraintTop_toBottomOf="@+id/iv_mapPreview"
+                        app:tint="@null" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>

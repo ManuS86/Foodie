@@ -51,7 +51,6 @@ class RestaurantsDetailFragment : Fragment() {
 
         val restaurant = nearbyRestaurantsViewModel.currentRestaurant.value!!
         val chipGroup = binding.cpgRestaurantCategories
-        val chip = Chip(context)
         val matchingCategories = Repository().foodCategories.filter { category ->
             restaurant.placeTypes?.any { categoryString -> category.type == categoryString }
                 ?: false
@@ -67,9 +66,9 @@ class RestaurantsDetailFragment : Fragment() {
         initializeMap(restaurant)
 
         binding.tvNameTitle.text = restaurant.name
-            matchingCategories.forEach { category ->
-                addChip(category.name, chipGroup)
-            }
+        matchingCategories.forEach { category ->
+            addChip(category.name, chipGroup)
+        }
         binding.tvHours.text = "Hours:\n$formattedOpeningHours"
         binding.tvRating.text = restaurant.rating?.toString() ?: "N/A"
         if (restaurant.rating != null) {
@@ -99,23 +98,22 @@ class RestaurantsDetailFragment : Fragment() {
         }
         binding.tvAddress.text = restaurant.address
 
-        binding.btnWebsite.setOnClickListener {
-            if (restaurant.websiteUri != null) {
+
+        if (restaurant.websiteUri != null) {
+            binding.btnWebsite.setOnClickListener {
                 val uri = Uri.parse(restaurant.websiteUri?.toString())
                 val intent = Intent(Intent.ACTION_VIEW, uri)
                 startActivity(intent)
-            } else {
-                binding.cvWebsite.alpha = 0f
-                binding.tvWebsite.alpha = 0f
-                binding.btnWebsite.alpha = 0f
             }
+        } else {
+            binding.cvWebsite.visibility = View.GONE
         }
 
         binding.ivDecollapse.setOnClickListener {
             findNavController().navigateUp()
         }
 
-        binding.btnNavigate.setOnClickListener {
+        binding.fabNavigate.setOnClickListener {
             findNavController().navigate(R.id.navigationDetailFragment)
         }
     }

@@ -9,14 +9,20 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.LocationViewModel
+import com.example.foodie.NearbyRestaurantsViewModel
 import com.example.foodie.R
 import com.example.foodie.databinding.FragmentNavigationDetailBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_RED
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.model.Place
 
 class NavigationDetailFragment : Fragment() {
     private val locationViewModel: LocationViewModel by activityViewModels()
+    private val nearbyRestaurantsViewModel: NearbyRestaurantsViewModel by activityViewModels()
     private lateinit var binding: FragmentNavigationDetailBinding
     private lateinit var mapView: MapView
 
@@ -35,23 +41,13 @@ class NavigationDetailFragment : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("MissingPermission")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mapView.getMapAsync { googleMap ->
-            googleMap.isMyLocationEnabled = true
-            googleMap.uiSettings.isCompassEnabled = true
-            googleMap.uiSettings.isMyLocationButtonEnabled = false
-            googleMap.uiSettings.setAllGesturesEnabled(true)
-
-            locationViewModel.currentLocation.value?.let { location ->
-                val currentPosition = LatLng(location.latitude, location.longitude)
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15f))
-            }
-        }
+        val restaurant = nearbyRestaurantsViewModel.currentRestaurant.value!!
 
         addLocationPermissionObserver()
+        initializeMap(restaurant)
 
         binding.fabMyLocation.setOnClickListener {
             locationViewModel.currentLocation.value?.let { location ->
@@ -64,6 +60,23 @@ class NavigationDetailFragment : Fragment() {
 
         binding.ivBack.setOnClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun initializeMap(restaurant: Place) {
+        mapView.getMapAsync { googleMap ->
+            googleMap.isMyLocationEnabled = true
+            googleMap.uiSettings.isCompassEnabled = true
+            googleMap.uiSettings.isMyLocationButtonEnabled = false
+            googleMap.uiSettings.setAllGesturesEnabled(true)
+            googleMap.addMarker(
+                MarkerOptions()
+                    .position(restaurant.latLng!!)
+                    .title(restaurant.name)
+                    .icon(BitmapDescriptorFactory.defaultMarker(HUE_RED))
+            )
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(restaurant.latLng!!, 15f))
         }
     }
 

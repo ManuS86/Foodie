@@ -79,7 +79,7 @@
         android:layout_marginBottom="32dp"
         android:src="@drawable/ic_directions"
         android:visibility="gone"
-        app:backgroundTint="#1A73E8"
+        app:backgroundTint="@color/google_blue"
         app:layout_constraintBottom_toBottomOf="@+id/mv_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@null" />
