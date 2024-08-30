@@ -74,6 +74,27 @@
                 app:shapeAppearanceOverlay="@style/TopCornerCardview"
                 app:strokeWidth="0dp">
 
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </TableLayout>
+
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/vp_images"
                     android:layout_width="match_parent"
@@ -220,7 +241,7 @@
                         app:layout_constraintTop_toTopOf="@+id/rb_rating" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_priceRangeDiscovery"
+                        android:id="@+id/tv_price_level_discovery"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -336,6 +357,7 @@
                         android:layout_marginBottom="16dp"
                         android:src="@drawable/ic_directions"
                         app:backgroundTint="@color/google_blue"
+                        app:elevation="0dp"
                         app:fabCustomSize="48dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/iv_mapPreview"

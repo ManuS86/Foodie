@@ -40,7 +40,7 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
         get() = _lastLocationUpdate
 
     init {
-        requestLocationUpdates()
+        requestLocationUpdates(300000,150000)
     }
 
     fun handleLocationRequest(activity: Activity) {
@@ -84,14 +84,14 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun requestLocationUpdates() {
+    fun requestLocationUpdates(update: Long, minUpdate: Long) {
         checkLocationPermission()
 
         val fusedLocationClient =
             LocationServices.getFusedLocationProviderClient(applicationContext)
 
-        val locationRequest = LocationRequest.Builder(10000)
-            .setMinUpdateIntervalMillis(5000)
+        val locationRequest = LocationRequest.Builder(update)
+            .setMinUpdateIntervalMillis(minUpdate)
             .setPriority(PRIORITY_HIGH_ACCURACY)
             .build()
 

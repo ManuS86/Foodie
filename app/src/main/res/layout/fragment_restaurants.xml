@@ -123,7 +123,9 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tb_home"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0">
+
+    </com.yuyakaido.android.cardstackview.CardStackView>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_swipeButtons"
@@ -166,7 +168,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:src="@drawable/ic_undo_inactive"
+                android:src="@drawable/ic_undo_active"
                 app:backgroundTint="@color/white"
                 app:elevation="2dp"
                 app:fabCustomSize="48dp"

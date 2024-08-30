@@ -10,12 +10,14 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.foodie.LoginViewModel
+import com.example.foodie.UserViewModel
 import com.example.foodie.R
+import com.example.foodie.data.appearance
+import com.example.foodie.data.distanceUnit
 import com.example.foodie.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {
-    private val loginViewModel: LoginViewModel by activityViewModels()
+    private val userViewModel: UserViewModel by activityViewModels()
     private lateinit var binding: FragmentSettingsBinding
 
     override fun onCreateView(
@@ -46,7 +48,7 @@ class SettingsFragment : Fragment() {
             }
         }
 
-        loginViewModel.currentUser.observe(viewLifecycleOwner) {
+        userViewModel.currentUser.observe(viewLifecycleOwner) {
             if (it == null) {
                 findNavController().navigate(R.id.loginFragment)
             }
@@ -55,28 +57,36 @@ class SettingsFragment : Fragment() {
         val alertDialogLogout =
             AlertDialog.Builder(view.context).setMessage("Are you sure you want to logout?")
                 .setTitle("Logout").setPositiveButton("Logout") { _, _ ->
-                    loginViewModel.logout()
+                    userViewModel.logout()
                 }.setNegativeButton("Cancel") { _, _ ->
                 }.create()
 
         val alertDialogDel = AlertDialog.Builder(view.context)
             .setMessage("Are you sure you want to delete your account?").setTitle("Delete Account")
             .setPositiveButton("Delete") { _, _ ->
-                loginViewModel.deleteUser()
+                userViewModel.deleteUser()
             }.setNegativeButton("Cancel") { _, _ ->
             }.create()
 
         binding.tglBtnKmMi.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isChecked) {
                 when (checkedId) {
-                    R.id.btn_Km -> binding.tvDistUnit.text = "Km"
-                    R.id.btn_Mi -> binding.tvDistUnit.text = "Mi"
+                    R.id.btn_Km -> {
+                        binding.tvDistUnit.text = "Km"
+                        distanceUnit = "Km"
+                    }
+
+                    R.id.btn_Mi -> {
+                        binding.tvDistUnit.text = "Mi"
+                        distanceUnit = "Mi"
+                    }
                 }
             }
         }
 
         binding.btnDarkModeCheckmark.setOnClickListener {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            appearance = "dark"
             binding.btnDarkModeCheckmark.alpha = 1f
             binding.btnLightModeCheckmark.alpha = 0f
             binding.btnSystemDefaultCheckmark.alpha = 0f
@@ -84,6 +94,7 @@ class SettingsFragment : Fragment() {
 
         binding.btnLightModeCheckmark.setOnClickListener {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            appearance = "light"
             binding.btnDarkModeCheckmark.alpha = 0f
             binding.btnLightModeCheckmark.alpha = 1f
             binding.btnSystemDefaultCheckmark.alpha = 0f
@@ -91,6 +102,7 @@ class SettingsFragment : Fragment() {
 
         binding.btnSystemDefaultCheckmark.setOnClickListener {
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM)
+            appearance = "system"
             binding.btnDarkModeCheckmark.alpha = 0f
             binding.btnLightModeCheckmark.alpha = 0f
             binding.btnSystemDefaultCheckmark.alpha = 1f

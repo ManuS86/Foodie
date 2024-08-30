@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.LocationViewModel
-import com.example.foodie.LoginViewModel
+import com.example.foodie.UserViewModel
 import com.example.foodie.R
 import com.example.foodie.databinding.FragmentLoginBinding
 import com.facebook.CallbackManager
@@ -24,7 +24,7 @@ class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var callbackManager: CallbackManager
     private val locationViewModel: LocationViewModel by activityViewModels()
-    private val loginViewModel: LoginViewModel by activityViewModels()
+    private val userViewModel: UserViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -44,7 +44,7 @@ class LoginFragment : Fragment() {
         LoginManager.getInstance()
             .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
                 override fun onSuccess(result: LoginResult) {
-                    loginViewModel.handleFacebookAccessToken(result.accessToken, requireActivity())
+                    userViewModel.handleFacebookAccessToken(result.accessToken, requireActivity())
                 }
 
                 override fun onCancel() {
@@ -65,7 +65,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnGoogleSignIn.setOnClickListener {
-            loginViewModel.handleGoogleSignIn()
+            userViewModel.handleGoogleSignIn()
         }
 
         binding.btnFacebookSignIn.setOnClickListener {
@@ -82,7 +82,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun addCurrentUserObserver() {
-        loginViewModel.currentUser.observe(viewLifecycleOwner) { user ->
+        userViewModel.currentUser.observe(viewLifecycleOwner) { user ->
             if (user != null) {
                 if (locationViewModel.locationPermission.value == true) {
                     // Permissions granted, start location tracking

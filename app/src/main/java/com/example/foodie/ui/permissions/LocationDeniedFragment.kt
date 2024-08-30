@@ -47,7 +47,7 @@ class LocationDeniedFragment : Fragment() {
         locationViewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
             if (granted == true) {
                 // Permissions granted, start location tracking
-                locationViewModel.requestLocationUpdates()
+                locationViewModel.requestLocationUpdates(60000,30000)
                 addGPSObserver()
             }
         }

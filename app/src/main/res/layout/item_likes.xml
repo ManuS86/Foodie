@@ -36,19 +36,15 @@
             app:layout_constraintStart_toEndOf="@+id/iv_restaurantPicLikes"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_categoriesLikes"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cpg_categoriesLikes"
             android:layout_width="0dp"
             android:layout_height="36dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_restaurantPicLikes"
-            app:layout_constraintTop_toBottomOf="@+id/tv_restaurantNameLikes"
-            tools:itemCount="2"
-            tools:listitem="@layout/item_food_category" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_restaurantNameLikes" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_locationIconLikes"
@@ -58,7 +54,7 @@
             android:layout_marginBottom="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_restaurantPicLikes"
-            app:layout_constraintTop_toBottomOf="@+id/rv_categoriesLikes"
+            app:layout_constraintTop_toBottomOf="@+id/cpg_categoriesLikes"
             app:srcCompat="@drawable/ic_location_thick" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -71,7 +67,7 @@
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_locationIconLikes"
-            app:layout_constraintTop_toBottomOf="@+id/rv_categoriesLikes" />
+            app:layout_constraintTop_toBottomOf="@+id/cpg_categoriesLikes" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_approveLikes"

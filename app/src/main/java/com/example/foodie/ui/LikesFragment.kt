@@ -12,7 +12,7 @@ import com.example.foodie.R
 import com.example.foodie.databinding.FragmentLikesBinding
 
 class LikesFragment : Fragment() {
-    private val viewModel: LocationViewModel by activityViewModels()
+    private val locationViewModel: LocationViewModel by activityViewModels()
     private lateinit var binding: FragmentLikesBinding
 
     override fun onCreateView(
@@ -20,8 +20,8 @@ class LikesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel.isGPSEnabled()
-        viewModel.checkLocationPermission()
+        locationViewModel.isGPSEnabled()
+        locationViewModel.checkLocationPermission()
 
         binding = FragmentLikesBinding.inflate(inflater)
         return binding.root
@@ -34,7 +34,7 @@ class LikesFragment : Fragment() {
     }
 
     private fun addLocationPermissionObserver() {
-        viewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
+        locationViewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
             if (granted == true) {
                 // Permissions granted, start location tracking
                 addGPSObserver()
@@ -45,7 +45,7 @@ class LikesFragment : Fragment() {
     }
 
     private fun addGPSObserver() {
-        viewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
+        locationViewModel.gpsProvider.observe(viewLifecycleOwner) { enabled ->
             if (enabled) {
                 // GPS enabled
             } else {
@@ -56,6 +56,6 @@ class LikesFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.isGPSEnabled()
+        locationViewModel.isGPSEnabled()
     }
 }

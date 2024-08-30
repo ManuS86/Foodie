@@ -33,7 +33,6 @@ class RestaurantsAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val restaurant = dataset?.get(position)
-        val chipGroup = holder.binding.cpgCategoriesRestaurant
         val matchingCategories = Repository().foodCategories.filter { category ->
             restaurant?.placeTypes!!.any { categoryString -> category.type == categoryString }
         }
@@ -65,7 +64,7 @@ class RestaurantsAdapter(
                                 }
                             }
                 matchingCategories.forEach { category ->
-                    addChip(category.name, chipGroup)
+                    addChip(category.name, holder)
                 }
                 binding.tvRating.text = restaurant.rating?.toString() ?: "N/A"
                 if (restaurant.rating != null) {
@@ -88,8 +87,9 @@ class RestaurantsAdapter(
 
     private fun addChip(
         category: String,
-        chipGroup: ChipGroup
+        holder: ItemViewHolder
     ) {
+        val chipGroup = holder.binding.cpgCategoriesRestaurant
         val chip = Chip(context)
         chip.text = category
         chip.setChipBackgroundColorResource(R.color.off_grey)

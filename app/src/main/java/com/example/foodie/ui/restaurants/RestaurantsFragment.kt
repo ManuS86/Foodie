@@ -15,6 +15,8 @@ import com.example.foodie.adapter.RestaurantsAdapter
 import com.example.foodie.databinding.FragmentRestaurantsBinding
 import com.google.android.gms.maps.model.LatLng
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
+import com.yuyakaido.android.cardstackview.CardStackListener
+import com.yuyakaido.android.cardstackview.Direction
 
 class RestaurantsFragment : Fragment() {
     private val locationViewModel: LocationViewModel by activityViewModels()
@@ -39,10 +41,13 @@ class RestaurantsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.fabDismiss.setOnClickListener {
+        binding.rvRestaurantsStack.layoutManager
 
+        binding.fabDismiss.setOnClickListener {
+            binding.rvRestaurantsStack.swipe()
         }
 
+        binding.fabUndo
         binding.fabUndo.setOnClickListener {
             binding.rvRestaurantsStack.rewind()
         }
@@ -79,7 +84,7 @@ class RestaurantsFragment : Fragment() {
 
     private fun addNearbyRestaurantObserverWithAdapter() {
         nearbyRestaurantsViewModel.nearbyRestaurants.observe(viewLifecycleOwner) { nearbyRestaurants ->
-            binding.rvRestaurantsStack.layoutManager = CardStackLayoutManager(requireContext())
+            binding.rvRestaurantsStack.layoutManager = CardStackLayoutManager(requireContext(), CardStackListener.DEFAULT)
             binding.rvRestaurantsStack.adapter =
                 RestaurantsAdapter(nearbyRestaurants, nearbyRestaurantsViewModel, requireContext())
             binding.rvRestaurantsStack.setHasFixedSize(true)

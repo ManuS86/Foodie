@@ -11,6 +11,8 @@ import com.example.foodie.LocationViewModel
 import com.example.foodie.R
 import com.example.foodie.adapter.FoodFilterAdapter
 import com.example.foodie.data.Repository
+import com.example.foodie.data.minRating
+import com.example.foodie.data.openNow
 import com.example.foodie.databinding.FragmentDiscoveryDetailBinding
 
 class DiscoveryDetailFragment : Fragment() {
@@ -33,8 +35,15 @@ class DiscoveryDetailFragment : Fragment() {
         binding.tglBtnOpenAny.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isChecked) {
                 when (checkedId) {
-                    R.id.btn_openNow -> binding.tvStatusIndicatorDiscovery.text = "Open now"
-                    R.id.btn_any -> binding.tvStatusIndicatorDiscovery.text = "Any"
+                    R.id.btn_openNow -> {
+                        binding.tvStatusIndicatorDiscovery.text = "Open now"
+                        openNow = true
+                    }
+
+                    R.id.btn_any -> {
+                        binding.tvStatusIndicatorDiscovery.text = "Any"
+                        openNow = false
+                    }
                 }
             }
         }
@@ -42,34 +51,39 @@ class DiscoveryDetailFragment : Fragment() {
         binding.rvFoodCategories.adapter = FoodFilterAdapter(foodCategories)
         binding.rvFoodCategories.setHasFixedSize(true)
 
-        binding.rbRatingDiscovery.setOnRatingBarChangeListener { _, rating, fromUser ->
+        binding.rbRatingDiscovery.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
             if (fromUser) {
                 // User clicked on a star
-                val clickedStarIndex = rating.toInt() - 1 // Adjust index as needed
+                val clickedStarIndex = rating.toInt() // Adjust index as needed
                 // Perform actions based on the clicked star index
                 when (clickedStarIndex) {
-                    0 -> {
-                        binding.rbRatingDiscovery.rating = 0f
-                    }
-
                     1 -> {
-                        binding.rbRatingDiscovery.rating = 1f
+//                        if (ratingBar.rating == 1f) {
+//                            ratingBar.rating = 0f
+//                        } else {
+                        ratingBar.rating = 1f
+                        minRating = 1
+//                        }
                     }
 
                     2 -> {
-                        binding.rbRatingDiscovery.rating = 2f
+                        ratingBar.rating = 2f
+                        minRating = 2
                     }
 
                     3 -> {
-                        binding.rbRatingDiscovery.rating = 3f
+                        ratingBar.rating = 3f
+                        minRating = 3
                     }
 
                     4 -> {
-                        binding.rbRatingDiscovery.rating = 4f
+                        ratingBar.rating = 4f
+                        minRating = 4
                     }
 
                     5 -> {
-                        binding.rbRatingDiscovery.rating = 5f
+                        ratingBar.rating = 5f
+                        minRating = 5
                     }
                 }
             }

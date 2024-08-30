@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tablayoutSwipeStack"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -23,6 +24,19 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </TableLayout>
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/vp_restaurantImages"
@@ -182,6 +196,28 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/left_overlay"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/ic_dismiss"
+                app:layout_constraintBottom_toTopOf="@+id/cv_infoCard"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.6" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/right_overlay"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/ic_like"
+                app:layout_constraintBottom_toTopOf="@+id/cv_infoCard"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.6" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
@@ -200,37 +236,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:strokeWidth="0dp" />
-
-    <FrameLayout
-        android:id="@+id/left_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteY="131dp">
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_dismiss"
-            android:layout_width="240dp"
-            android:layout_height="240dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="24dp"
-            android:alpha="0.5"
-            android:src="@drawable/ic_dismiss" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/right_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteY="131dp">
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_like"
-            android:layout_width="240dp"
-            android:layout_height="240dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="24dp"
-            android:alpha="0.5"
-            android:src="@drawable/ic_like" />
-    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

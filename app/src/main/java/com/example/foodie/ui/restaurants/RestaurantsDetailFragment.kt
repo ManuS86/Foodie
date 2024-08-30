@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.widget.ViewPager2
 import com.example.foodie.LocationViewModel
 import com.example.foodie.NearbyRestaurantsViewModel
 import com.example.foodie.R
@@ -75,7 +76,7 @@ class RestaurantsDetailFragment : Fragment() {
             binding.rbRating.rating = restaurant.rating?.toFloat()!!
         }
         binding.tvRatingsTotal.text = "(${restaurant.userRatingsTotal?.toString() ?: "0"})"
-        binding.tvPriceRangeDiscovery.text = when (restaurant.priceLevel?.toString()) {
+        binding.tvPriceLevelDiscovery.text = when (restaurant.priceLevel?.toString()) {
             "1" -> {
                 "€"
             }
