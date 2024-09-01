@@ -7,7 +7,6 @@
         android:bottom="40dp"
         android:centerColor="#AB18131A"
         android:centerX="0.7"
-        android:color="#0C000F"
         android:endColor="#00222222"
         android:startColor="#0C000F" />
 </shape>

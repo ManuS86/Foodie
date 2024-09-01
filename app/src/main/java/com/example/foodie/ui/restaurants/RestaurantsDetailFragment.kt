@@ -10,10 +10,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.viewpager2.widget.ViewPager2
 import com.example.foodie.LocationViewModel
 import com.example.foodie.NearbyRestaurantsViewModel
 import com.example.foodie.R
+import com.example.foodie.UserViewModel
 import com.example.foodie.data.Repository
 import com.example.foodie.databinding.FragmentRestaurantsDetailBinding
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -27,8 +27,9 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.shape.ShapeAppearanceModel
 
 class RestaurantsDetailFragment : Fragment() {
-    private val nearbyRestaurantsViewModel: NearbyRestaurantsViewModel by activityViewModels()
     private val locationViewModel: LocationViewModel by activityViewModels()
+    private val nearbyRestaurantsViewModel: NearbyRestaurantsViewModel by activityViewModels()
+    private val userViewModel: UserViewModel by activityViewModels()
     private lateinit var binding: FragmentRestaurantsDetailBinding
     private lateinit var mapView: MapView
 
@@ -56,11 +57,27 @@ class RestaurantsDetailFragment : Fragment() {
             restaurant.placeTypes?.any { categoryString -> category.type == categoryString }
                 ?: false
         }
+        val formattedOpeningHoursToday =
+            restaurant.currentOpeningHours?.periods?.get(0)?.let { period ->
+                val openTime =
+                    "%02d:%02d".format(period.open?.time?.hours, period.open?.time?.minutes)
+                val closeTime =
+                    "%02d:%02d".format(period.close?.time?.hours, period.close?.time?.minutes)
+                "$openTime - $closeTime"
+            } ?: "Closed"
+        val formattedOpeningWeekdays =
+            restaurant.currentOpeningHours?.periods?.joinToString("\n") { period ->
+                period.open?.day.toString().let { day ->
+                    day.substring(0, 1) + day.substring(1, 3).lowercase()
+                }
+            } ?: ""
         val formattedOpeningHours =
-            restaurant.currentOpeningHours?.weekdayText?.joinToString("\n") {
-                val weekday = it.replace("[", "").replace("]", "").substring(0, 3)
-                val openingTime = it.substring(it.indexOf(":") + 1)
-                "    $weekday $openingTime"
+            restaurant.currentOpeningHours?.periods?.joinToString("\n") { period ->
+                val openTime =
+                    "%02d:%02d".format(period.open?.time?.hours, period.open?.time?.minutes)
+                val closeTime =
+                    "%02d:%02d".format(period.close?.time?.hours, period.close?.time?.minutes)
+                "$openTime - $closeTime"
             } ?: "N/A"
 
         addLocationPermissionObserver()
@@ -70,7 +87,9 @@ class RestaurantsDetailFragment : Fragment() {
         matchingCategories.forEach { category ->
             addChip(category.name, chipGroup)
         }
-        binding.tvHours.text = "Hours:\n$formattedOpeningHours"
+        binding.tvTodaysHours.text = formattedOpeningHoursToday
+        binding.tvWeekdays.text = formattedOpeningWeekdays
+        binding.tvTimes.text = formattedOpeningHours
         binding.tvRating.text = restaurant.rating?.toString() ?: "N/A"
         if (restaurant.rating != null) {
             binding.rbRating.rating = restaurant.rating?.toFloat()!!
@@ -101,6 +120,7 @@ class RestaurantsDetailFragment : Fragment() {
 
 
         if (restaurant.websiteUri != null) {
+            binding.cvWebsite.visibility = View.VISIBLE
             binding.btnWebsite.setOnClickListener {
                 val uri = Uri.parse(restaurant.websiteUri?.toString())
                 val intent = Intent(Intent.ACTION_VIEW, uri)
@@ -116,6 +136,14 @@ class RestaurantsDetailFragment : Fragment() {
 
         binding.fabNavigate.setOnClickListener {
             findNavController().navigate(R.id.navigationDetailFragment)
+        }
+
+        binding.fabDismiss.setOnClickListener {
+            userViewModel.addNewRestaurant("dismissed", restaurant.name!!, restaurant)
+        }
+
+        binding.fabLike.setOnClickListener {
+            userViewModel.addNewRestaurant("liked", restaurant.name!!, restaurant)
         }
     }
 

@@ -11,16 +11,15 @@ import androidx.navigation.fragment.findNavController
 import com.example.foodie.LocationViewModel
 import com.example.foodie.NearbyRestaurantsViewModel
 import com.example.foodie.R
+import com.example.foodie.UserViewModel
 import com.example.foodie.adapter.RestaurantsAdapter
 import com.example.foodie.databinding.FragmentRestaurantsBinding
 import com.google.android.gms.maps.model.LatLng
-import com.yuyakaido.android.cardstackview.CardStackLayoutManager
-import com.yuyakaido.android.cardstackview.CardStackListener
-import com.yuyakaido.android.cardstackview.Direction
 
 class RestaurantsFragment : Fragment() {
     private val locationViewModel: LocationViewModel by activityViewModels()
     private val nearbyRestaurantsViewModel: NearbyRestaurantsViewModel by activityViewModels()
+    private val userViewModel: UserViewModel by activityViewModels()
     private lateinit var binding: FragmentRestaurantsBinding
 
     override fun onCreateView(
@@ -31,6 +30,7 @@ class RestaurantsFragment : Fragment() {
         locationViewModel.isGPSEnabled()
         locationViewModel.checkLocationPermission()
 
+        addCurrentUserObserver()
         addLocationPermissionObserver()
         addCurrentLocationObserverWithGetNearbyRestaurants()
 
@@ -40,8 +40,6 @@ class RestaurantsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.rvRestaurantsStack.layoutManager
 
         binding.fabDismiss.setOnClickListener {
             binding.rvRestaurantsStack.swipe()
@@ -84,10 +82,56 @@ class RestaurantsFragment : Fragment() {
 
     private fun addNearbyRestaurantObserverWithAdapter() {
         nearbyRestaurantsViewModel.nearbyRestaurants.observe(viewLifecycleOwner) { nearbyRestaurants ->
-            binding.rvRestaurantsStack.layoutManager = CardStackLayoutManager(requireContext(), CardStackListener.DEFAULT)
-            binding.rvRestaurantsStack.adapter =
-                RestaurantsAdapter(nearbyRestaurants, nearbyRestaurantsViewModel, requireContext())
-            binding.rvRestaurantsStack.setHasFixedSize(true)
+            binding.rvRestaurantsStack.let {
+                it.adapter =
+                    RestaurantsAdapter(
+                        nearbyRestaurants,
+                        nearbyRestaurantsViewModel,
+                        requireContext()
+                    )
+                it.setHasFixedSize(true)
+//                it.layoutManager = CardStackLayoutManager(requireContext(),
+//                    object : CardStackListener {
+//                        override fun onCardDragging(direction: Direction?, ratio: Float) {
+//                            TODO("Not yet implemented")
+//                        }
+//
+//                        override fun onCardSwiped(direction: Direction?) {
+//                            val adapter = (it.adapter as RestaurantsAdapter)
+//                            val swipedCardId = adapter.getItemId(adapter.itemCount - 1)
+//                            when (direction) {
+//                                Direction.Left -> {
+////                                    userViewModel.addNewRestaurant("liked restaurants", nearbyRestaurants[position].name, nearbyRestaurants[position])
+//                                }
+//
+//                                Direction.Right -> {
+////                                    userViewModel.addNewRestaurant("dismissed restaurants", nearbyRestaurants[position].name, nearbyRestaurants[position])
+//                                }
+//
+//                                else -> {
+//                                    // Handle other directions if needed
+//                                }
+//                            }
+//                        }
+//
+//                        override fun onCardRewound() {
+//                            TODO("Not yet implemented")
+//                        }
+//
+//                        override fun onCardCanceled() {
+//                            TODO("Not yet implemented")
+//                        }
+//
+//                        override fun onCardAppeared(view: View?, position: Int) {
+//                            TODO("Not yet implemented")
+//                        }
+//
+//                        override fun onCardDisappeared(view: View?, position: Int) {
+//                            TODO("Not yet implemented")
+//                        }
+//                    }
+//                )
+            }
         }
     }
 
@@ -108,6 +152,14 @@ class RestaurantsFragment : Fragment() {
                 // GPS enabled
             } else {
                 findNavController().navigate(R.id.noGpsFragment)
+            }
+        }
+    }
+
+    private fun addCurrentUserObserver() {
+        userViewModel.currentUser.observe(viewLifecycleOwner) { user ->
+            if (user == null) {
+                findNavController().navigate(R.id.loginFragment)
             }
         }
     }

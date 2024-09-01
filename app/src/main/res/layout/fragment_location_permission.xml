@@ -36,25 +36,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_headline" />
 
-    <Button
-        android:id="@+id/btn_allow"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="16dp"
-        android:text="Allow"
-        android:textColor="@color/off_black"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_circle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/location_circle"
+
         app:layout_constraintBottom_toTopOf="@+id/btn_allow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,5 +56,22 @@
         app:layout_constraintEnd_toEndOf="@+id/iv_circle"
         app:layout_constraintStart_toStartOf="@+id/iv_circle"
         app:layout_constraintTop_toTopOf="@+id/iv_circle" />
+
+    <Button
+        android:id="@+id/btn_allow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/gradient_button_primary"
+        android:text="Allow"
+        android:textColor="@color/off_black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

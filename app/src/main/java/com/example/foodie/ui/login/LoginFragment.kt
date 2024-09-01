@@ -1,4 +1,4 @@
-package com.example.foodie.ui
+package com.example.foodie.ui.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,15 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.LocationViewModel
-import com.example.foodie.UserViewModel
 import com.example.foodie.R
+import com.example.foodie.UserViewModel
 import com.example.foodie.databinding.FragmentLoginBinding
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-
 
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
@@ -29,18 +28,11 @@ class LoginFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = FragmentLoginBinding.inflate(inflater, container, false)
-
-        callbackManager = CallbackManager.Factory.create()
-
-        getLoginManager()
-
         locationViewModel.handleLocationRequest(requireActivity())
 
-        return binding.root
-    }
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
+        callbackManager = CallbackManager.Factory.create()
 
-    private fun getLoginManager() {
         LoginManager.getInstance()
             .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
                 override fun onSuccess(result: LoginResult) {
@@ -59,6 +51,7 @@ class LoginFragment : Fragment() {
                     ).show()
                 }
             })
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,7 +68,7 @@ class LoginFragment : Fragment() {
         }
 
         binding.btnPhoneNumberSignIn.setOnClickListener {
-            TODO("Not yet implemented")
+            findNavController().navigate(R.id.phoneNumberFragment)
         }
 
         addCurrentUserObserver()

@@ -12,7 +12,6 @@ import com.example.foodie.data.Repository
 import com.example.foodie.databinding.ItemRestaurantBinding
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import com.google.android.material.shape.ShapeAppearanceModel
 
 class RestaurantsAdapter(
@@ -36,6 +35,14 @@ class RestaurantsAdapter(
         val matchingCategories = Repository().foodCategories.filter { category ->
             restaurant?.placeTypes!!.any { categoryString -> category.type == categoryString }
         }
+        val formattedOpeningHoursToday =
+            restaurant?.currentOpeningHours?.periods?.get(0)?.let { period ->
+                val openTime =
+                    "%02d:%02d".format(period.open?.time?.hours, period.open?.time?.minutes)
+                val closeTime =
+                    "%02d:%02d".format(period.close?.time?.hours, period.close?.time?.minutes)
+                "$openTime - $closeTime"
+            } ?: "Closed"
 
         holder.binding.let { binding ->
             if (restaurant != null) {
@@ -71,6 +78,7 @@ class RestaurantsAdapter(
                     binding.rbRating.rating = restaurant.rating?.toFloat()!!
                 }
                 binding.tvRatingTotal.text = "(${restaurant.userRatingsTotal?.toString() ?: "0"})"
+                binding.tvHoursNow.text = "Hours: $formattedOpeningHoursToday"
                 binding.ivDecollapseButton.setOnClickListener {
                     nearbyRestaurantsViewModel.setCurrentRestaurant(position)
                     holder.itemView.findNavController().navigate(

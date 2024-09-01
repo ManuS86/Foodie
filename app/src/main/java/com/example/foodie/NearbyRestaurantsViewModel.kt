@@ -1,11 +1,11 @@
 package com.example.foodie
 
 import android.app.Application
+import android.icu.util.Calendar
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.foodie.data.openNow
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.CircularBounds
@@ -144,5 +144,39 @@ class NearbyRestaurantsViewModel(application: Application) : AndroidViewModel(ap
                     )
                 }
         }
+    }
+
+    private fun isPlaceOpenNow(place: Place): Boolean {
+        val openingHours = place.openingHours
+            ?: return false // No opening hours information available
+
+        val currentTime = Calendar.getInstance()
+
+        for (period in openingHours.periods) {
+            val openTime = period.open
+            val closeTime = period.close
+
+            // Convert opening and closing times to Calendar objects
+            val openCalendar = Calendar.getInstance()
+            if (openTime != null) {
+                // Add 1 as Calendar uses 1-based indexing
+                openCalendar.set(Calendar.DAY_OF_WEEK, openTime.day.ordinal + 1)
+                openCalendar.set(Calendar.HOUR_OF_DAY, openTime.time.hours)
+                openCalendar.set(Calendar.MINUTE, openTime.time.minutes)
+            }
+
+            val closeCalendar = Calendar.getInstance()
+            if (closeTime != null) {
+                closeCalendar.set(Calendar.DAY_OF_WEEK, closeTime.day.ordinal + 1)
+                closeCalendar.set(Calendar.HOUR_OF_DAY, closeTime.time.hours)
+                closeCalendar.set(Calendar.MINUTE, closeTime.time.minutes)
+            }
+
+            // Check if the current time falls within the opening hours
+            if (currentTime.after(openCalendar) && currentTime.before(closeCalendar)) {
+                return true
+            }
+        }
+        return false
     }
 }

@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.foodie.UserViewModel
 import com.example.foodie.R
+import com.example.foodie.UserViewModel
 import com.example.foodie.data.appearance
 import com.example.foodie.data.distanceUnit
 import com.example.foodie.databinding.FragmentSettingsBinding

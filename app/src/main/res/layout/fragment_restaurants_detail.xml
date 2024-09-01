@@ -141,20 +141,52 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_hours"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
-                        android:text="Hours: 9:00-20:00"
+                        android:text="Hours:"
                         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/cpg_restaurantCategories" />
 
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_todaysHours"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="9:00 - 20:00"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_hours"
+                        app:layout_constraintStart_toEndOf="@+id/tv_hours"
+                        app:layout_constraintTop_toTopOf="@+id/tv_hours" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_weekdays"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="MON"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_hours"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_hours" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_times"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="10:00 - 20:00"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_weekdays"
+                        app:layout_constraintStart_toEndOf="@+id/tv_weekdays"
+                        app:layout_constraintTop_toTopOf="@+id/tv_weekdays" />
+
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/iv_location"
+                        android:id="@+id/iv_locationIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_marginStart="16dp"
@@ -173,8 +205,9 @@
                         android:text="1 km away"
                         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/iv_location"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_hours" />
+                        app:layout_constraintStart_toEndOf="@+id/iv_locationIcon"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_weekdays" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -229,7 +262,7 @@
                         app:layout_constraintStart_toEndOf="@+id/tv_rating"
                         app:layout_constraintTop_toTopOf="@+id/tv_rating" />
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_ratingsTotal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -393,20 +426,20 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_website"
-                        android:layout_width="160dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="24dp"
-                        android:backgroundTint="@color/green"
-                        android:linksClickable="false"
+                        android:background="@drawable/gradient_button_primary"
                         android:text="Open Website"
                         android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
                         android:textColor="@color/off_black"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
+                        app:backgroundTint="@null"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

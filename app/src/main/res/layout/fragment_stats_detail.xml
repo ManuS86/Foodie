@@ -30,7 +30,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_arrow_back"
-                app:tint="@color/green" />
+                app:tint="@color/primary_green" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_nameTitle"

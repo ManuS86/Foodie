@@ -30,7 +30,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_arrow_back"
-                app:tint="@color/green" />
+                app:tint="@color/primary_green" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_nameTitle"
@@ -119,8 +119,8 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
                         android:progress="50"
-                        android:progressTint="@color/green"
-                        android:thumbTint="@color/green"
+                        android:progressTint="@color/primary_green"
+                        android:thumbTint="@color/primary_green"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

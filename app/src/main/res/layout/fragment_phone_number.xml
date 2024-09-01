@@ -5,72 +5,77 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/off_white"
-    tools:context=".ui.permissions.LocationDeniedFragment">
+    tools:context=".ui.login.PhoneNumberFragment">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_headlineLocationDenied"
-        android:layout_width="0dp"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_backArrow"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="24dp"
-        android:gravity="center"
-        android:text="Unable to Connect"
-        android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
-        app:fontFamily="sans-serif-medium"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_arrow_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_explanationLocationDenied"
+        android:id="@+id/tv_giveNumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="start"
+        android:text="Can we get your number?"
+        android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+        app:fontFamily="sans-serif-medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_backArrow" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/et_phoneNumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:hint="Phone Number"
+        android:inputType="phone"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_giveNumber" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_resendText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
-        android:gravity="center"
-        android:text="To use Foodie, you need to enable your location sharing so we can show you restaurants around you."
+        android:text="We'll text you a code to verify you're really you. Message and data rates may apply."
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_headlineLocationDenied" />
+        app:layout_constraintTop_toBottomOf="@+id/et_phoneNumber" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_goToSettings"
+        android:id="@+id/btn_next"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="16dp"
         android:background="@drawable/gradient_button_primary"
-        android:text="Open settings"
+        android:text="Next"
         android:textColor="@color/off_black"
         android:textSize="18sp"
         android:textStyle="bold"
         app:backgroundTint="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/iv_circleLocationDenied"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/location_circle"
-        app:layout_constraintBottom_toTopOf="@+id/btn_goToSettings"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_explanationLocationDenied" />
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/iv_locationIcon"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:src="@drawable/ic_location_thin"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_circleLocationDenied"
-        app:layout_constraintEnd_toEndOf="@+id/iv_circleLocationDenied"
-        app:layout_constraintStart_toStartOf="@+id/iv_circleLocationDenied"
-        app:layout_constraintTop_toTopOf="@+id/iv_circleLocationDenied" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_resendText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

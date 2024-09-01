@@ -40,7 +40,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/app_logo"
                 android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
-                android:textColor="@color/green"
+                android:textColor="@color/primary_green"
                 android:textStyle="italic"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_logo"

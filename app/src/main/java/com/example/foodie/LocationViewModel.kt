@@ -40,7 +40,7 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
         get() = _lastLocationUpdate
 
     init {
-        requestLocationUpdates(300000,150000)
+        requestLocationUpdates(60000, 30000)
     }
 
     fun handleLocationRequest(activity: Activity) {

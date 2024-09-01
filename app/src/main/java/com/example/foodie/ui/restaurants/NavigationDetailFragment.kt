@@ -33,7 +33,7 @@ class NavigationDetailFragment : Fragment() {
     ): View {
         locationViewModel.isGPSEnabled()
         locationViewModel.checkLocationPermission()
-        locationViewModel.requestLocationUpdates(5000,2000)
+        locationViewModel.requestLocationUpdates(5000, 2000)
 
         binding = FragmentNavigationDetailBinding.inflate(inflater)
         mapView = binding.mvNavigation

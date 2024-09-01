@@ -38,7 +38,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/app_logo"
                 android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
-                android:textColor="@color/green"
+                android:textColor="@color/primary_green"
                 android:textStyle="italic"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_logo"
@@ -123,9 +123,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tb_home"
-        app:layout_constraintVertical_bias="0.0">
-
-    </com.yuyakaido.android.cardstackview.CardStackView>
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_swipeButtons"

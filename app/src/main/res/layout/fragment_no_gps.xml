@@ -22,8 +22,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Ooops"
-            android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+            android:text="Oops"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge"
+            app:fontFamily="sans-serif-medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -32,10 +33,11 @@
             android:id="@+id/tv_explanationNoGps"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="24dp"
             android:gravity="center"
             android:text="You need to allow access to location in order to use Foodie. Please try again and hit OK."
-            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_headlineNoGps" />
@@ -44,14 +46,18 @@
             android:id="@+id/btn_tryAgain"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/gradient_button_primary"
             android:text="TRY AGAIN"
             android:textColor="@color/off_black"
-            android:textSize="16sp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:backgroundTint="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_explanationNoGps" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
