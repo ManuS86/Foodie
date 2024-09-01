@@ -61,6 +61,10 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     val dismissedRestaurants: LiveData<List<Place>>
         get() = _dismissedRestaurants
 
+    private var _visitedRestaurants = MutableLiveData<List<Place>>()
+    val visitedRestaurants: LiveData<List<Place>>
+        get() = _visitedRestaurants
+
     init {
         if (auth.currentUser != null) {
             setUpUserEnv()

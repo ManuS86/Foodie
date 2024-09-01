@@ -9,10 +9,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.LocationViewModel
 import com.example.foodie.R
+import com.example.foodie.UserViewModel
+import com.example.foodie.adapter.LikesAdapter
 import com.example.foodie.databinding.FragmentLikesBinding
 
 class LikesFragment : Fragment() {
     private val locationViewModel: LocationViewModel by activityViewModels()
+    private val userViewModel: UserViewModel by activityViewModels()
     private lateinit var binding: FragmentLikesBinding
 
     override fun onCreateView(
@@ -31,6 +34,16 @@ class LikesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         addLocationPermissionObserver()
+        addLikeObserverWithAdapter()
+    }
+
+    private fun addLikeObserverWithAdapter() {
+        userViewModel.likedRestaurants.observe(viewLifecycleOwner) { places ->
+            binding.rvLikes.let {
+                it.adapter = LikesAdapter(places)
+                it.setHasFixedSize(true)
+            }
+        }
     }
 
     private fun addLocationPermissionObserver() {

@@ -217,7 +217,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.6" />
+                app:layout_constraintVertical_bias="0.6"
+                tools:visibility="invisible" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/right_overlay"
@@ -228,7 +229,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.6" />
+                app:layout_constraintVertical_bias="0.6"
+                tools:visibility="invisible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

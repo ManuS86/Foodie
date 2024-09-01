@@ -78,7 +78,7 @@ class RestaurantsDetailFragment : Fragment() {
                 val closeTime =
                     "%02d:%02d".format(period.close?.time?.hours, period.close?.time?.minutes)
                 "$openTime - $closeTime"
-            } ?: "N/A"
+            } ?: "N/a"
 
         addLocationPermissionObserver()
         initializeMap(restaurant)
@@ -90,10 +90,8 @@ class RestaurantsDetailFragment : Fragment() {
         binding.tvTodaysHours.text = formattedOpeningHoursToday
         binding.tvWeekdays.text = formattedOpeningWeekdays
         binding.tvTimes.text = formattedOpeningHours
-        binding.tvRating.text = restaurant.rating?.toString() ?: "N/A"
-        if (restaurant.rating != null) {
-            binding.rbRating.rating = restaurant.rating?.toFloat()!!
-        }
+        binding.tvRating.text = restaurant.rating?.toString() ?: "n/a"
+        binding.rbRating.rating = restaurant.rating?.toFloat() ?: 0f
         binding.tvRatingsTotal.text = "(${restaurant.userRatingsTotal?.toString() ?: "0"})"
         binding.tvPriceLevelDiscovery.text = when (restaurant.priceLevel?.toString()) {
             "1" -> {
@@ -117,8 +115,6 @@ class RestaurantsDetailFragment : Fragment() {
             }
         }
         binding.tvAddress.text = restaurant.address
-
-
         if (restaurant.websiteUri != null) {
             binding.cvWebsite.visibility = View.VISIBLE
             binding.btnWebsite.setOnClickListener {
@@ -147,10 +143,7 @@ class RestaurantsDetailFragment : Fragment() {
         }
     }
 
-    private fun addChip(
-        category: String,
-        chipGroup: ChipGroup
-    ) {
+    private fun addChip(category: String, chipGroup: ChipGroup) {
         val chip = Chip(context)
         chip.text = category
         chip.setChipBackgroundColorResource(R.color.off_grey)

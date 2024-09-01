@@ -9,10 +9,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.LocationViewModel
 import com.example.foodie.R
+import com.example.foodie.UserViewModel
+import com.example.foodie.adapter.HistoryAdapter
 import com.example.foodie.databinding.FragmentHistoryBinding
 
 class HistoryFragment : Fragment() {
     private val locationViewModel: LocationViewModel by activityViewModels()
+    private val userViewModel: UserViewModel by activityViewModels()
     private lateinit var binding: FragmentHistoryBinding
 
     override fun onCreateView(
@@ -31,6 +34,16 @@ class HistoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         addLocationPermissionObserver()
+        addHistoryObserverWithAdapter()
+    }
+
+    private fun addHistoryObserverWithAdapter() {
+        userViewModel.visitedRestaurants.observe(viewLifecycleOwner) { places ->
+            binding.rvHistory.let {
+                it.adapter = HistoryAdapter(places)
+                it.setHasFixedSize(true)
+            }
+        }
     }
 
     private fun addLocationPermissionObserver() {
