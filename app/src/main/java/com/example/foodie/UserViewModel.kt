@@ -78,8 +78,16 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             fireStore.collection("users").document(auth.currentUser?.uid!!)
     }
 
-    fun addNewRestaurant(collection: String, restaurantName: String, restaurant: Place) {
-        profileRef.collection(collection).document(restaurantName).set(restaurant)
+    fun addNewRestaurant(collection: String, restaurantName: String, restaurantData: Place) {
+        profileRef.collection(collection).document(restaurantName).set(restaurantData)
+    }
+
+    fun getRestaurantList(collection: String) {
+        TODO()
+    }
+
+    fun deleteRestaurant(collection: String, restaurantName: String) {
+        profileRef.collection(collection).document(restaurantName).delete()
     }
 
     private fun getCredentialRequest(filterByAuthorizedAccounts: Boolean): GetCredentialRequest {
@@ -161,61 +169,65 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private fun firebaseAuthWithGoogle(idToken: String) {
         Log.d(TAG, "firebaseAuthWithGoogle:$idToken")
 
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "signInWithCredential:success")
-                    _currentUser.value = auth.currentUser
+        viewModelScope.launch {
+            val credential = GoogleAuthProvider.getCredential(idToken, null)
+            auth.signInWithCredential(credential)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d(TAG, "signInWithCredential:success")
+                        _currentUser.value = auth.currentUser
 
-                    Toast.makeText(
-                        applicationContext,
-                        "Welcome back",
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                        Toast.makeText(
+                            applicationContext,
+                            "Welcome back",
+                            Toast.LENGTH_SHORT,
+                        ).show()
 
-                    setUpUserEnv()
-                } else {
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    _currentUser.postValue(null)
+                        setUpUserEnv()
+                    } else {
+                        Log.w(TAG, "signInWithCredential:failure", task.exception)
+                        _currentUser.postValue(null)
 
-                    Toast.makeText(
-                        applicationContext,
-                        "Authentication failed.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                        Toast.makeText(
+                            applicationContext,
+                            "Authentication failed.",
+                            Toast.LENGTH_SHORT,
+                        ).show()
+                    }
                 }
-            }
+        }
     }
 
     fun handleFacebookAccessToken(token: AccessToken, activity: Activity) {
         Log.d(TAG, "handleFacebookAccessToken:$token")
 
-        val credential = FacebookAuthProvider.getCredential(token.token)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "signInWithCredential:success")
-                    _currentUser.value = auth.currentUser
+        viewModelScope.launch {
+            val credential = FacebookAuthProvider.getCredential(token.token)
+            auth.signInWithCredential(credential)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d(TAG, "signInWithCredential:success")
+                        _currentUser.value = auth.currentUser
 
-                    Toast.makeText(
-                        activity,
-                        "Welcome ${_currentUser.value?.email}",
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                        Toast.makeText(
+                            activity,
+                            "Welcome ${_currentUser.value?.email}",
+                            Toast.LENGTH_SHORT,
+                        ).show()
 
-                    setUpUserEnv()
-                } else {
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    _currentUser.postValue(null)
+                        setUpUserEnv()
+                    } else {
+                        Log.w(TAG, "signInWithCredential:failure", task.exception)
+                        _currentUser.postValue(null)
 
-                    Toast.makeText(
-                        activity,
-                        "Authentication failed.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                        Toast.makeText(
+                            activity,
+                            "Authentication failed.",
+                            Toast.LENGTH_SHORT,
+                        ).show()
+                    }
                 }
-            }
+        }
     }
 
     fun sendVerificationCode(activity: Activity, phoneNumber: String) {
@@ -251,13 +263,16 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             // for instance if the the phone number format is not valid.
             Log.w(TAG, "onVerificationFailed", e)
             when (e) {
-                is FirebaseAuthInvalidCredentialsException -> Log.e(TAG, "Invalid request", e)
+                is FirebaseAuthInvalidCredentialsException -> Log.e(
+                    TAG,
+                    "Invalid request",
+                    e
+                )
                 is FirebaseTooManyRequestsException -> Log.e(
                     TAG,
                     "The SMS quota for the project has been exceeded",
                     e
                 )
-
                 is FirebaseAuthMissingActivityForRecaptchaException -> Log.e(
                     TAG,
                     "reCAPTCHA verification attempted with null Activity",

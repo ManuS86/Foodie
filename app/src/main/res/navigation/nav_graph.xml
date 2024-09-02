@@ -96,9 +96,9 @@
     </fragment>
     <fragment
         android:id="@+id/discoveryDetailFragment"
-        android:name="com.example.foodie.ui.restaurants.DiscoveryDetailFragment"
+        android:name="com.example.foodie.ui.restaurants.DiscoverySettingsDetailFragment"
         android:label="fragment_preferences_detail"
-        tools:layout="@layout/fragment_discovery_detail" />
+        tools:layout="@layout/fragment_discovery_settings_detail" />
     <fragment
         android:id="@+id/navigationDetailFragment"
         android:name="com.example.foodie.ui.restaurants.NavigationDetailFragment"

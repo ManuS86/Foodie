@@ -241,9 +241,9 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Km"
-                            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                             android:textColor="@color/off_black"
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             app:backgroundTint="@drawable/selector_chip_color"
                             app:cornerRadius="5dp"
                             app:strokeColor="@color/light_grey" />
@@ -255,9 +255,9 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Mi"
-                            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                             android:textColor="@color/off_black"
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             app:backgroundTint="@drawable/selector_chip_color"
                             app:cornerRadius="5dp"
                             app:strokeColor="@color/light_grey" />

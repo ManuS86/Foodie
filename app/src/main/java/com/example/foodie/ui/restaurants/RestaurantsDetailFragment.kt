@@ -143,16 +143,6 @@ class RestaurantsDetailFragment : Fragment() {
         }
     }
 
-    private fun addChip(category: String, chipGroup: ChipGroup) {
-        val chip = Chip(context)
-        chip.text = category
-        chip.setChipBackgroundColorResource(R.color.off_grey)
-        chip.setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelSmall)
-        chip.setTextColor(resources.getColor(R.color.off_white, null))
-        chip.shapeAppearanceModel = ShapeAppearanceModel().withCornerSize(160f)
-        chipGroup.addView(chip)
-    }
-
     @SuppressLint("MissingPermission")
     private fun initializeMap(restaurant: Place) {
         mapView.getMapAsync { googleMap ->
@@ -189,6 +179,18 @@ class RestaurantsDetailFragment : Fragment() {
                 findNavController().navigate(R.id.noGpsFragment)
             }
         }
+    }
+
+    private fun addChip(category: String, chipGroup: ChipGroup) {
+        val chip = Chip(context)
+        chip.text = category
+        chip.setChipBackgroundColorResource(R.color.off_grey)
+        chip.setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelLarge)
+        chip.setTextColor(resources.getColor(R.color.off_white, null))
+        chip.chipStrokeWidth = 0f
+        chip.height = 48
+        chip.shapeAppearanceModel = ShapeAppearanceModel().withCornerSize(160f)
+        chipGroup.addView(chip)
     }
 
     override fun onStart() {

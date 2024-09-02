@@ -1,11 +1,13 @@
 package com.example.foodie
 
 import android.app.Application
+import android.graphics.Bitmap
 import android.icu.util.Calendar
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.CircularBounds
@@ -15,14 +17,14 @@ import com.google.android.libraries.places.api.net.FetchPhotoRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.api.net.SearchNearbyRequest
 import com.google.android.libraries.places.api.net.SearchNearbyResponse
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class NearbyRestaurantsViewModel(application: Application) : AndroidViewModel(application) {
-    val TAG = "NearbyRestaurantsViewModel"
+    private val TAG = "NearbyRestaurantsViewModel"
     private val applicationContext = application
-
-    private var _placesClient = MutableLiveData<PlacesClient>()
-    val placesClient: LiveData<PlacesClient>
-        get() = _placesClient
+    private lateinit var placesClient: PlacesClient
 
     private var _nearbyRestaurants = MutableLiveData<List<Place>>()
     val nearbyRestaurants: LiveData<List<Place>>
@@ -65,8 +67,8 @@ class NearbyRestaurantsViewModel(application: Application) : AndroidViewModel(ap
         }
 
         // Create a new PlacesClient instance
-        val placesClient = Places.createClient(applicationContext)
-        _placesClient.value = placesClient
+        val placesClientNew = Places.createClient(applicationContext)
+        placesClient = placesClientNew
     }
 
     fun getNearbyRestaurants(
@@ -101,53 +103,42 @@ class NearbyRestaurantsViewModel(application: Application) : AndroidViewModel(ap
             "Search request built with fields: $placeFields"
         )
 
-        try {
-            _placesClient.value!!.searchNearby(searchNearbyRequest)
-                .addOnSuccessListener { response: SearchNearbyResponse ->
-                    _nearbyRestaurants.value = response.places
-                }
-                .addOnFailureListener { exception ->
-                    Log.e(
-                        TAG,
-                        "Failed to retrieve nearby places",
-                        exception
-                    )
-                }
-        } catch (e: Exception) {
-            Log.e(
-                TAG,
-                "Error searching nearby places",
-                e
-            )
+        viewModelScope.launch {
+            try {
+                val response = placesClient.searchNearby(searchNearbyRequest).await()
+                _nearbyRestaurants.value = response.places
+            } catch (e: Exception) {
+                Log.e(
+                    TAG,
+                    "Failed to retrieve nearby places",
+                    e
+                )
+            }
         }
     }
 
-    fun getPhotos(photoMetadataList: List<PhotoMetadata>) {
-        // Get the individual photo metadata.
-        photoMetadataList.forEach { photoMetadata ->
+    fun getPhoto(photoMetadata: PhotoMetadata): MutableLiveData<Bitmap?> {
+        val photoRequest = FetchPhotoRequest.builder(photoMetadata)
+            .setMaxWidth(1000)
+            .setMaxHeight(1000)
+            .build()
 
-            // Create a FetchPhotoRequest.
-            val photoRequest = FetchPhotoRequest.builder(photoMetadata)
-                .setMaxWidth(400)
-                .setMaxHeight(400)
-                .build()
+        val liveData = MutableLiveData<Bitmap?>()
 
-            _placesClient.value!!.fetchPhoto(photoRequest)
-                .addOnSuccessListener { fetchPhotoResponse ->
-                    val bitmap = fetchPhotoResponse.bitmap
-                }.addOnFailureListener { exception ->
-                    // Handle error with given status code.
-                    Log.e(
-                        TAG,
-                        "Failed to fetch photo",
-                        exception
-                    )
-                }
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = placesClient.fetchPhoto(photoRequest).await()
+                liveData.postValue(response.bitmap)
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to fetch photo", e)
+                liveData.postValue(null) // Or handle the error differently
+            }
         }
+        return liveData
     }
 
     private fun isPlaceOpenNow(place: Place): Boolean {
-        val openingHours = place.openingHours
+        val openingHours = place.currentOpeningHours
             ?: return false // No opening hours information available
 
         val currentTime = Calendar.getInstance()

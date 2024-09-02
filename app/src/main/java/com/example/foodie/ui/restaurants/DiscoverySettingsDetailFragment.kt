@@ -10,22 +10,25 @@ import androidx.navigation.fragment.findNavController
 import com.example.foodie.LocationViewModel
 import com.example.foodie.R
 import com.example.foodie.adapter.FoodFilterAdapter
+import com.example.foodie.adapter.RestaurantsAdapter.ItemViewHolder
 import com.example.foodie.data.Repository
 import com.example.foodie.data.minRating
 import com.example.foodie.data.openNow
-import com.example.foodie.databinding.FragmentDiscoveryDetailBinding
+import com.example.foodie.databinding.FragmentDiscoverySettingsDetailBinding
+import com.google.android.material.chip.Chip
+import com.google.android.material.shape.ShapeAppearanceModel
 
-class DiscoveryDetailFragment : Fragment() {
+class DiscoverySettingsDetailFragment : Fragment() {
     private val foodCategories = Repository().foodCategories
     private val locationViewModel: LocationViewModel by activityViewModels()
-    private lateinit var binding: FragmentDiscoveryDetailBinding
+    private lateinit var binding: FragmentDiscoverySettingsDetailBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentDiscoveryDetailBinding.inflate(inflater)
+        binding = FragmentDiscoverySettingsDetailBinding.inflate(inflater)
         return binding.root
     }
 
@@ -49,7 +52,6 @@ class DiscoveryDetailFragment : Fragment() {
         }
 
         binding.rvFoodCategories.adapter = FoodFilterAdapter(foodCategories)
-        binding.rvFoodCategories.setHasFixedSize(true)
 
         binding.rbRatingDiscovery.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
             if (fromUser) {
@@ -92,5 +94,19 @@ class DiscoveryDetailFragment : Fragment() {
         binding.ivBack.setOnClickListener {
             findNavController().navigateUp()
         }
+    }
+
+    private fun addChip(
+        category: String,
+        holder: ItemViewHolder
+    ) {
+        val chipGroup = holder.binding.cpgCategoriesRestaurant
+        val chip = Chip(context)
+        chip.text = category
+        chip.setChipBackgroundColorResource(R.drawable.selector_chip_color)
+        chip.setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelLarge)
+//        chip.setTextColor(context.resources.getDrawable(R.drawable.selector_chip_text, null))
+        chip.shapeAppearanceModel = ShapeAppearanceModel().withCornerSize(160f)
+        chipGroup.addView(chip)
     }
 }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodie.NearbyRestaurantsViewModel
@@ -17,7 +18,8 @@ import com.google.android.material.shape.ShapeAppearanceModel
 class RestaurantsAdapter(
     private val dataset: List<Place>?,
     private val nearbyRestaurantsViewModel: NearbyRestaurantsViewModel,
-    private val context: Context
+    private val context: Context,
+    private val lifecycleOwner: LifecycleOwner
 ) : RecyclerView.Adapter<RestaurantsAdapter.ItemViewHolder>() {
 
     inner class ItemViewHolder(val binding: ItemRestaurantBinding) :
@@ -45,6 +47,18 @@ class RestaurantsAdapter(
             } ?: "Closed"
 
         holder.binding.let { binding ->
+            restaurant?.photoMetadatas?.take(1)?.forEach { photoMetadata ->
+                nearbyRestaurantsViewModel.getPhoto(photoMetadata)
+                    .observe(lifecycleOwner) { bitmap ->
+                        // Update UI with the fetched photos
+                        if (bitmap != null) {
+                            binding.ivRestaurant.setImageBitmap(bitmap)
+                        } else {
+                            binding.ivRestaurant.setImageResource(R.drawable.placeholder_image)
+                        }
+                    }
+            }
+//            binding.tvAttributions.text = restaurant?.photoMetadatas?.get(0)?.authorAttributions.toString()
             if (restaurant != null) {
                 binding.tvRestaurantName.text =
                     restaurant.name!! +
@@ -67,7 +81,7 @@ class RestaurantsAdapter(
                                 }
 
                                 else -> {
-                                    "N/A"
+                                    ""
                                 }
                             }
                 matchingCategories.forEach { category ->
@@ -101,8 +115,9 @@ class RestaurantsAdapter(
         val chip = Chip(context)
         chip.text = category
         chip.setChipBackgroundColorResource(R.color.off_grey)
-        chip.setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelSmall)
+        chip.setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelLarge)
         chip.setTextColor(context.resources.getColor(R.color.off_white, null))
+        chip.chipStrokeWidth = 0f
         chip.shapeAppearanceModel = ShapeAppearanceModel().withCornerSize(160f)
         chipGroup.addView(chip)
     }
