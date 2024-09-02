@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +14,7 @@ import com.example.foodie.data.Repository
 import com.example.foodie.databinding.ItemRestaurantBinding
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.shape.ShapeAppearanceModel
 
 class RestaurantsAdapter(
@@ -34,6 +36,7 @@ class RestaurantsAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val restaurant = dataset?.get(position)
+        val chipGroup = holder.binding.cpgCategoriesRestaurant
         val matchingCategories = Repository().foodCategories.filter { category ->
             restaurant?.placeTypes!!.any { categoryString -> category.type == categoryString }
         }
@@ -62,35 +65,18 @@ class RestaurantsAdapter(
             if (restaurant != null) {
                 binding.tvRestaurantName.text =
                     restaurant.name!! +
-                            " " +
                             when (restaurant.priceLevel?.toString()) {
-                                "1" -> {
-                                    "€"
-                                }
-
-                                "2" -> {
-                                    "€€"
-                                }
-
-                                "3" -> {
-                                    "€€€"
-                                }
-
-                                "4" -> {
-                                    "€€€€"
-                                }
-
-                                else -> {
-                                    ""
-                                }
+                                "1" -> { ", €" }
+                                "2" -> { ", €€" }
+                                "3" -> { ", €€€" }
+                                "4" -> { ", €€€€" }
+                                else -> { "" }
                             }
                 matchingCategories.forEach { category ->
-                    addChip(category.name, holder)
+                    addChip(category.name, chipGroup)
                 }
-                binding.tvRating.text = restaurant.rating?.toString() ?: "N/A"
-                if (restaurant.rating != null) {
-                    binding.rbRating.rating = restaurant.rating?.toFloat()!!
-                }
+                binding.tvRating.text = restaurant.rating?.toString() ?: "n/a"
+                binding.rbRating.rating = restaurant.rating?.toFloat()  ?: 0f
                 binding.tvRatingTotal.text = "(${restaurant.userRatingsTotal?.toString() ?: "0"})"
                 binding.tvHoursNow.text = "Hours: $formattedOpeningHoursToday"
                 binding.ivDecollapseButton.setOnClickListener {
@@ -107,17 +93,27 @@ class RestaurantsAdapter(
         return dataset?.size ?: 0
     }
 
-    private fun addChip(
-        category: String,
-        holder: ItemViewHolder
-    ) {
-        val chipGroup = holder.binding.cpgCategoriesRestaurant
+    private fun addChip(category: String, chipGroup: ChipGroup) {
         val chip = Chip(context)
         chip.text = category
         chip.setChipBackgroundColorResource(R.color.off_grey)
         chip.setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelLarge)
         chip.setTextColor(context.resources.getColor(R.color.off_white, null))
         chip.chipStrokeWidth = 0f
+        chip.isClickable = false
+        chip.shapeAppearanceModel = ShapeAppearanceModel().withCornerSize(160f)
+
+        chipGroup.addView(chip)
+    }
+
+    private fun addCheckedChip(category: String, chipGroup: ChipGroup) {
+        val chip = Chip(context)
+        chip.text = category
+        chip.background = ResourcesCompat.getDrawable(context.resources, R.drawable.gradient_button_primary,null)
+        chip.setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelLarge)
+        chip.setTextColor(context.resources.getColor(R.color.off_black, null))
+        chip.chipStrokeWidth = 0f
+        chip.isClickable = false
         chip.shapeAppearanceModel = ShapeAppearanceModel().withCornerSize(160f)
         chipGroup.addView(chip)
     }

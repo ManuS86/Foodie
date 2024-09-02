@@ -13,11 +13,13 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
+import kotlinx.coroutines.launch
 
 class LocationViewModel(application: Application) : AndroidViewModel(application) {
     private val REQUEST_CODE_LOCATION_PERMISSION = 1
@@ -61,12 +63,12 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun checkLocationPermission() {
-        _locationPermission.postValue(
-            ActivityCompat.checkSelfPermission(
-                applicationContext,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        )
+            _locationPermission.postValue(
+                ActivityCompat.checkSelfPermission(
+                    applicationContext,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            )
     }
 
     fun nullLocationPermission() {
@@ -74,41 +76,47 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun isGPSEnabled() {
-        try {
-            val locationManager = applicationContext.getSystemService(LocationManager::class.java)
-            val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+            try {
+                val locationManager = applicationContext.getSystemService(LocationManager::class.java)
+                val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
-            _gpsProvider.value = isGpsEnabled
-        } catch (e: Exception) {
-            Log.e(TAG, "GPS enabled check failed: $e")
-        }
+                _gpsProvider.value = isGpsEnabled
+            } catch (e: Exception) {
+                Log.e(TAG, "GPS enabled check failed: $e")
+            }
     }
 
     fun requestLocationUpdates(update: Long, minUpdate: Long) {
         checkLocationPermission()
 
-        val fusedLocationClient =
-            LocationServices.getFusedLocationProviderClient(applicationContext)
+        viewModelScope.launch {
+            try {
+                val fusedLocationClient =
+                    LocationServices.getFusedLocationProviderClient(applicationContext)
 
-        val locationRequest = LocationRequest.Builder(update)
-            .setMinUpdateIntervalMillis(minUpdate)
-            .setPriority(PRIORITY_HIGH_ACCURACY)
-            .build()
+                val locationRequest = LocationRequest.Builder(update)
+                    .setMinUpdateIntervalMillis(minUpdate)
+                    .setPriority(PRIORITY_HIGH_ACCURACY)
+                    .build()
 
-        val locationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult) {
-                val location = locationResult.lastLocation
+                val locationCallback = object : LocationCallback() {
+                    override fun onLocationResult(locationResult: LocationResult) {
+                        val location = locationResult.lastLocation
 
-                _currentLocation.value = location
-                _lastLocationUpdate.postValue(System.currentTimeMillis())
-                Log.d("LocationUpdate", "LiveData Updated")
+                        _currentLocation.value = location
+                        _lastLocationUpdate.postValue(System.currentTimeMillis())
+                        Log.d("LocationUpdate", "LiveData Updated")
+                    }
+                }
+
+                fusedLocationClient.requestLocationUpdates(
+                    locationRequest,
+                    locationCallback,
+                    Looper.getMainLooper()
+                )
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to request location updates", e)
             }
         }
-
-        fusedLocationClient.requestLocationUpdates(
-            locationRequest,
-            locationCallback,
-            Looper.getMainLooper()
-        )
     }
 }

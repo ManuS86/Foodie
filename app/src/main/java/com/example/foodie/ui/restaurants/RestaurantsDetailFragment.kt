@@ -94,25 +94,11 @@ class RestaurantsDetailFragment : Fragment() {
         binding.rbRating.rating = restaurant.rating?.toFloat() ?: 0f
         binding.tvRatingsTotal.text = "(${restaurant.userRatingsTotal?.toString() ?: "0"})"
         binding.tvPriceLevelDiscovery.text = when (restaurant.priceLevel?.toString()) {
-            "1" -> {
-                "€"
-            }
-
-            "2" -> {
-                "€€"
-            }
-
-            "3" -> {
-                "€€€"
-            }
-
-            "4" -> {
-                "€€€€"
-            }
-
-            else -> {
-                "N/A"
-            }
+            "1" -> { "€" }
+            "2" -> { "€€" }
+            "3" -> { "€€€" }
+            "4" -> { "€€€€" }
+            else -> { "N/A" }
         }
         binding.tvAddress.text = restaurant.address
         if (restaurant.websiteUri != null) {
@@ -188,7 +174,7 @@ class RestaurantsDetailFragment : Fragment() {
         chip.setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelLarge)
         chip.setTextColor(resources.getColor(R.color.off_white, null))
         chip.chipStrokeWidth = 0f
-        chip.height = 48
+        chip.isClickable = false
         chip.shapeAppearanceModel = ShapeAppearanceModel().withCornerSize(160f)
         chipGroup.addView(chip)
     }

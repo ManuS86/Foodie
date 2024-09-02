@@ -45,7 +45,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" >
+                app:layout_constraintTop_toTopOf="parent">
 
             </androidx.viewpager2.widget.ViewPager2>
 
@@ -112,7 +112,7 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
                         android:maxLines="2"
-                        android:text="Restaurant Name €€€"
+                        android:text="Restaurant Name, €€€"
                         android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
                         android:textColor="@color/white"
                         app:fontFamily="sans-serif-medium"

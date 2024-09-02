@@ -7,56 +7,6 @@
     android:background="@color/off_white"
     tools:context=".ui.restaurants.RestaurantsFragment">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/tb_home"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:background="@color/white"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/iv_logo"
-                android:layout_width="22.86dp"
-                android:layout_height="32dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_nameTitle"
-                app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/ic_logo_active" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_nameTitle"
-                android:layout_width="0dp"
-                android:layout_height="36dp"
-                android:layout_marginStart="1dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="@string/app_logo"
-                android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
-                android:textColor="@color/primary_green"
-                android:textStyle="bold|italic"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/iv_logo"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/iv_discoverySettings"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/ic_preferences"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_nameTitle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tv_nameTitle" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.appbar.MaterialToolbar>
-
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_radarOuter"
         android:layout_width="wrap_content"
@@ -112,6 +62,56 @@
         android:textColor="@color/off_grey"
         app:layout_constraintStart_toStartOf="@+id/iv_radarOuter"
         app:layout_constraintTop_toBottomOf="@+id/iv_radarOuter" />
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/tb_home"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="@color/white"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="22.86dp"
+                android:layout_height="32dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_nameTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/ic_logo_active" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_nameTitle"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="1dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/app_logo"
+                android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+                android:textColor="@color/primary_green"
+                android:textStyle="bold|italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_logo"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_discoverySettings"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_preferences"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_nameTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_nameTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/rv_restaurantsStack"

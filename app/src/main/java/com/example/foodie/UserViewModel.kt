@@ -157,9 +157,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     // Handle other custom credential types
                     Log.e(TAG, "Unexpected type of credential")
                 }
-            }
-
-            else -> {
+            } else -> {
                 // Handle unrecognized credential types
                 Log.e(TAG, "Unexpected type of credential")
             }
@@ -268,11 +266,13 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     "Invalid request",
                     e
                 )
+
                 is FirebaseTooManyRequestsException -> Log.e(
                     TAG,
                     "The SMS quota for the project has been exceeded",
                     e
                 )
+
                 is FirebaseAuthMissingActivityForRecaptchaException -> Log.e(
                     TAG,
                     "reCAPTCHA verification attempted with null Activity",
