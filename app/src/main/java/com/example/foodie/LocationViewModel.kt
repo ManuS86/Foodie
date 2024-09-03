@@ -63,12 +63,12 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun checkLocationPermission() {
-            _locationPermission.postValue(
-                ActivityCompat.checkSelfPermission(
-                    applicationContext,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
-            )
+        _locationPermission.postValue(
+            ActivityCompat.checkSelfPermission(
+                applicationContext,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        )
     }
 
     fun nullLocationPermission() {
@@ -76,14 +76,14 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun isGPSEnabled() {
-            try {
-                val locationManager = applicationContext.getSystemService(LocationManager::class.java)
-                val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        try {
+            val locationManager = applicationContext.getSystemService(LocationManager::class.java)
+            val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
-                _gpsProvider.value = isGpsEnabled
-            } catch (e: Exception) {
-                Log.e(TAG, "GPS enabled check failed: $e")
-            }
+            _gpsProvider.value = isGpsEnabled
+        } catch (e: Exception) {
+            Log.e(TAG, "GPS enabled check failed: $e")
+        }
     }
 
     fun requestLocationUpdates(update: Long, minUpdate: Long) {

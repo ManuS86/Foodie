@@ -136,7 +136,7 @@ class NearbyRestaurantsViewModel(application: Application) : AndroidViewModel(ap
         return liveData
     }
 
-    private fun isPlaceOpenNow(place: Place): Boolean {
+    fun isPlaceOpenNow(place: Place): Boolean {
         val openingHours = place.currentOpeningHours
             ?: return false // No opening hours information available
 

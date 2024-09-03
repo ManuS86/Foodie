@@ -41,19 +41,35 @@ class RestaurantsFragment : Fragment() {
         addLocationPermissionObserver()
         addCurrentLocationObserverWithNearbyRestaurantsObserver()
 
+        binding = FragmentRestaurantsBinding.inflate(inflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val restaurants = nearbyRestaurantsViewModel.nearbyRestaurants.value
         cardStackLayoutManager = CardStackLayoutManager(requireContext(),
             object : CardStackListener {
                 override fun onCardDragging(direction: Direction?, ratio: Float) {
                 }
 
                 override fun onCardSwiped(direction: Direction?) {
+                    val position = cardStackLayoutManager.topPosition - 1
                     when (direction) {
                         Direction.Left -> {
-//                                    userViewModel.addNewRestaurant("liked restaurants", nearbyRestaurantsViewModel.nearbyRestaurants?.value?[cardStackLayoutManager.topPosition].name, nearbyRestaurants[cardStackLayoutManager.topPosition])
+                            userViewModel.addNewRestaurant(
+                                "dismissed",
+                                restaurants?.get(position)?.name!!,
+                                restaurants[position]
+                            )
                         }
 
                         Direction.Right -> {
-//                                    userViewModel.addNewRestaurant("dismissed restaurants", nearbyRestaurants[position].name, nearbyRestaurants[position])
+                            userViewModel.addNewRestaurant(
+                                "liked",
+                                restaurants?.get(position)?.name!!,
+                                restaurants[position]
+                            )
                         }
 
                         else -> {
@@ -75,20 +91,9 @@ class RestaurantsFragment : Fragment() {
                 }
             }
         )
-        binding = FragmentRestaurantsBinding.inflate(inflater)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        cardStackLayoutManager.setDirections(Direction.HORIZONTAL)
 
         binding.fabDismiss.setOnClickListener {
-//            userViewModel.addNewRestaurant(
-//                "dismissed",
-//                nearbyRestaurantsViewModel.nearbyRestaurants?.value?.get(cardStackLayoutManager.topPosition).name?,
-//            nearbyRestaurantsViewModel.nearbyRestaurants?.value?.get(cardStackLayoutManager.topPosition)
-//            )
-
             val setting = SwipeAnimationSetting.Builder()
                 .setDirection(Direction.Left)
                 .setDuration(Duration.Normal.duration)
@@ -98,14 +103,11 @@ class RestaurantsFragment : Fragment() {
             binding.rvRestaurantsStack.swipe()
         }
 
-        binding.fabUndo
         binding.fabUndo.setOnClickListener {
             binding.rvRestaurantsStack.rewind()
         }
 
         binding.fabLike.setOnClickListener {
-//            userViewModel.addNewRestaurant("liked", nearbyRestaurantsViewModel.nearbyRestaurants.value[cardStackLayoutManager.topPosition].name, nearbyRestaurantsViewModel.nearbyRestaurants.value[cardStackLayoutManager.topPosition])
-
             val setting = SwipeAnimationSetting.Builder()
                 .setDirection(Direction.Right)
                 .setDuration(Duration.Normal.duration)
@@ -146,10 +148,10 @@ class RestaurantsFragment : Fragment() {
             binding.rvRestaurantsStack.let { cardStackView ->
                 cardStackView.adapter =
                     RestaurantsAdapter(
-                        nearbyRestaurants,
-                        nearbyRestaurantsViewModel,
                         requireContext(),
-                        viewLifecycleOwner
+                        nearbyRestaurants,
+                        viewLifecycleOwner,
+                        nearbyRestaurantsViewModel
                     )
                 cardStackView.setHasFixedSize(true)
                 cardStackView.layoutManager = cardStackLayoutManager

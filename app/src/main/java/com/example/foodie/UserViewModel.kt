@@ -13,6 +13,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.foodie.data.model.AppSettings
+import com.example.foodie.data.model.DiscoverySettings
 import com.facebook.AccessToken
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
@@ -76,6 +78,26 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         _currentUser.value = auth.currentUser
         profileRef =
             fireStore.collection("users").document(auth.currentUser?.uid!!)
+    }
+
+    fun getSettings(collection: String, settings: String) {
+        TODO()
+    }
+
+    fun setAppSettings(collection: String, settings: String, settingsData: AppSettings) {
+        profileRef.collection(collection).document(settings).set(settingsData)
+    }
+
+    fun setDiscoverySettings(
+        collection: String,
+        settings: String,
+        settingsData: DiscoverySettings
+    ) {
+        profileRef.collection(collection).document(settings).set(settingsData)
+    }
+
+    fun updateSettings() {
+        TODO()
     }
 
     fun addNewRestaurant(collection: String, restaurantName: String, restaurantData: Place) {
@@ -157,7 +179,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     // Handle other custom credential types
                     Log.e(TAG, "Unexpected type of credential")
                 }
-            } else -> {
+            }
+
+            else -> {
                 // Handle unrecognized credential types
                 Log.e(TAG, "Unexpected type of credential")
             }

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,7 @@ import com.example.foodie.LocationViewModel
 import com.example.foodie.NearbyRestaurantsViewModel
 import com.example.foodie.R
 import com.example.foodie.UserViewModel
+import com.example.foodie.addIndicatorChip
 import com.example.foodie.data.Repository
 import com.example.foodie.databinding.FragmentRestaurantsDetailBinding
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -22,9 +24,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_RED
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.model.Place
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
-import com.google.android.material.shape.ShapeAppearanceModel
 
 class RestaurantsDetailFragment : Fragment() {
     private val locationViewModel: LocationViewModel by activityViewModels()
@@ -85,20 +84,36 @@ class RestaurantsDetailFragment : Fragment() {
 
         binding.tvNameTitle.text = restaurant.name
         matchingCategories.forEach { category ->
-            addChip(category.name, chipGroup)
+            addIndicatorChip(category.name, chipGroup, requireContext())
         }
-        binding.tvTodaysHours.text = formattedOpeningHoursToday
+        binding.tvTodaysHours.text = if (nearbyRestaurantsViewModel.isPlaceOpenNow(restaurant)) {
+            binding.tvTodaysHours.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.open_green
+                )
+            )
+            "Open"
+        } else {
+            binding.tvTodaysHours.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.open_red
+                )
+            )
+            "Closed"
+        }
         binding.tvWeekdays.text = formattedOpeningWeekdays
         binding.tvTimes.text = formattedOpeningHours
         binding.tvRating.text = restaurant.rating?.toString() ?: "n/a"
         binding.rbRating.rating = restaurant.rating?.toFloat() ?: 0f
         binding.tvRatingsTotal.text = "(${restaurant.userRatingsTotal?.toString() ?: "0"})"
         binding.tvPriceLevelDiscovery.text = when (restaurant.priceLevel?.toString()) {
-            "1" -> { "€" }
-            "2" -> { "€€" }
-            "3" -> { "€€€" }
-            "4" -> { "€€€€" }
-            else -> { "N/A" }
+            "1" -> "€"
+            "2" -> "€€"
+            "3" -> "€€€"
+            "4" -> "€€€€"
+            else -> "N/A"
         }
         binding.tvAddress.text = restaurant.address
         if (restaurant.websiteUri != null) {
@@ -165,18 +180,6 @@ class RestaurantsDetailFragment : Fragment() {
                 findNavController().navigate(R.id.noGpsFragment)
             }
         }
-    }
-
-    private fun addChip(category: String, chipGroup: ChipGroup) {
-        val chip = Chip(context)
-        chip.text = category
-        chip.setChipBackgroundColorResource(R.color.off_grey)
-        chip.setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelLarge)
-        chip.setTextColor(resources.getColor(R.color.off_white, null))
-        chip.chipStrokeWidth = 0f
-        chip.isClickable = false
-        chip.shapeAppearanceModel = ShapeAppearanceModel().withCornerSize(160f)
-        chipGroup.addView(chip)
     }
 
     override fun onStart() {

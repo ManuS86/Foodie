@@ -118,7 +118,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
-                        android:progress="50"
+                        android:progress="10"
                         android:progressTint="@color/primary_green"
                         android:thumbTint="@color/primary_green"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -396,25 +396,18 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_foodCategories"
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/cpg_foodCategories"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="8dp"
-                        android:isScrollContainer="false"
-                        android:nestedScrollingEnabled="false"
-                        android:orientation="horizontal"
-                        app:flexDirection="row"
-                        app:flexWrap="wrap"
-                        app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
+                        android:layout_marginBottom="16dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_foodsDiscovery"
-                        tools:listitem="@layout/item_food_filter" />
+                        app:layout_constraintTop_toBottomOf="@+id/tv_foodsDiscovery" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
