@@ -53,7 +53,12 @@ class LikesAdapter(
                 binding.tvRestaurantNameLikes.text = restaurant.name
                 val chipGroup = binding.cpgCategoriesLikes
                 matchingCategories.forEach { category ->
-                    addIndicatorChip(category.name, chipGroup, context, discoverySettings ?: DiscoverySettings())
+                    addIndicatorChip(
+                        category.name,
+                        chipGroup,
+                        context,
+                        discoverySettings ?: DiscoverySettings()
+                    )
                 }
 
                 binding.cvLikes.setOnClickListener {

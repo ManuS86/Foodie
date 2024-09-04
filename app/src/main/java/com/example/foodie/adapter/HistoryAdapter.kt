@@ -53,7 +53,12 @@ class HistoryAdapter(
                 binding.tvRestaurantNameHistory.text = restaurant.name
                 val chipGroup = binding.cpgCategoriesHistory
                 matchingCategories.forEach { category ->
-                    addIndicatorChip(category.name, chipGroup, context, discoverySettings ?: DiscoverySettings())
+                    addIndicatorChip(
+                        category.name,
+                        chipGroup,
+                        context,
+                        discoverySettings ?: DiscoverySettings()
+                    )
                 }
 
                 binding.cvHistory.setOnClickListener {

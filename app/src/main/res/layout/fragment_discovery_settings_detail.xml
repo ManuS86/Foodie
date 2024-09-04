@@ -99,7 +99,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_distanceKmDiscovery"
+                        android:id="@+id/tv_km_mi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -112,12 +112,13 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatSeekBar
-                        android:id="@+id/sb_distanceSliderDiscovery"
+                        android:id="@+id/sb_distance_slider"
                         style="@android:style/Widget.Material.Light.SeekBar"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
+                        android:max="50"
                         android:progress="10"
                         android:progressTint="@color/primary_green"
                         android:thumbTint="@color/primary_green"
@@ -262,7 +263,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <RatingBar
-                        android:id="@+id/rb_ratingDiscovery"
+                        android:id="@+id/rb_rating_filter"
                         style="@android:style/Widget.Material.Light.RatingBar.Indicator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -316,7 +317,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/cp_priceRangeLowDiscovery"
+                        android:id="@+id/cp_price_range_low"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -332,7 +333,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/tv_price_level_discovery" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/cp_priceRangeMedDiscovery"
+                        android:id="@+id/cp_price_range_med"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -341,12 +342,12 @@
                         android:textColor="@drawable/selector_chip_text"
                         app:chipBackgroundColor="@drawable/selector_chip_color"
                         app:chipCornerRadius="16dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/cp_priceRangeLowDiscovery"
-                        app:layout_constraintStart_toEndOf="@+id/cp_priceRangeLowDiscovery"
-                        app:layout_constraintTop_toTopOf="@+id/cp_priceRangeLowDiscovery" />
+                        app:layout_constraintBottom_toBottomOf="@+id/cp_price_range_low"
+                        app:layout_constraintStart_toEndOf="@+id/cp_price_range_low"
+                        app:layout_constraintTop_toTopOf="@+id/cp_price_range_low" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/cp_priceRangeHiDiscovery"
+                        android:id="@+id/cp_price_range_hi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -355,9 +356,9 @@
                         android:textColor="@drawable/selector_chip_text"
                         app:chipBackgroundColor="@drawable/selector_chip_color"
                         app:chipCornerRadius="16dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/cp_priceRangeMedDiscovery"
-                        app:layout_constraintStart_toEndOf="@+id/cp_priceRangeMedDiscovery"
-                        app:layout_constraintTop_toTopOf="@+id/cp_priceRangeMedDiscovery" />
+                        app:layout_constraintBottom_toBottomOf="@+id/cp_price_range_med"
+                        app:layout_constraintStart_toEndOf="@+id/cp_price_range_med"
+                        app:layout_constraintTop_toTopOf="@+id/cp_price_range_med" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>

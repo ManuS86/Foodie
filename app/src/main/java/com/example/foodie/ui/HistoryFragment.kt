@@ -41,11 +41,13 @@ class HistoryFragment : Fragment() {
     private fun addHistoryObserverWithAdapter() {
         userViewModel.history.observe(viewLifecycleOwner) { history ->
             binding.rvHistory.let { recyclerView ->
-                recyclerView.adapter = HistoryAdapter(requireContext(),
+                recyclerView.adapter = HistoryAdapter(
+                    requireContext(),
                     history,
                     viewLifecycleOwner,
                     nearbyRestaurantsViewModel,
-                    userViewModel)
+                    userViewModel
+                )
                 recyclerView.setHasFixedSize(true)
             }
         }

@@ -66,7 +66,12 @@ class RestaurantsAdapter(
                             }
                 val chipGroup = binding.cpgCategoriesRestaurant
                 matchingCategories.forEach { category ->
-                    addIndicatorChip(category.name, chipGroup, context, discoverySettings ?: DiscoverySettings())
+                    addIndicatorChip(
+                        category.name,
+                        chipGroup,
+                        context,
+                        discoverySettings ?: DiscoverySettings()
+                    )
                 }
                 binding.tvRating.text = restaurant.rating?.toString() ?: "n/a"
                 binding.rbRating.rating = restaurant.rating?.toFloat() ?: 0f

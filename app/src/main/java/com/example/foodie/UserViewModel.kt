@@ -158,7 +158,13 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             try {
                 when (collection) {
-                    "history" -> _history.postValue(repository.getRestaurantList(userRef, collection))
+                    "history" -> _history.postValue(
+                        repository.getRestaurantList(
+                            userRef,
+                            collection
+                        )
+                    )
+
                     "likes" -> _likes.postValue(repository.getRestaurantList(userRef, collection))
                     "nopes" -> _nopes.postValue(repository.getRestaurantList(userRef, collection))
                 }

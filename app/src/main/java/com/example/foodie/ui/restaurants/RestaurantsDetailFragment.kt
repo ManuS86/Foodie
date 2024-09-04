@@ -77,7 +77,12 @@ class RestaurantsDetailFragment : Fragment() {
 
         binding.tvNameTitle.text = restaurant.name
         matchingCategories.forEach { category ->
-            addIndicatorChip(category.name, chipGroup, requireContext(), discoverySettings ?: DiscoverySettings())
+            addIndicatorChip(
+                category.name,
+                chipGroup,
+                requireContext(),
+                discoverySettings ?: DiscoverySettings()
+            )
         }
         binding.tvTodaysHours.text = if (nearbyRestaurantsViewModel.isPlaceOpenNow(restaurant)) {
             binding.tvTodaysHours.setTextColor(
