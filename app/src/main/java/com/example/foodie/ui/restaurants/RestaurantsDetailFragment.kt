@@ -16,7 +16,7 @@ import com.example.foodie.NearbyRestaurantsViewModel
 import com.example.foodie.R
 import com.example.foodie.UserViewModel
 import com.example.foodie.addIndicatorChip
-import com.example.foodie.data.Repository
+import com.example.foodie.data.model.DiscoverySettings
 import com.example.foodie.databinding.FragmentRestaurantsDetailBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
@@ -52,18 +52,11 @@ class RestaurantsDetailFragment : Fragment() {
 
         val restaurant = nearbyRestaurantsViewModel.currentRestaurant.value!!
         val chipGroup = binding.cpgRestaurantCategories
-        val matchingCategories = Repository().foodCategories.filter { category ->
+        val discoverySettings = userViewModel.currentDiscoverySettings.value
+        val matchingCategories = userViewModel.repository.foodCategories.filter { category ->
             restaurant.placeTypes?.any { categoryString -> category.type == categoryString }
                 ?: false
         }
-        val formattedOpeningHoursToday =
-            restaurant.currentOpeningHours?.periods?.get(0)?.let { period ->
-                val openTime =
-                    "%02d:%02d".format(period.open?.time?.hours, period.open?.time?.minutes)
-                val closeTime =
-                    "%02d:%02d".format(period.close?.time?.hours, period.close?.time?.minutes)
-                "$openTime - $closeTime"
-            } ?: "Closed"
         val formattedOpeningWeekdays =
             restaurant.currentOpeningHours?.periods?.joinToString("\n") { period ->
                 period.open?.day.toString().let { day ->
@@ -84,7 +77,7 @@ class RestaurantsDetailFragment : Fragment() {
 
         binding.tvNameTitle.text = restaurant.name
         matchingCategories.forEach { category ->
-            addIndicatorChip(category.name, chipGroup, requireContext())
+            addIndicatorChip(category.name, chipGroup, requireContext(), discoverySettings ?: DiscoverySettings())
         }
         binding.tvTodaysHours.text = if (nearbyRestaurantsViewModel.isPlaceOpenNow(restaurant)) {
             binding.tvTodaysHours.setTextColor(
@@ -135,7 +128,7 @@ class RestaurantsDetailFragment : Fragment() {
             findNavController().navigate(R.id.navigationDetailFragment)
         }
 
-        binding.fabDismiss.setOnClickListener {
+        binding.fabNope.setOnClickListener {
             userViewModel.addNewRestaurant("dismissed", restaurant.name!!, restaurant)
         }
 

@@ -57,19 +57,23 @@ class RestaurantsFragment : Fragment() {
                     val position = cardStackLayoutManager.topPosition - 1
                     when (direction) {
                         Direction.Left -> {
-                            userViewModel.addNewRestaurant(
-                                "dismissed",
-                                restaurants?.get(position)?.name!!,
-                                restaurants[position]
-                            )
+                            if (restaurants != null) {
+                                userViewModel.addNewRestaurant(
+                                    "nopes",
+                                    restaurants[position].name!!,
+                                    restaurants[position]
+                                )
+                            }
                         }
 
                         Direction.Right -> {
-                            userViewModel.addNewRestaurant(
-                                "liked",
-                                restaurants?.get(position)?.name!!,
-                                restaurants[position]
-                            )
+                            if (restaurants != null) {
+                                userViewModel.addNewRestaurant(
+                                    "likes",
+                                    restaurants[position].name!!,
+                                    restaurants[position]
+                                )
+                            }
                         }
 
                         else -> {
@@ -93,7 +97,7 @@ class RestaurantsFragment : Fragment() {
         )
         cardStackLayoutManager.setDirections(Direction.HORIZONTAL)
 
-        binding.fabDismiss.setOnClickListener {
+        binding.fabNope.setOnClickListener {
             val setting = SwipeAnimationSetting.Builder()
                 .setDirection(Direction.Left)
                 .setDuration(Duration.Normal.duration)
@@ -129,7 +133,7 @@ class RestaurantsFragment : Fragment() {
 
                 nearbyRestaurantsViewModel.getNearbyRestaurants(
                     LatLng(52.521992, 13.413244),
-                    500.0,
+                    2000.0,
                     listOf(),
                     "de"
                 )
@@ -151,7 +155,8 @@ class RestaurantsFragment : Fragment() {
                         requireContext(),
                         nearbyRestaurants,
                         viewLifecycleOwner,
-                        nearbyRestaurantsViewModel
+                        nearbyRestaurantsViewModel,
+                        userViewModel
                     )
                 cardStackView.setHasFixedSize(true)
                 cardStackView.layoutManager = cardStackLayoutManager

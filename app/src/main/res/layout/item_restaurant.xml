@@ -258,7 +258,7 @@
                 android:id="@+id/left_overlay"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:src="@drawable/ic_dismiss"
+                android:src="@drawable/ic_nope"
                 app:layout_constraintBottom_toTopOf="@+id/cv_infoCard"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

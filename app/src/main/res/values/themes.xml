@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Foodie" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="colorPrimary">@color/primary_green</item>
+        <item name="colorPrimary">@color/off_black</item>
         <item name="android:statusBarColor">@color/black</item>
         <item name="android:navigationBarColor">@color/white</item>
     </style>

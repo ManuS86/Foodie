@@ -12,7 +12,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.R
 import com.example.foodie.UserViewModel
-import com.example.foodie.data.appSettings
 import com.example.foodie.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {
@@ -23,11 +22,15 @@ class SettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentSettingsBinding.inflate(inflater)
-        return binding.root
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        val distanceUnit = userViewModel.currentAppSettings.value?.distanceUnit
+        if (distanceUnit == "Km") {
+            binding.btnKm.isChecked = true
+            binding.tvDistUnit.text = distanceUnit
+        } else {
+            binding.btnMi.isChecked = true
+            binding.tvDistUnit.text = distanceUnit
+        }
 
         val nightMode = AppCompatDelegate.getDefaultNightMode()
         when (nightMode) {
@@ -46,6 +49,12 @@ class SettingsFragment : Fragment() {
             else -> {
             }
         }
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val appSettings = userViewModel.currentAppSettings.value
 
         userViewModel.currentUser.observe(viewLifecycleOwner) {
             if (it == null) {
@@ -71,13 +80,15 @@ class SettingsFragment : Fragment() {
             if (isChecked) {
                 when (checkedId) {
                     R.id.btn_Km -> {
-                        appSettings.distanceUnit = "Km"
-                        binding.tvDistUnit.text = appSettings.distanceUnit
+                        appSettings?.distanceUnit = "Km"
+                        userViewModel.saveAppSettings()
+                        binding.tvDistUnit.text = appSettings?.distanceUnit
                     }
 
                     R.id.btn_Mi -> {
-                        appSettings.distanceUnit = "Mi"
-                        binding.tvDistUnit.text = appSettings.distanceUnit
+                        appSettings?.distanceUnit = "Mi"
+                        userViewModel.saveAppSettings()
+                        binding.tvDistUnit.text = appSettings?.distanceUnit
                     }
                 }
             }
@@ -85,7 +96,8 @@ class SettingsFragment : Fragment() {
 
         binding.btnDarkModeCheckmark.setOnClickListener {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            appSettings.appearance = AppCompatDelegate.MODE_NIGHT_YES
+            appSettings?.nightmode = AppCompatDelegate.MODE_NIGHT_YES
+            userViewModel.saveAppSettings()
             binding.btnDarkModeCheckmark.alpha = 1f
             binding.btnLightModeCheckmark.alpha = 0f
             binding.btnSystemDefaultCheckmark.alpha = 0f
@@ -93,7 +105,8 @@ class SettingsFragment : Fragment() {
 
         binding.btnLightModeCheckmark.setOnClickListener {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            appSettings.appearance = AppCompatDelegate.MODE_NIGHT_NO
+            appSettings?.nightmode = AppCompatDelegate.MODE_NIGHT_NO
+            userViewModel.saveAppSettings()
             binding.btnDarkModeCheckmark.alpha = 0f
             binding.btnLightModeCheckmark.alpha = 1f
             binding.btnSystemDefaultCheckmark.alpha = 0f
@@ -101,7 +114,8 @@ class SettingsFragment : Fragment() {
 
         binding.btnSystemDefaultCheckmark.setOnClickListener {
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM)
-            appSettings.appearance = MODE_NIGHT_FOLLOW_SYSTEM
+            appSettings?.nightmode = MODE_NIGHT_FOLLOW_SYSTEM
+            userViewModel.saveAppSettings()
             binding.btnDarkModeCheckmark.alpha = 0f
             binding.btnLightModeCheckmark.alpha = 0f
             binding.btnSystemDefaultCheckmark.alpha = 1f

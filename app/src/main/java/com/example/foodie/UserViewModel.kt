@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
@@ -13,6 +14,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.foodie.data.Repository
 import com.example.foodie.data.model.AppSettings
 import com.example.foodie.data.model.DiscoverySettings
 import com.facebook.AccessToken
@@ -36,7 +38,7 @@ import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
@@ -45,9 +47,10 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private var analytics: FirebaseAnalytics
     private val applicationContext = application
     private val auth = Firebase.auth
-    private val fireStore = Firebase.firestore
-    private val TAG = "FirebaseViewModel"
-    private lateinit var profileRef: DocumentReference
+    private val db = FirebaseFirestore.getInstance()
+    val repository = Repository(db)
+    private val TAG = "UserViewModel"
+    private lateinit var userRef: DocumentReference
     private lateinit var resendToken: ForceResendingToken
     private lateinit var storedVerificationId: String
 
@@ -55,61 +58,124 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     val currentUser: LiveData<FirebaseUser?>
         get() = _currentUser
 
-    private var _likedRestaurants = MutableLiveData<List<Place>>()
-    val likedRestaurants: LiveData<List<Place>>
-        get() = _likedRestaurants
+    private var _likes = MutableLiveData<MutableList<Place>>()
+    val likes: LiveData<MutableList<Place>>
+        get() = _likes
 
-    private var _dismissedRestaurants = MutableLiveData<List<Place>>()
-    val dismissedRestaurants: LiveData<List<Place>>
-        get() = _dismissedRestaurants
+    private var _nopes = MutableLiveData<MutableList<Place>>()
+    val nopes: LiveData<MutableList<Place>>
+        get() = _nopes
 
-    private var _visitedRestaurants = MutableLiveData<List<Place>>()
-    val visitedRestaurants: LiveData<List<Place>>
-        get() = _visitedRestaurants
+    private var _history = MutableLiveData<MutableList<Place>>()
+    val history: LiveData<MutableList<Place>>
+        get() = _history
+
+    private var _currentAppSettings = MutableLiveData<AppSettings>()
+    val currentAppSettings: LiveData<AppSettings>
+        get() = _currentAppSettings
+
+    private var _currentDiscoverySettings = MutableLiveData<DiscoverySettings>()
+    val currentDiscoverySettings: LiveData<DiscoverySettings>
+        get() = _currentDiscoverySettings
 
     init {
         if (auth.currentUser != null) {
             setUpUserEnv()
         }
+        AppCompatDelegate.setDefaultNightMode(
+            _currentAppSettings.value?.nightmode ?: AppSettings().nightmode
+        )
         analytics = Firebase.analytics
     }
 
     private fun setUpUserEnv() {
         _currentUser.value = auth.currentUser
-        profileRef =
-            fireStore.collection("users").document(auth.currentUser?.uid!!)
+        userRef = repository.getUserRef(auth.currentUser?.uid!!)
+        loadAppSettings()
+        loadDiscoverySettings()
+        loadRestaurantList("history")
+        loadRestaurantList("likes")
+        loadRestaurantList("nopes")
     }
 
-    fun getSettings(collection: String, settings: String) {
-        TODO()
+    private fun loadAppSettings() {
+        viewModelScope.launch {
+            try {
+                val settings = repository.getAppSettings(userRef)
+                _currentAppSettings.postValue(settings ?: AppSettings())
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to retrieve app settings", e)
+            }
+        }
     }
 
-    fun setAppSettings(collection: String, settings: String, settingsData: AppSettings) {
-        profileRef.collection(collection).document(settings).set(settingsData)
+    fun saveAppSettings() {
+        viewModelScope.launch {
+            try {
+                if (_currentAppSettings.value != null) {
+                    repository.setAppSettings(userRef, _currentAppSettings.value!!)
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to save app settings", e)
+            }
+        }
     }
 
-    fun setDiscoverySettings(
-        collection: String,
-        settings: String,
-        settingsData: DiscoverySettings
-    ) {
-        profileRef.collection(collection).document(settings).set(settingsData)
+    private fun loadDiscoverySettings() {
+        viewModelScope.launch {
+            try {
+                val settings = repository.getDiscoverySettings(userRef)
+                _currentDiscoverySettings.postValue(settings ?: DiscoverySettings())
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to retrieve discovery settings", e)
+            }
+        }
     }
 
-    fun updateSettings() {
-        TODO()
+    fun saveDiscoverySettings() {
+        viewModelScope.launch {
+            try {
+                if (_currentAppSettings.value != null) {
+                    repository.setDiscoverySettings(userRef, _currentDiscoverySettings.value!!)
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to save discovery settings", e)
+            }
+        }
     }
 
     fun addNewRestaurant(collection: String, restaurantName: String, restaurantData: Place) {
-        profileRef.collection(collection).document(restaurantName).set(restaurantData)
+        viewModelScope.launch {
+            try {
+                repository.addNewRestaurant(userRef, collection, restaurantName, restaurantData)
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to add $restaurantName to $collection", e)
+            }
+        }
     }
 
-    fun getRestaurantList(collection: String) {
-        TODO()
+    private fun loadRestaurantList(collection: String) {
+        viewModelScope.launch {
+            try {
+                when (collection) {
+                    "history" -> _history.postValue(repository.getRestaurantList(userRef, collection))
+                    "likes" -> _likes.postValue(repository.getRestaurantList(userRef, collection))
+                    "nopes" -> _nopes.postValue(repository.getRestaurantList(userRef, collection))
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to retrieve $collection", e)
+            }
+        }
     }
 
-    fun deleteRestaurant(collection: String, restaurantName: String) {
-        profileRef.collection(collection).document(restaurantName).delete()
+    fun deleteLikedRestaurant(restaurantName: String) {
+        viewModelScope.launch {
+            try {
+                repository.deleteLikedRestaurant(userRef, restaurantName)
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to delete $restaurantName from likes", e)
+            }
+        }
     }
 
     private fun getCredentialRequest(filterByAuthorizedAccounts: Boolean): GetCredentialRequest {
