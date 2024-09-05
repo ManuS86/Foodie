@@ -32,52 +32,7 @@ class DiscoverySettingsDetailFragment : Fragment() {
         binding = FragmentDiscoverySettingsDetailBinding.inflate(inflater)
         discoverySettings = userViewModel.currentDiscoverySettings.value ?: DiscoverySettings()
         foodCategories = userViewModel.repository.foodCategories
-
-        val radius = userViewModel.currentDiscoverySettings.value?.radius
-        if (appSettings.distanceUnit == "Km") {
-            binding.sbDistanceSlider.progress = (radius?.div(1000))?.toInt() ?: 2000
-            binding.tvKmMi.text = "${radius?.div(1000)} Km"
-        } else if (appSettings.distanceUnit == "Mi") {
-            binding.sbDistanceSlider.progress = (radius?.div(621.371))?.toInt() ?: 1000
-            binding.tvKmMi.text = "${(radius?.div(1609.34))?.toInt()} Mi"
-        }
-
-        val openNow = discoverySettings.openNow
-        if (openNow) {
-            binding.btnOpenNow.isChecked = true
-            binding.tvOpenStatus.text = "Open now"
-        } else {
-            binding.btnAny.isChecked = true
-            binding.tvOpenStatus.text = "Any"
-        }
-
-        val rating = discoverySettings.minRating
-        val ratingBar = binding.rbRatingFilter
-        when (rating) {
-            1f -> ratingBar.rating = 1f
-
-            2f -> ratingBar.rating = 2f
-
-            3f -> ratingBar.rating = 3f
-
-            4f -> ratingBar.rating = 4f
-
-            5f -> ratingBar.rating = 5f
-        }
-
-        val priceLevel = discoverySettings.priceLevels
-        if (priceLevel.contains("€")) {
-            binding.cpPriceRangeLow.isChecked = true
-        }
-
-        if (priceLevel.contains("€€")) {
-            binding.cpPriceRangeMed.isChecked = true
-        }
-
-        if (priceLevel.contains("€€€")) {
-            binding.cpPriceRangeHi.isChecked = true
-        }
-
+        setSettingsUI()
         return binding.root
     }
 
@@ -207,6 +162,53 @@ class DiscoverySettingsDetailFragment : Fragment() {
 
         binding.ivBack.setOnClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    private fun setSettingsUI() {
+        val radius = userViewModel.currentDiscoverySettings.value?.radius
+        if (appSettings.distanceUnit == "Km") {
+            binding.sbDistanceSlider.progress = (radius?.div(1000))?.toInt() ?: 2000
+            binding.tvKmMi.text = "${radius?.div(1000)} Km"
+        } else if (appSettings.distanceUnit == "Mi") {
+            binding.sbDistanceSlider.progress = (radius?.div(621.371))?.toInt() ?: 1000
+            binding.tvKmMi.text = "${(radius?.div(1609.34))?.toInt()} Mi"
+        }
+
+        val openNow = discoverySettings.openNow
+        if (openNow) {
+            binding.btnOpenNow.isChecked = true
+            binding.tvOpenStatus.text = "Open now"
+        } else {
+            binding.btnAny.isChecked = true
+            binding.tvOpenStatus.text = "Any"
+        }
+
+        val rating = discoverySettings.minRating
+        val ratingBar = binding.rbRatingFilter
+        when (rating) {
+            1f -> ratingBar.rating = 1f
+
+            2f -> ratingBar.rating = 2f
+
+            3f -> ratingBar.rating = 3f
+
+            4f -> ratingBar.rating = 4f
+
+            5f -> ratingBar.rating = 5f
+        }
+
+        val priceLevel = discoverySettings.priceLevels
+        if (priceLevel.contains("€")) {
+            binding.cpPriceRangeLow.isChecked = true
+        }
+
+        if (priceLevel.contains("€€")) {
+            binding.cpPriceRangeMed.isChecked = true
+        }
+
+        if (priceLevel.contains("€€€")) {
+            binding.cpPriceRangeHi.isChecked = true
         }
     }
 }

@@ -39,7 +39,6 @@ class RestaurantsFragment : Fragment() {
 
         addCurrentUserObserver()
         addLocationPermissionObserver()
-        addCurrentLocationObserverWithNearbyRestaurantsObserver()
 
         binding = FragmentRestaurantsBinding.inflate(inflater)
         return binding.root
@@ -48,36 +47,35 @@ class RestaurantsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val restaurants = nearbyRestaurantsViewModel.nearbyRestaurants.value
-        cardStackLayoutManager = CardStackLayoutManager(requireContext(),
+        cardStackLayoutManager = CardStackLayoutManager(
+            requireContext(),
             object : CardStackListener {
                 override fun onCardDragging(direction: Direction?, ratio: Float) {
                 }
 
                 override fun onCardSwiped(direction: Direction?) {
                     val position = cardStackLayoutManager.topPosition - 1
-                    when (direction) {
-                        Direction.Left -> {
-                            if (restaurants != null) {
+                    if (restaurants != null) {
+                        when (direction) {
+                            Direction.Left -> {
                                 userViewModel.addNewRestaurant(
                                     "nopes",
                                     restaurants[position].name!!,
                                     restaurants[position]
                                 )
                             }
-                        }
 
-                        Direction.Right -> {
-                            if (restaurants != null) {
+                            Direction.Right -> {
                                 userViewModel.addNewRestaurant(
                                     "likes",
                                     restaurants[position].name!!,
                                     restaurants[position]
                                 )
                             }
-                        }
 
-                        else -> {
-                            // Handle other directions if needed
+                            else -> {
+                                // Handle other directions if needed
+                            }
                         }
                     }
                 }
@@ -95,7 +93,8 @@ class RestaurantsFragment : Fragment() {
                 }
             }
         )
-        cardStackLayoutManager.setDirections(Direction.HORIZONTAL)
+
+        addCurrentLocationObserverWithNearbyRestaurantsObserver()
 
         binding.fabNope.setOnClickListener {
             val setting = SwipeAnimationSetting.Builder()
@@ -155,12 +154,14 @@ class RestaurantsFragment : Fragment() {
                         requireContext(),
                         nearbyRestaurants,
                         viewLifecycleOwner,
+                        locationViewModel,
                         nearbyRestaurantsViewModel,
                         userViewModel
                     )
                 cardStackView.setHasFixedSize(true)
                 cardStackView.layoutManager = cardStackLayoutManager
                 cardStackLayoutManager.setMaxDegree(30.0f)
+                cardStackLayoutManager.setDirections(Direction.HORIZONTAL)
             }
         }
     }

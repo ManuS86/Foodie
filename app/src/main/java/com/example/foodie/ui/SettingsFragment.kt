@@ -22,33 +22,7 @@ class SettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentSettingsBinding.inflate(inflater)
-
-        val distanceUnit = userViewModel.currentAppSettings.value?.distanceUnit
-        if (distanceUnit == "Km") {
-            binding.btnKm.isChecked = true
-            binding.tvDistUnit.text = distanceUnit
-        } else {
-            binding.btnMi.isChecked = true
-            binding.tvDistUnit.text = distanceUnit
-        }
-
-        val nightMode = AppCompatDelegate.getDefaultNightMode()
-        when (nightMode) {
-            AppCompatDelegate.MODE_NIGHT_YES -> {
-                binding.btnDarkModeCheckmark.alpha = 1f
-            }
-
-            AppCompatDelegate.MODE_NIGHT_NO -> {
-                binding.btnLightModeCheckmark.alpha = 1f
-            }
-
-            AppCompatDelegate.MODE_NIGHT_UNSPECIFIED, MODE_NIGHT_FOLLOW_SYSTEM -> {
-                binding.btnSystemDefaultCheckmark.alpha = 1f
-            }
-
-            else -> {
-            }
-        }
+        setSettingsUI()
         return binding.root
     }
 
@@ -127,6 +101,35 @@ class SettingsFragment : Fragment() {
 
         binding.cvDelAcc.setOnClickListener {
             alertDialogDel.show()
+        }
+    }
+
+    private fun setSettingsUI() {
+        val distanceUnit = userViewModel.currentAppSettings.value?.distanceUnit
+        if (distanceUnit == "Km") {
+            binding.btnKm.isChecked = true
+            binding.tvDistUnit.text = distanceUnit
+        } else {
+            binding.btnMi.isChecked = true
+            binding.tvDistUnit.text = distanceUnit
+        }
+
+        val nightMode = AppCompatDelegate.getDefaultNightMode()
+        when (nightMode) {
+            AppCompatDelegate.MODE_NIGHT_YES -> {
+                binding.btnDarkModeCheckmark.alpha = 1f
+            }
+
+            AppCompatDelegate.MODE_NIGHT_NO -> {
+                binding.btnLightModeCheckmark.alpha = 1f
+            }
+
+            AppCompatDelegate.MODE_NIGHT_UNSPECIFIED, MODE_NIGHT_FOLLOW_SYSTEM -> {
+                binding.btnSystemDefaultCheckmark.alpha = 1f
+            }
+
+            else -> {
+            }
         }
     }
 }

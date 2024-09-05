@@ -2,6 +2,7 @@ package com.example.foodie.ui.restaurants
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import com.example.foodie.NearbyRestaurantsViewModel
 import com.example.foodie.R
 import com.example.foodie.UserViewModel
 import com.example.foodie.addIndicatorChip
+import com.example.foodie.data.model.AppSettings
 import com.example.foodie.data.model.DiscoverySettings
 import com.example.foodie.databinding.FragmentRestaurantsDetailBinding
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -24,12 +26,15 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_RED
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.model.Place
+import kotlin.math.roundToInt
 
 class RestaurantsDetailFragment : Fragment() {
     private val locationViewModel: LocationViewModel by activityViewModels()
     private val nearbyRestaurantsViewModel: NearbyRestaurantsViewModel by activityViewModels()
     private val userViewModel: UserViewModel by activityViewModels()
+    private lateinit var appSettings: AppSettings
     private lateinit var binding: FragmentRestaurantsDetailBinding
+    private lateinit var discoverySettings: DiscoverySettings
     private lateinit var mapView: MapView
 
     override fun onCreateView(
@@ -41,104 +46,148 @@ class RestaurantsDetailFragment : Fragment() {
         locationViewModel.checkLocationPermission()
 
         binding = FragmentRestaurantsDetailBinding.inflate(inflater)
+        appSettings = userViewModel.currentAppSettings.value ?: AppSettings()
+        discoverySettings = userViewModel.currentDiscoverySettings.value ?: DiscoverySettings()
         mapView = binding.ivMapPreview
         mapView.onCreate(savedInstanceState)
+
         return binding.root
     }
 
     @SuppressLint("MissingPermission", "SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val restaurant = nearbyRestaurantsViewModel.currentRestaurant.value
 
-        val restaurant = nearbyRestaurantsViewModel.currentRestaurant.value!!
-        val chipGroup = binding.cpgRestaurantCategories
-        val discoverySettings = userViewModel.currentDiscoverySettings.value
-        val matchingCategories = userViewModel.repository.foodCategories.filter { category ->
-            restaurant.placeTypes?.any { categoryString -> category.type == categoryString }
-                ?: false
-        }
-        val formattedOpeningWeekdays =
-            restaurant.currentOpeningHours?.periods?.joinToString("\n") { period ->
-                period.open?.day.toString().let { day ->
-                    day.substring(0, 1) + day.substring(1, 3).lowercase()
-                }
-            } ?: ""
-        val formattedOpeningHours =
-            restaurant.currentOpeningHours?.periods?.joinToString("\n") { period ->
-                val openTime =
-                    "%02d:%02d".format(period.open?.time?.hours, period.open?.time?.minutes)
-                val closeTime =
-                    "%02d:%02d".format(period.close?.time?.hours, period.close?.time?.minutes)
-                "$openTime - $closeTime"
-            } ?: "N/a"
-
-        addLocationPermissionObserver()
-        initializeMap(restaurant)
-
-        binding.tvNameTitle.text = restaurant.name
-        matchingCategories.forEach { category ->
-            addIndicatorChip(
-                category.name,
-                chipGroup,
-                requireContext(),
-                discoverySettings ?: DiscoverySettings()
-            )
-        }
-        binding.tvTodaysHours.text = if (nearbyRestaurantsViewModel.isPlaceOpenNow(restaurant)) {
-            binding.tvTodaysHours.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.open_green
-                )
-            )
-            "Open"
-        } else {
-            binding.tvTodaysHours.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.open_red
-                )
-            )
-            "Closed"
-        }
-        binding.tvWeekdays.text = formattedOpeningWeekdays
-        binding.tvTimes.text = formattedOpeningHours
-        binding.tvRating.text = restaurant.rating?.toString() ?: "n/a"
-        binding.rbRating.rating = restaurant.rating?.toFloat() ?: 0f
-        binding.tvRatingsTotal.text = "(${restaurant.userRatingsTotal?.toString() ?: "0"})"
-        binding.tvPriceLevelDiscovery.text = when (restaurant.priceLevel?.toString()) {
-            "1" -> "€"
-            "2" -> "€€"
-            "3" -> "€€€"
-            "4" -> "€€€€"
-            else -> "N/A"
-        }
-        binding.tvAddress.text = restaurant.address
-        if (restaurant.websiteUri != null) {
-            binding.cvWebsite.visibility = View.VISIBLE
-            binding.btnWebsite.setOnClickListener {
-                val uri = Uri.parse(restaurant.websiteUri?.toString())
-                val intent = Intent(Intent.ACTION_VIEW, uri)
-                startActivity(intent)
+        if (restaurant != null) {
+            val chipGroup = binding.cpgRestaurantCategories
+            val matchingCategories = userViewModel.repository.foodCategories.filter { category ->
+                restaurant.placeTypes?.any { categoryString -> category.type == categoryString }
+                    ?: false
             }
-        } else {
-            binding.cvWebsite.visibility = View.GONE
-        }
+            val formattedOpeningWeekdays =
+                restaurant.currentOpeningHours?.periods?.joinToString("\n") { period ->
+                    period.open?.day.toString().let { day ->
+                        day.substring(0, 1) + day.substring(1, 3).lowercase()
+                    }
+                } ?: ""
+            val formattedOpeningHours =
+                restaurant.currentOpeningHours?.periods?.joinToString("\n") { period ->
+                    val openTime =
+                        "%02d:%02d".format(period.open?.time?.hours, period.open?.time?.minutes)
+                    val closeTime =
+                        "%02d:%02d".format(period.close?.time?.hours, period.close?.time?.minutes)
+                    "$openTime - $closeTime"
+                } ?: "N/a"
+            val restaurantLocation = Location("").apply {
+                latitude = restaurant.latLng?.latitude!!
+                longitude = restaurant.latLng?.longitude!!
+            }
+            val userLocation = locationViewModel.currentLocation.value
+            val distanceInMeters = userLocation?.distanceTo(restaurantLocation)
 
-        binding.ivDecollapse.setOnClickListener {
-            findNavController().navigateUp()
-        }
+            addLocationPermissionObserver()
+            initializeMap(restaurant)
 
-        binding.fabNavigate.setOnClickListener {
-            findNavController().navigate(R.id.navigationDetailFragment)
-        }
+            binding.tvNameTitle.text = restaurant.name
+            matchingCategories.forEach { category ->
+                addIndicatorChip(
+                    category.name,
+                    chipGroup,
+                    requireContext(),
+                    discoverySettings
+                )
+            }
+            binding.tvDistanceProfile.text =
+                if (appSettings.distanceUnit == "Km") {
+                    val distanceInKm = (distanceInMeters?.div(1000.0f))?.roundToInt()
+                    if (distanceInKm!! < 1) {
+                        "Less than 1 Km away"
+                    } else {
+                        "$distanceInKm Km away"
+                    }
+                } else {
+                    val distanceInMi = (distanceInMeters?.div(621.371f))?.roundToInt()
+                    if (distanceInMi!! < 1) {
+                        "Less than 1 Mi away"
+                    } else {
+                        "$distanceInMi Mi away"
+                    }
+                }
+            binding.tvTodaysHours.text =
+                when (nearbyRestaurantsViewModel.isPlaceOpenNow(restaurant)) {
+                    true -> {
+                        binding.tvTodaysHours.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.open_green
+                            )
+                        )
+                        "Open"
+                    }
 
-        binding.fabNope.setOnClickListener {
-            userViewModel.addNewRestaurant("dismissed", restaurant.name!!, restaurant)
-        }
+                    false -> {
+                        binding.tvTodaysHours.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.open_red
+                            )
+                        )
+                        "Closed"
+                    }
 
-        binding.fabLike.setOnClickListener {
-            userViewModel.addNewRestaurant("liked", restaurant.name!!, restaurant)
+                    null -> {
+                        binding.tvTodaysHours.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.off_black
+                            )
+                        )
+                        "Uknown"
+                    }
+                }
+
+            binding.tvWeekdays.text = formattedOpeningWeekdays
+            binding.tvTimes.text = formattedOpeningHours
+            binding.tvRating.text = restaurant.rating?.toString() ?: "n/a"
+            binding.rbRating.rating = restaurant.rating?.toFloat() ?: 0f
+            binding.tvRatingsTotal.text = "(${restaurant.userRatingsTotal?.toString() ?: "0"})"
+            binding.tvPriceLevelProfile.text =
+                when (restaurant.priceLevel?.toString()) {
+                    "1" -> "€"
+                    "2" -> "€€"
+                    "3" -> "€€€"
+                    "4" -> "€€€€"
+                    else -> "N/A"
+                }
+
+            binding.tvAddress.text = restaurant.address
+            if (restaurant.websiteUri != null) {
+                binding.cvWebsite.visibility = View.VISIBLE
+                binding.btnWebsite.setOnClickListener {
+                    val uri = Uri.parse(restaurant.websiteUri?.toString())
+                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                    startActivity(intent)
+                }
+            } else {
+                binding.cvWebsite.visibility = View.GONE
+            }
+
+            binding.ivDecollapse.setOnClickListener {
+                findNavController().navigateUp()
+            }
+
+            binding.fabNavigate.setOnClickListener {
+                findNavController().navigate(R.id.navigationDetailFragment)
+            }
+
+            binding.fabNope.setOnClickListener {
+                userViewModel.addNewRestaurant("dismissed", restaurant.name!!, restaurant)
+            }
+
+            binding.fabLike.setOnClickListener {
+                userViewModel.addNewRestaurant("liked", restaurant.name!!, restaurant)
+            }
         }
     }
 

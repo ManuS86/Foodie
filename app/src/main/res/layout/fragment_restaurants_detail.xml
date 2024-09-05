@@ -153,7 +153,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/cpg_restaurantCategories" />
+                        app:layout_constraintTop_toBottomOf="@+id/tv_distanceProfile" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_todaysHours"
@@ -171,8 +171,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
                         android:text="Mon"
                         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/tv_hours"
                         app:layout_constraintTop_toBottomOf="@+id/tv_hours" />
 
@@ -193,22 +195,20 @@
                         android:layout_height="0dp"
                         android:layout_marginStart="16dp"
                         android:src="@drawable/ic_location_thick"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_distanceHistory"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_distanceProfile"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tv_distanceHistory" />
+                        app:layout_constraintTop_toTopOf="@+id/tv_distanceProfile" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_distanceHistory"
+                        android:id="@+id/tv_distanceProfile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="8dp"
                         android:text="1 km away"
                         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/iv_locationIcon"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_weekdays" />
+                        app:layout_constraintTop_toBottomOf="@+id/cpg_restaurantCategories" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -278,7 +278,7 @@
                         app:layout_constraintTop_toTopOf="@+id/rb_rating" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_price_level_discovery"
+                        android:id="@+id/tv_price_level_profile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
