@@ -36,10 +36,10 @@ class DiscoverySettingsDetailFragment : Fragment() {
         val radius = userViewModel.currentDiscoverySettings.value?.radius
         if (appSettings.distanceUnit == "Km") {
             binding.sbDistanceSlider.progress = (radius?.div(1000))?.toInt() ?: 2000
-            binding.tvKmMi.text = "$radius Km"
+            binding.tvKmMi.text = "${radius?.div(1000)} Km"
         } else if (appSettings.distanceUnit == "Mi") {
             binding.sbDistanceSlider.progress = (radius?.div(621.371))?.toInt() ?: 1000
-            binding.tvKmMi.text = "$radius Mi"
+            binding.tvKmMi.text = "${(radius?.div(1609.34))?.toInt()} Mi"
         }
 
         val openNow = discoverySettings.openNow
@@ -93,11 +93,11 @@ class DiscoverySettingsDetailFragment : Fragment() {
             ) {
                 if (appSettings.distanceUnit == "Km") {
                     binding.tvKmMi.text = "$progress Km"
-                    discoverySettings.radius = progress.toLong() * 1000
+                    discoverySettings.radius = (progress * 1000).toLong()
                     userViewModel.saveDiscoverySettings()
                 } else if (appSettings.distanceUnit == "Mi") {
                     binding.tvKmMi.text = "$progress Mi"
-                    discoverySettings.radius = (progress * 621.371).toLong()
+                    discoverySettings.radius = (progress * 1609.34).toLong()
                     userViewModel.saveDiscoverySettings()
                 }
             }
