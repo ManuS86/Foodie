@@ -1,4 +1,4 @@
-package com.example.foodie.data
+package com.example.foodie.data.local
 
 import com.example.foodie.data.model.Category
 

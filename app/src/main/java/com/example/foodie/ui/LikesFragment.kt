@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.LocationViewModel
-import com.example.foodie.NearbyRestaurantsViewModel
+import com.example.foodie.PlacesViewModel
 import com.example.foodie.R
 import com.example.foodie.UserViewModel
 import com.example.foodie.adapter.LikesAdapter
@@ -16,7 +16,7 @@ import com.example.foodie.databinding.FragmentLikesBinding
 
 class LikesFragment : Fragment() {
     private val locationViewModel: LocationViewModel by activityViewModels()
-    private val nearbyRestaurantsViewModel: NearbyRestaurantsViewModel by activityViewModels()
+    private val placesViewModel: PlacesViewModel by activityViewModels()
     private val userViewModel: UserViewModel by activityViewModels()
     private lateinit var binding: FragmentLikesBinding
 
@@ -25,27 +25,38 @@ class LikesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        binding = FragmentLikesBinding.inflate(inflater)
+
         locationViewModel.isGPSEnabled()
         locationViewModel.checkLocationPermission()
 
-        binding = FragmentLikesBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addLocationPermissionObserver()
-        addLikeObserverWithAdapter()
+        addPlaceObserverWithLikeObserverAndAdapter()
+    }
+
+    private fun addPlaceObserverWithLikeObserverAndAdapter() {
+        userViewModel.likesIds.observe(viewLifecycleOwner) {
+            it.forEach { placeId ->
+                placesViewModel.loadRestaurantById("likes", placeId)
+            }
+            addLikeObserverWithAdapter()
+        }
     }
 
     private fun addLikeObserverWithAdapter() {
-        userViewModel.likes.observe(viewLifecycleOwner) { likes ->
+        placesViewModel.likes.observe(viewLifecycleOwner) { likes ->
             binding.rvLikes.let { recyclerView ->
                 recyclerView.adapter = LikesAdapter(
                     requireContext(),
                     likes,
                     viewLifecycleOwner,
-                    nearbyRestaurantsViewModel,
+                    locationViewModel,
+                    placesViewModel,
                     userViewModel
                 )
                 recyclerView.setHasFixedSize(true)

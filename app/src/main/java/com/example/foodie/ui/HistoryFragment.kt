@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.LocationViewModel
-import com.example.foodie.NearbyRestaurantsViewModel
+import com.example.foodie.PlacesViewModel
 import com.example.foodie.R
 import com.example.foodie.UserViewModel
 import com.example.foodie.adapter.HistoryAdapter
@@ -16,7 +16,7 @@ import com.example.foodie.databinding.FragmentHistoryBinding
 
 class HistoryFragment : Fragment() {
     private val locationViewModel: LocationViewModel by activityViewModels()
-    private val nearbyRestaurantsViewModel: NearbyRestaurantsViewModel by activityViewModels()
+    private val placesViewModel: PlacesViewModel by activityViewModels()
     private val userViewModel: UserViewModel by activityViewModels()
     private lateinit var binding: FragmentHistoryBinding
 
@@ -25,27 +25,39 @@ class HistoryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        binding = FragmentHistoryBinding.inflate(inflater)
+
         locationViewModel.isGPSEnabled()
         locationViewModel.checkLocationPermission()
 
-        binding = FragmentHistoryBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         addLocationPermissionObserver()
-        addHistoryObserverWithAdapter()
+        addPlaceObserverWithHistoryObserverAndAdapter()
+    }
+
+    private fun addPlaceObserverWithHistoryObserverAndAdapter() {
+        userViewModel.historyIds.observe(viewLifecycleOwner) {
+            it.forEach { placeId ->
+                placesViewModel.loadRestaurantById("history", placeId)
+            }
+            addHistoryObserverWithAdapter()
+        }
     }
 
     private fun addHistoryObserverWithAdapter() {
-        userViewModel.history.observe(viewLifecycleOwner) { history ->
+        placesViewModel.history.observe(viewLifecycleOwner) { history ->
             binding.rvHistory.let { recyclerView ->
                 recyclerView.adapter = HistoryAdapter(
                     requireContext(),
                     history,
                     viewLifecycleOwner,
-                    nearbyRestaurantsViewModel,
+                    locationViewModel,
+                    placesViewModel,
                     userViewModel
                 )
                 recyclerView.setHasFixedSize(true)

@@ -13,12 +13,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.LocationViewModel
-import com.example.foodie.NearbyRestaurantsViewModel
+import com.example.foodie.PlacesViewModel
 import com.example.foodie.R
 import com.example.foodie.UserViewModel
+import com.example.foodie.adapter.ImageGalleryAdapter
 import com.example.foodie.addIndicatorChip
 import com.example.foodie.data.model.AppSettings
 import com.example.foodie.data.model.DiscoverySettings
+import com.example.foodie.data.model.Id
 import com.example.foodie.databinding.FragmentRestaurantsDetailBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
@@ -30,7 +32,7 @@ import kotlin.math.roundToInt
 
 class RestaurantsDetailFragment : Fragment() {
     private val locationViewModel: LocationViewModel by activityViewModels()
-    private val nearbyRestaurantsViewModel: NearbyRestaurantsViewModel by activityViewModels()
+    private val placesViewModel: PlacesViewModel by activityViewModels()
     private val userViewModel: UserViewModel by activityViewModels()
     private lateinit var appSettings: AppSettings
     private lateinit var binding: FragmentRestaurantsDetailBinding
@@ -42,14 +44,14 @@ class RestaurantsDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        locationViewModel.isGPSEnabled()
-        locationViewModel.checkLocationPermission()
-
         binding = FragmentRestaurantsDetailBinding.inflate(inflater)
         appSettings = userViewModel.currentAppSettings.value ?: AppSettings()
         discoverySettings = userViewModel.currentDiscoverySettings.value ?: DiscoverySettings()
         mapView = binding.ivMapPreview
         mapView.onCreate(savedInstanceState)
+
+        locationViewModel.isGPSEnabled()
+        locationViewModel.checkLocationPermission()
 
         return binding.root
     }
@@ -57,14 +59,15 @@ class RestaurantsDetailFragment : Fragment() {
     @SuppressLint("MissingPermission", "SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val restaurant = nearbyRestaurantsViewModel.currentRestaurant.value
+        val restaurant = placesViewModel.currentRestaurant.value
 
         if (restaurant != null) {
             val chipGroup = binding.cpgRestaurantCategories
-            val matchingCategories = userViewModel.repository.foodCategories.filter { category ->
-                restaurant.placeTypes?.any { categoryString -> category.type == categoryString }
-                    ?: false
-            }
+            val matchingCategories =
+                userViewModel.firestoreRepository.foodCategories.filter { category ->
+                    restaurant.placeTypes?.any { categoryString -> category.type == categoryString }
+                        ?: false
+                }
             val formattedOpeningWeekdays =
                 restaurant.currentOpeningHours?.periods?.joinToString("\n") { period ->
                     period.open?.day.toString().let { day ->
@@ -89,6 +92,27 @@ class RestaurantsDetailFragment : Fragment() {
             addLocationPermissionObserver()
             initializeMap(restaurant)
 
+            if (restaurant.photoMetadatas != null) {
+                restaurant.photoMetadatas!!.take(9).forEach { photoMetadata ->
+                    placesViewModel.loadPhoto(photoMetadata)
+                }
+                placesViewModel.photos.observe(viewLifecycleOwner) { photos ->
+                    binding.vpGalleryProfile.adapter = ImageGalleryAdapter(photos)
+                    binding.btnImageLeft.setOnClickListener {
+                        val currentItem = binding.vpGalleryProfile.currentItem
+                        binding.vpGalleryProfile.currentItem = currentItem - 1
+                    }
+                    binding.btnImageRight.setOnClickListener {
+                        if (photos.isNotEmpty()){
+                        val currentItem = binding.vpGalleryProfile.currentItem
+                        val nextItem = (currentItem + 1) % photos.size
+                        binding.vpGalleryProfile.currentItem = nextItem
+                        }
+                    }
+                }
+            } else {
+                binding.ivPlaceholder.setImageResource(R.drawable.placeholder_image)
+            }
             binding.tvNameTitle.text = restaurant.name
             matchingCategories.forEach { category ->
                 addIndicatorChip(
@@ -115,7 +139,7 @@ class RestaurantsDetailFragment : Fragment() {
                     }
                 }
             binding.tvTodaysHours.text =
-                when (nearbyRestaurantsViewModel.isPlaceOpenNow(restaurant)) {
+                when (placesViewModel.isPlaceOpenNow(restaurant)) {
                     true -> {
                         binding.tvTodaysHours.setTextColor(
                             ContextCompat.getColor(
@@ -182,11 +206,19 @@ class RestaurantsDetailFragment : Fragment() {
             }
 
             binding.fabNope.setOnClickListener {
-                userViewModel.addNewRestaurant("dismissed", restaurant.name!!, restaurant)
+                userViewModel.saveRestaurant(
+                    "nopes",
+                    restaurant.name!!,
+                    Id(restaurant.name!!, restaurant.id!!)
+                )
             }
 
             binding.fabLike.setOnClickListener {
-                userViewModel.addNewRestaurant("liked", restaurant.name!!, restaurant)
+                userViewModel.saveRestaurant(
+                    "likes",
+                    restaurant.name!!,
+                    Id(restaurant.name!!, restaurant.id!!)
+                )
             }
         }
     }

@@ -76,31 +76,63 @@
                 app:shapeAppearanceOverlay="@style/TopCornerCardview"
                 app:strokeWidth="0dp">
 
-                <TableLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
-                    <TableRow
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/vp_gallery_profile"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                    </androidx.viewpager2.widget.ViewPager2>
 
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                    <ImageView
+                        android:id="@+id/iv_placeholder"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-                </TableLayout>
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btn_image_left"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:soundEffectsEnabled="false"
+                        app:cardBackgroundColor="@color/colorless"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/btn_image_right"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:rippleColor="@color/colorless"
+                        app:strokeWidth="0dp" />
 
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/vp_images"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btn_image_right"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:soundEffectsEnabled="false"
+                        app:cardBackgroundColor="@color/colorless"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/btn_image_left"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:rippleColor="@color/colorless"
+                        app:strokeWidth="0dp" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
@@ -329,7 +361,8 @@
                         android:src="@drawable/ic_location_thick"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_address"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tv_address" />
+                        app:layout_constraintTop_toTopOf="@+id/tv_address"
+                        app:layout_constraintVertical_bias="0.0" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_address"

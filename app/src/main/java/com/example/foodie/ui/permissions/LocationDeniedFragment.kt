@@ -23,9 +23,11 @@ class LocationDeniedFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        binding = FragmentLocationDeniedBinding.inflate(inflater)
+
         locationViewModel.isGPSEnabled()
         locationViewModel.checkLocationPermission()
-        binding = FragmentLocationDeniedBinding.inflate(inflater)
+
         return binding.root
     }
 

@@ -1,16 +1,17 @@
 package com.example.foodie.data
 
+import com.example.foodie.data.local.foodCategoryData
 import com.example.foodie.data.model.AppSettings
 import com.example.foodie.data.model.Category
 import com.example.foodie.data.model.DiscoverySettings
-import com.google.android.libraries.places.api.model.Place
+import com.example.foodie.data.model.Id
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-class Repository(private var db: FirebaseFirestore) {
+class FirestoreRepository(private var db: FirebaseFirestore) {
     val foodCategories = loadFoodCategories()
 
     init {
@@ -22,34 +23,34 @@ class Repository(private var db: FirebaseFirestore) {
         return userRef
     }
 
-    suspend fun getRestaurantList(
+    suspend fun getRestaurantIdList(
         userRef: DocumentReference,
         collection: String
-    ): MutableList<Place> {
+    ): MutableList<String> {
         val collRef = userRef.collection(collection)
         val querySnapshot = withContext(Dispatchers.IO) {
             collRef.get().await()
         }
 
-        val restaurantList = mutableListOf<Place>()
+        val restaurantIdList = mutableListOf<String>()
         for (document in querySnapshot.documents) {
-            val place = document.toObject(Place::class.java)
-            if (place != null) {
-                restaurantList.add(place)
+            if (document != null) {
+                val restaurantId = document.toObject(Id::class.java)
+                restaurantIdList.add(restaurantId?.id!!)
             }
         }
-        return restaurantList
+        return restaurantIdList
     }
 
-    suspend fun addNewRestaurant(
+    suspend fun addRestaurant(
         userRef: DocumentReference,
         collection: String,
         restaurantName: String,
-        restaurantData: Place
+        restaurantId: Id
     ) {
         val docRef = userRef.collection(collection).document(restaurantName)
         withContext(Dispatchers.IO) {
-            docRef.set(restaurantData).await()
+            docRef.set(restaurantId).await()
         }
     }
 

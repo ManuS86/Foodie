@@ -28,10 +28,10 @@ class LoginFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        locationViewModel.handleLocationRequest(requireActivity())
-
         binding = FragmentLoginBinding.inflate(inflater, container, false)
         callbackManager = CallbackManager.Factory.create()
+
+        locationViewModel.handleLocationRequest(requireActivity())
 
         LoginManager.getInstance()
             .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
@@ -51,6 +51,7 @@ class LoginFragment : Fragment() {
                     ).show()
                 }
             })
+
         return binding.root
     }
 

@@ -10,10 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.LocationViewModel
-import com.example.foodie.NearbyRestaurantsViewModel
+import com.example.foodie.PlacesViewModel
 import com.example.foodie.R
 import com.example.foodie.UserViewModel
 import com.example.foodie.adapter.RestaurantsAdapter
+import com.example.foodie.data.model.DiscoverySettings
+import com.example.foodie.data.model.Id
 import com.example.foodie.databinding.FragmentRestaurantsBinding
 import com.google.android.gms.maps.model.LatLng
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
@@ -24,29 +26,32 @@ import com.yuyakaido.android.cardstackview.SwipeAnimationSetting
 
 class RestaurantsFragment : Fragment() {
     private val locationViewModel: LocationViewModel by activityViewModels()
-    private val nearbyRestaurantsViewModel: NearbyRestaurantsViewModel by activityViewModels()
+    private val placesViewModel: PlacesViewModel by activityViewModels()
     private val userViewModel: UserViewModel by activityViewModels()
     private lateinit var binding: FragmentRestaurantsBinding
     private lateinit var cardStackLayoutManager: CardStackLayoutManager
+    private lateinit var discoverySettings: DiscoverySettings
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        binding = FragmentRestaurantsBinding.inflate(inflater)
+        discoverySettings = userViewModel.currentDiscoverySettings.value ?: DiscoverySettings()
+
         locationViewModel.isGPSEnabled()
         locationViewModel.checkLocationPermission()
 
         addCurrentUserObserver()
         addLocationPermissionObserver()
 
-        binding = FragmentRestaurantsBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val restaurants = nearbyRestaurantsViewModel.nearbyRestaurants.value
+        val restaurants = placesViewModel.nearbyRestaurants.value
         cardStackLayoutManager = CardStackLayoutManager(
             requireContext(),
             object : CardStackListener {
@@ -58,18 +63,24 @@ class RestaurantsFragment : Fragment() {
                     if (restaurants != null) {
                         when (direction) {
                             Direction.Left -> {
-                                userViewModel.addNewRestaurant(
+                                userViewModel.saveRestaurant(
                                     "nopes",
                                     restaurants[position].name!!,
-                                    restaurants[position]
+                                    Id(
+                                        restaurants[position].name!!,
+                                        restaurants[position].id!!
+                                    )
                                 )
                             }
 
                             Direction.Right -> {
-                                userViewModel.addNewRestaurant(
+                                userViewModel.saveRestaurant(
                                     "likes",
                                     restaurants[position].name!!,
-                                    restaurants[position]
+                                    Id(
+                                        restaurants[position].name!!,
+                                        restaurants[position].id!!
+                                    )
                                 )
                             }
 
@@ -128,26 +139,26 @@ class RestaurantsFragment : Fragment() {
     private fun addCurrentLocationObserverWithNearbyRestaurantsObserver() {
         locationViewModel.currentLocation.observe(viewLifecycleOwner) { location ->
             if (location != null) {
+                val matchingCategories =
+                    userViewModel.firestoreRepository.foodCategories.filter { category ->
+                        discoverySettings.placeTypes.any { categoryString -> category.name == categoryString }
+                    }.map { it.type }
                 val currentPosition = LatLng(location.latitude, location.longitude)
 
-                nearbyRestaurantsViewModel.getNearbyRestaurants(
-                    LatLng(52.521992, 13.413244),
-                    2000.0,
-                    listOf(),
-                    "de"
+                placesViewModel.loadNearbyRestaurants(
+                    currentPosition,
+                    matchingCategories,
+                    discoverySettings
                 )
             } else {
-                Log.e(
-                    "RestaurantsFragment",
-                    "Failed to obtain location."
-                )
+                Log.e("RestaurantsFragment", "Failed to obtain location.")
             }
             addNearbyRestaurantObserverWithAdapter()
         }
     }
 
     private fun addNearbyRestaurantObserverWithAdapter() {
-        nearbyRestaurantsViewModel.nearbyRestaurants.observe(viewLifecycleOwner) { nearbyRestaurants ->
+        placesViewModel.nearbyRestaurants.observe(viewLifecycleOwner) { nearbyRestaurants ->
             binding.rvRestaurantsStack.let { cardStackView ->
                 cardStackView.adapter =
                     RestaurantsAdapter(
@@ -155,7 +166,7 @@ class RestaurantsFragment : Fragment() {
                         nearbyRestaurants,
                         viewLifecycleOwner,
                         locationViewModel,
-                        nearbyRestaurantsViewModel,
+                        placesViewModel,
                         userViewModel
                     )
                 cardStackView.setHasFixedSize(true)

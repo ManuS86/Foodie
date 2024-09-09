@@ -14,14 +14,14 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.foodie.data.Repository
+import com.example.foodie.data.FirestoreRepository
 import com.example.foodie.data.model.AppSettings
 import com.example.foodie.data.model.DiscoverySettings
+import com.example.foodie.data.model.Id
 import com.facebook.AccessToken
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
-import com.google.android.libraries.places.api.model.Place
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -48,7 +48,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val applicationContext = application
     private val auth = Firebase.auth
     private val db = FirebaseFirestore.getInstance()
-    val repository = Repository(db)
+    val firestoreRepository = FirestoreRepository(db)
     private val TAG = "UserViewModel"
     private lateinit var userRef: DocumentReference
     private lateinit var resendToken: ForceResendingToken
@@ -58,17 +58,17 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     val currentUser: LiveData<FirebaseUser?>
         get() = _currentUser
 
-    private var _likes = MutableLiveData<MutableList<Place>>()
-    val likes: LiveData<MutableList<Place>>
-        get() = _likes
+    private var _likesIds = MutableLiveData<MutableList<String>>()
+    val likesIds: LiveData<MutableList<String>>
+        get() = _likesIds
 
-    private var _nopes = MutableLiveData<MutableList<Place>>()
-    val nopes: LiveData<MutableList<Place>>
-        get() = _nopes
+    private var _nopesIds = MutableLiveData<MutableList<String>>()
+    val nopesIds: LiveData<MutableList<String>>
+        get() = _nopesIds
 
-    private var _history = MutableLiveData<MutableList<Place>>()
-    val history: LiveData<MutableList<Place>>
-        get() = _history
+    private var _historyIds = MutableLiveData<MutableList<String>>()
+    val historyIds: LiveData<MutableList<String>>
+        get() = _historyIds
 
     private var _currentAppSettings = MutableLiveData<AppSettings>()
     val currentAppSettings: LiveData<AppSettings>
@@ -90,18 +90,18 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun setUpUserEnv() {
         _currentUser.value = auth.currentUser
-        userRef = repository.getUserRef(auth.currentUser?.uid!!)
+        userRef = firestoreRepository.getUserRef(auth.currentUser?.uid!!)
         loadAppSettings()
         loadDiscoverySettings()
-        loadRestaurantList("history")
-        loadRestaurantList("likes")
-        loadRestaurantList("nopes")
+        loadRestaurantIdList("history")
+        loadRestaurantIdList("likes")
+        loadRestaurantIdList("nopes")
     }
 
     private fun loadAppSettings() {
         viewModelScope.launch {
             try {
-                val settings = repository.getAppSettings(userRef)
+                val settings = firestoreRepository.getAppSettings(userRef)
                 _currentAppSettings.postValue(settings ?: AppSettings())
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to retrieve app settings", e)
@@ -113,7 +113,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             try {
                 if (_currentAppSettings.value != null) {
-                    repository.setAppSettings(userRef, _currentAppSettings.value!!)
+                    firestoreRepository.setAppSettings(userRef, _currentAppSettings.value!!)
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to save app settings", e)
@@ -124,7 +124,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private fun loadDiscoverySettings() {
         viewModelScope.launch {
             try {
-                val settings = repository.getDiscoverySettings(userRef)
+                val settings = firestoreRepository.getDiscoverySettings(userRef)
                 _currentDiscoverySettings.postValue(settings ?: DiscoverySettings())
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to retrieve discovery settings", e)
@@ -136,7 +136,10 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             try {
                 if (_currentAppSettings.value != null) {
-                    repository.setDiscoverySettings(userRef, _currentDiscoverySettings.value!!)
+                    firestoreRepository.setDiscoverySettings(
+                        userRef,
+                        _currentDiscoverySettings.value!!
+                    )
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to save discovery settings", e)
@@ -144,29 +147,45 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun addNewRestaurant(collection: String, restaurantName: String, restaurantData: Place) {
+    fun saveRestaurant(collection: String, restaurantName: String, restaurantId: Id) {
         viewModelScope.launch {
             try {
-                repository.addNewRestaurant(userRef, collection, restaurantName, restaurantData)
+                firestoreRepository.addRestaurant(
+                    userRef,
+                    collection,
+                    restaurantName,
+                    restaurantId
+                )
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to add $restaurantName to $collection", e)
             }
         }
     }
 
-    private fun loadRestaurantList(collection: String) {
+    private fun loadRestaurantIdList(collection: String) {
         viewModelScope.launch {
             try {
                 when (collection) {
-                    "history" -> _history.postValue(
-                        repository.getRestaurantList(
+                    "history" -> _historyIds.postValue(
+                        firestoreRepository.getRestaurantIdList(
                             userRef,
                             collection
                         )
                     )
 
-                    "likes" -> _likes.postValue(repository.getRestaurantList(userRef, collection))
-                    "nopes" -> _nopes.postValue(repository.getRestaurantList(userRef, collection))
+                    "likes" -> _likesIds.postValue(
+                        firestoreRepository.getRestaurantIdList(
+                            userRef,
+                            collection
+                        )
+                    )
+
+                    "nopes" -> _nopesIds.postValue(
+                        firestoreRepository.getRestaurantIdList(
+                            userRef,
+                            collection
+                        )
+                    )
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to retrieve $collection", e)
@@ -177,7 +196,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     fun deleteLikedRestaurant(restaurantName: String) {
         viewModelScope.launch {
             try {
-                repository.deleteLikedRestaurant(userRef, restaurantName)
+                firestoreRepository.deleteLikedRestaurant(userRef, restaurantName)
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to delete $restaurantName from likes", e)
             }

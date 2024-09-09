@@ -22,7 +22,9 @@ class SettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentSettingsBinding.inflate(inflater)
+
         setSettingsUI()
+
         return binding.root
     }
 

@@ -20,9 +20,11 @@ class StatsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        binding = FragmentStatsBinding.inflate(inflater)
+
         locationViewModel.isGPSEnabled()
         locationViewModel.checkLocationPermission()
-        binding = FragmentStatsBinding.inflate(inflater)
+
         return binding.root
     }
 

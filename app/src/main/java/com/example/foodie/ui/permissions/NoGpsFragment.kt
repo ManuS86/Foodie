@@ -20,8 +20,10 @@ class NoGpsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        locationViewModel.checkLocationPermission()
         binding = FragmentNoGpsBinding.inflate(inflater)
+
+        locationViewModel.checkLocationPermission()
+
         return binding.root
     }
 

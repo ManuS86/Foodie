@@ -31,8 +31,10 @@ class DiscoverySettingsDetailFragment : Fragment() {
         appSettings = userViewModel.currentAppSettings.value ?: AppSettings()
         binding = FragmentDiscoverySettingsDetailBinding.inflate(inflater)
         discoverySettings = userViewModel.currentDiscoverySettings.value ?: DiscoverySettings()
-        foodCategories = userViewModel.repository.foodCategories
+        foodCategories = userViewModel.firestoreRepository.foodCategories
+
         setSettingsUI()
+
         return binding.root
     }
 
@@ -47,12 +49,12 @@ class DiscoverySettingsDetailFragment : Fragment() {
                 Int, fromUser: Boolean
             ) {
                 if (appSettings.distanceUnit == "Km") {
-                    binding.tvKmMi.text = "$progress Km"
-                    discoverySettings.radius = (progress * 1000).toLong()
+                    binding.tvKmMi.text = "${progress} Km"
+                    discoverySettings.radius = (progress * 1000).toDouble()
                     userViewModel.saveDiscoverySettings()
                 } else if (appSettings.distanceUnit == "Mi") {
-                    binding.tvKmMi.text = "$progress Mi"
-                    discoverySettings.radius = (progress * 1609.34).toLong()
+                    binding.tvKmMi.text = "${progress} Mi"
+                    discoverySettings.radius = (progress * 1609.34)
                     userViewModel.saveDiscoverySettings()
                 }
             }
@@ -86,7 +88,8 @@ class DiscoverySettingsDetailFragment : Fragment() {
                 category.name,
                 chipGroup,
                 requireContext(),
-                discoverySettings
+                discoverySettings,
+                userViewModel
             )
         }
         binding.rbRatingFilter.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
@@ -169,7 +172,7 @@ class DiscoverySettingsDetailFragment : Fragment() {
         val radius = userViewModel.currentDiscoverySettings.value?.radius
         if (appSettings.distanceUnit == "Km") {
             binding.sbDistanceSlider.progress = (radius?.div(1000))?.toInt() ?: 2000
-            binding.tvKmMi.text = "${radius?.div(1000)} Km"
+            binding.tvKmMi.text = "${(radius?.div(1000)?.toInt())} Km"
         } else if (appSettings.distanceUnit == "Mi") {
             binding.sbDistanceSlider.progress = (radius?.div(621.371))?.toInt() ?: 1000
             binding.tvKmMi.text = "${(radius?.div(1609.34))?.toInt()} Mi"

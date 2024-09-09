@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.LocationViewModel
-import com.example.foodie.NearbyRestaurantsViewModel
+import com.example.foodie.PlacesViewModel
 import com.example.foodie.R
 import com.example.foodie.databinding.FragmentNavigationDetailBinding
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -22,7 +22,7 @@ import com.google.android.libraries.places.api.model.Place
 
 class NavigationDetailFragment : Fragment() {
     private val locationViewModel: LocationViewModel by activityViewModels()
-    private val nearbyRestaurantsViewModel: NearbyRestaurantsViewModel by activityViewModels()
+    private val placesViewModel: PlacesViewModel by activityViewModels()
     private lateinit var binding: FragmentNavigationDetailBinding
     private lateinit var mapView: MapView
 
@@ -31,13 +31,13 @@ class NavigationDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        locationViewModel.isGPSEnabled()
-        locationViewModel.checkLocationPermission()
-        locationViewModel.requestLocationUpdates(5000, 2000)
-
         binding = FragmentNavigationDetailBinding.inflate(inflater)
         mapView = binding.mvNavigation
         mapView.onCreate(savedInstanceState)
+
+        locationViewModel.isGPSEnabled()
+        locationViewModel.checkLocationPermission()
+        locationViewModel.requestLocationUpdates(5000, 2000)
 
         return binding.root
     }
@@ -45,7 +45,7 @@ class NavigationDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val restaurant = nearbyRestaurantsViewModel.currentRestaurant.value!!
+        val restaurant = placesViewModel.currentRestaurant.value!!
 
         addLocationPermissionObserver()
         initializeMap(restaurant)
@@ -71,13 +71,16 @@ class NavigationDetailFragment : Fragment() {
             googleMap.uiSettings.isCompassEnabled = true
             googleMap.uiSettings.isMyLocationButtonEnabled = false
             googleMap.uiSettings.setAllGesturesEnabled(true)
-            googleMap.addMarker(
-                MarkerOptions()
-                    .position(restaurant.latLng!!)
-                    .title(restaurant.name)
-                    .icon(BitmapDescriptorFactory.defaultMarker(HUE_RED))
-            )
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(restaurant.latLng!!, 15f))
+
+            if (restaurant.latLng != null) {
+                googleMap.addMarker(
+                    MarkerOptions()
+                        .position(restaurant.latLng!!)
+                        .title(restaurant.name)
+                        .icon(BitmapDescriptorFactory.defaultMarker(HUE_RED))
+                )
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(restaurant.latLng!!, 15f))
+            }
         }
     }
 

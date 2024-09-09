@@ -20,9 +20,11 @@ class LocationPermissionFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        binding = FragmentLocationPermissionBinding.inflate(inflater)
+
         locationViewModel.isGPSEnabled()
         locationViewModel.checkLocationPermission()
-        binding = FragmentLocationPermissionBinding.inflate(inflater)
+
         return binding.root
     }
 

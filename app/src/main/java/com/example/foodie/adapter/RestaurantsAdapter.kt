@@ -5,12 +5,11 @@ import android.content.Context
 import android.location.Location
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodie.LocationViewModel
-import com.example.foodie.NearbyRestaurantsViewModel
+import com.example.foodie.PlacesViewModel
 import com.example.foodie.R
 import com.example.foodie.UserViewModel
 import com.example.foodie.addIndicatorChip
@@ -24,7 +23,7 @@ class RestaurantsAdapter(
     private val dataset: List<Place>?,
     private val lifecycleOwner: LifecycleOwner,
     private val locationViewModel: LocationViewModel,
-    private val nearbyRestaurantsViewModel: NearbyRestaurantsViewModel,
+    private val placesViewModel: PlacesViewModel,
     private val userViewModel: UserViewModel
 ) : RecyclerView.Adapter<RestaurantsAdapter.ItemViewHolder>() {
 
@@ -44,9 +43,10 @@ class RestaurantsAdapter(
         val discoverySettings = userViewModel.currentDiscoverySettings.value
 
         if (restaurant != null) {
-            val matchingCategories = userViewModel.repository.foodCategories.filter { category ->
-                restaurant.placeTypes!!.any { categoryString -> category.type == categoryString }
-            }
+            val matchingCategories =
+                userViewModel.firestoreRepository.foodCategories.filter { category ->
+                    restaurant.placeTypes!!.any { categoryString -> category.type == categoryString }
+                }
             val restaurantLocation = Location("").apply {
                 latitude = restaurant.latLng?.latitude!!
                 longitude = restaurant.latLng?.longitude!!
@@ -55,18 +55,39 @@ class RestaurantsAdapter(
             val distanceInMeters = userLocation?.distanceTo(restaurantLocation)
 
             holder.binding.let { binding ->
-                restaurant.photoMetadatas?.take(1)?.forEach { photoMetadata ->
-                    nearbyRestaurantsViewModel.getPhoto(photoMetadata)
-                        .observe(lifecycleOwner) { bitmap ->
-                            // Update UI with the fetched photos
-                            if (bitmap != null) {
-                                binding.ivRestaurant.setImageBitmap(bitmap)
-                            } else {
-                                binding.ivRestaurant.setImageResource(R.drawable.placeholder_image)
+//                restaurant.photoMetadatas?.take(1)?.forEach { photoMetadata ->
+//                    placesViewModel.getPhoto(photoMetadata)
+//                        .observe(lifecycleOwner) { bitmap ->
+//                            // Update UI with the fetched photos
+//                            if (bitmap != null) {
+//                                binding.ivRestaurant.setImageBitmap(bitmap)
+//                            } else {
+//                                binding.ivRestaurant.setImageResource(R.drawable.placeholder_image)
+//                            }
+//                        }
+//                }
+                placesViewModel.resetPhotosLiveData()
+                if (restaurant.photoMetadatas != null) {
+                    restaurant.photoMetadatas?.take(9)?.forEach { photoMetadata ->
+                        placesViewModel.loadPhoto(photoMetadata)
+                    }
+                    placesViewModel.photos.observe(lifecycleOwner) { photos ->
+                        binding.vpGalleryRestaurant.adapter = ImageGalleryAdapter(photos)
+                        binding.btnImageLeft.setOnClickListener {
+                            val currentItem = binding.vpGalleryRestaurant.currentItem
+                            binding.vpGalleryRestaurant.currentItem = currentItem - 1
+                        }
+                        binding.btnImageRight.setOnClickListener {
+                            if (photos.isNotEmpty()){
+                                val currentItem = binding.vpGalleryRestaurant.currentItem
+                                val nextItem = (currentItem + 1) % photos.size
+                                binding.vpGalleryRestaurant.currentItem = nextItem
                             }
                         }
+                    }
+                } else {
+                    binding.ivRestaurant.setImageResource(R.drawable.placeholder_image)
                 }
-//            binding.tvAttributions.text = restaurant?.photoMetadatas?.get(0)?.authorAttributions.toString()
                 binding.tvRestaurantName.text =
                     restaurant.name!! +
                             when (restaurant.priceLevel?.toString()) {
@@ -77,6 +98,7 @@ class RestaurantsAdapter(
                                 else -> ""
                             }
                 val chipGroup = binding.cpgCategoriesRestaurant
+                chipGroup.removeAllViews()
                 matchingCategories.forEach { category ->
                     addIndicatorChip(
                         category.name,
@@ -88,40 +110,8 @@ class RestaurantsAdapter(
                 binding.tvRating.text = restaurant.rating?.toString() ?: "n/a"
                 binding.rbRating.rating = restaurant.rating?.toFloat() ?: 0f
                 binding.tvRatingTotal.text = "(${restaurant.userRatingsTotal?.toString() ?: "0"})"
-                binding.tvOpenNow.text =
-                    when (nearbyRestaurantsViewModel.isPlaceOpenNow(restaurant)) {
-                        true -> {
-                            binding.tvOpenNow.setTextColor(
-                                ContextCompat.getColor(
-                                    context,
-                                    R.color.open_green
-                                )
-                            )
-                            "Open"
-                        }
-
-                        false -> {
-                            binding.tvOpenNow.setTextColor(
-                                ContextCompat.getColor(
-                                    context,
-                                    R.color.open_red
-                                )
-                            )
-                            "Closed"
-                        }
-
-                        null -> {
-                            binding.tvOpenNow.setTextColor(
-                                ContextCompat.getColor(
-                                    context,
-                                    R.color.off_black
-                                )
-                            )
-                            "Uknown"
-                        }
-                    }
                 binding.ivDecollapseButton.setOnClickListener {
-                    nearbyRestaurantsViewModel.setCurrentRestaurant(position)
+                    placesViewModel.setCurrentRestaurant(position)
                     holder.itemView.findNavController().navigate(
                         R.id.restaurantDetailFragment
                     )
