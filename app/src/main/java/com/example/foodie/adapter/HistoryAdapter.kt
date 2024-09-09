@@ -2,6 +2,7 @@ package com.example.foodie.adapter
 
 import android.content.Context
 import android.location.Location
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
@@ -19,7 +20,7 @@ import kotlin.math.roundToInt
 
 class HistoryAdapter(
     private val context: Context,
-    private val dataset: List<Place>?,
+    private val dataset: List<Place>,
     private val lifecycleOwner: LifecycleOwner,
     private val locationViewModel: LocationViewModel,
     private val placesViewModel: PlacesViewModel,
@@ -35,23 +36,24 @@ class HistoryAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val restaurant = dataset?.get(position)
-        val appSettings = userViewModel.currentAppSettings.value
-        val discoverySettings = userViewModel.currentDiscoverySettings.value
+        if (dataset.isNotEmpty()) {
+            val restaurant = dataset?.get(position)
+            val appSettings = userViewModel.currentAppSettings.value
+            val discoverySettings = userViewModel.currentDiscoverySettings.value
 
-        if (restaurant != null) {
-            val matchingCategories =
-                userViewModel.firestoreRepository.foodCategories.filter { category ->
-                    restaurant.placeTypes!!.any { categoryString -> category.type == categoryString }
+            if (restaurant != null) {
+                val matchingCategories =
+                    userViewModel.firestoreRepository.foodCategories.filter { category ->
+                        restaurant.placeTypes!!.any { categoryString -> category.type == categoryString }
+                    }
+                val restaurantLocation = Location("").apply {
+                    latitude = restaurant.latLng?.latitude!!
+                    longitude = restaurant.latLng?.longitude!!
                 }
-            val restaurantLocation = Location("").apply {
-                latitude = restaurant.latLng?.latitude!!
-                longitude = restaurant.latLng?.longitude!!
-            }
-            val userLocation = locationViewModel.currentLocation.value
-            val distanceInMeters = userLocation?.distanceTo(restaurantLocation)
+                val userLocation = locationViewModel.currentLocation.value
+                val distanceInMeters = userLocation?.distanceTo(restaurantLocation)
 //        val photoMetadata = restaurant?.photoMetadatas?.get(0)
-            holder.binding.let { binding ->
+                holder.binding.let { binding ->
 //                if (photoMetadata != null) {
 //                    placesViewModel.getPhoto(photoMetadata)
 //                        .observe(lifecycleOwner) { bitmap ->
@@ -62,47 +64,57 @@ class HistoryAdapter(
 //                            }
 //                        }
 //                }
-                placesViewModel.resetPhotosLiveData()
-                if (restaurant.photoMetadatas != null) {
-                    restaurant.photoMetadatas?.take(1)?.forEach { photoMetadata ->
-                        placesViewModel.loadPhoto(photoMetadata)
-                    }
-                }
-                binding.ivRestaurantPicHistory.setImageBitmap(placesViewModel.photos.value?.get(1))
-                binding.tvRestaurantNameHistory.text = restaurant.name
-                val chipGroup = binding.cpgCategoriesHistory
-                matchingCategories.forEach { category ->
-                    addIndicatorChipSmall(
-                        category.name,
-                        chipGroup,
-                        context,
-                        discoverySettings ?: DiscoverySettings()
-                    )
-                }
-
-                binding.tvDateHistory
-
-                binding.tvDistanceHistory.text = if (appSettings?.distanceUnit == "Km") {
-                    val distanceInKm = (distanceInMeters?.div(1000.0f))?.roundToInt()
-                    if (distanceInKm!! < 1) {
-                        "Less than 1 Km away"
+                    if (restaurant.photoMetadatas?.isNotEmpty() == true) {
+                        val photoMetadata = restaurant.photoMetadatas?.get(0)
+                        if (photoMetadata != null) {
+                            placesViewModel.resetPhotosLiveData()
+                            placesViewModel.loadPhoto(photoMetadata)
+                        }
                     } else {
-                        "$distanceInKm Km away"
+                        Log.e("Error", "Photos list is empty")
                     }
-                } else {
-                    val distanceInMi = (distanceInMeters?.div(621.371f))?.roundToInt()
-                    if (distanceInMi!! < 1) {
-                        "Less than 1 Mi away"
+                    if (placesViewModel.photos.value?.isNotEmpty() == true) {
+                        binding.ivRestaurantPicHistory.setImageBitmap(
+                            placesViewModel.photos.value?.get(0)
+                        )
                     } else {
-                        "$distanceInMi Mi away"
+                        binding.ivRestaurantPicHistory.setImageResource(R.drawable.placeholder_image)
                     }
-                }
+                    binding.tvRestaurantNameHistory.text = restaurant.name
+                    val chipGroup = binding.cpgCategoriesHistory
+                    matchingCategories.forEach { category ->
+                        addIndicatorChipSmall(
+                            category.name,
+                            chipGroup,
+                            context,
+                            discoverySettings ?: DiscoverySettings()
+                        )
+                    }
 
-                binding.cvHistory.setOnClickListener {
-                    placesViewModel.setCurrentRestaurant(position)
-                    holder.itemView.findNavController().navigate(
-                        R.id.restaurantDetailFragment
-                    )
+//                    binding.tvDateHistory.text = userViewModel.historyIds.value(position)
+
+                    binding.tvDistanceHistory.text = if (appSettings?.distanceUnit == "Km") {
+                        val distanceInKm = (distanceInMeters?.div(1000.0f))?.roundToInt()
+                        if (distanceInKm!! < 1) {
+                            "Less than 1 Km away"
+                        } else {
+                            "$distanceInKm Km away"
+                        }
+                    } else {
+                        val distanceInMi = (distanceInMeters?.div(621.371f))?.roundToInt()
+                        if (distanceInMi!! < 1) {
+                            "Less than 1 Mi away"
+                        } else {
+                            "$distanceInMi Mi away"
+                        }
+                    }
+
+                    binding.cvHistory.setOnClickListener {
+                        placesViewModel.setCurrentRestaurant(position)
+                        holder.itemView.findNavController().navigate(
+                            R.id.restaurantDetailFragment
+                        )
+                    }
                 }
             }
         }

@@ -15,12 +15,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.PhotoMetadata
 import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.FetchPhotoRequest
 import com.google.android.libraries.places.api.net.PlacesClient
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
 class PlacesViewModel(application: Application) : AndroidViewModel(application) {
     private val TAG = "NearbyRestaurantsViewModel"
@@ -36,17 +33,17 @@ class PlacesViewModel(application: Application) : AndroidViewModel(application) 
     val currentRestaurant: LiveData<Place>
         get() = _currentRestaurant
 
-    private var _likes = MutableStateFlow<List<Place>>(emptyList())
+    private var _likes = MutableLiveData<List<Place>>()
     val likes: LiveData<List<Place>>
-        get() = _likes.asLiveData()
+        get() = _likes
 
-    private var _nopes = MutableStateFlow<List<Place>>(emptyList())
+    private var _nopes = MutableLiveData<List<Place>>()
     val nopes: LiveData<List<Place>>
-        get() = _nopes.asLiveData()
+        get() = _nopes
 
-    private var _history = MutableStateFlow<List<Place>>(emptyList())
+    private var _history = MutableLiveData<List<Place>>()
     val history: LiveData<List<Place>>
-        get() = _history.asLiveData()
+        get() = _history
 
     private var _photos = MutableStateFlow<List<Bitmap>>(emptyList())
     val photos: LiveData<List<Bitmap>>
@@ -103,19 +100,15 @@ class PlacesViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun loadRestaurantById(collection: String, placeId: String) {
+    fun loadRestaurantById(collection: String, placeIdList: List<String>) {
         viewModelScope.launch {
             try {
-                placesRepository.fetchRestaurantByIdAsFlow(placeId, placesClient)
-                    .collect { restaurant ->
-                        if (restaurant != null) {
-                            when (collection) {
-                                "history" -> _history.value += restaurant
-                                "likes" -> _likes.value += restaurant
-                                "nopes" -> _nopes.value += restaurant
-                            }
-                        }
-                    }
+                val restaurants = placesRepository.fetchRestaurantsById(placeIdList, placesClient)
+                when (collection) {
+                    "history" -> _history.value = restaurants
+                    "likes" -> _likes.value = restaurants
+                    "nopes" -> _nopes.value = restaurants
+                }
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to fetch place", e)
             }

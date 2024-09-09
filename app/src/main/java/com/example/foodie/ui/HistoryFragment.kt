@@ -42,9 +42,7 @@ class HistoryFragment : Fragment() {
 
     private fun addPlaceObserverWithHistoryObserverAndAdapter() {
         userViewModel.historyIds.observe(viewLifecycleOwner) {
-            it.forEach { placeId ->
-                placesViewModel.loadRestaurantById("history", placeId)
-            }
+                placesViewModel.loadRestaurantById("history", it)
             addHistoryObserverWithAdapter()
         }
     }

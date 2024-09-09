@@ -51,17 +51,19 @@ class PlacesRepository {
         return response.places
     }
 
-    suspend fun fetchRestaurantByIdAsFlow(
-        placeId: String,
+    suspend fun fetchRestaurantsById(
+        placeIdList: List<String>,
         placesClient: PlacesClient
-    ): Flow<Place?> {
-        return flow {
+    ): List<Place> {
+        val places = mutableListOf<Place>()
+        placeIdList.forEach { placeId ->
             val placeDetailsRequest = FetchPlaceRequest.newInstance(placeId, placeFields)
             val response = withContext(Dispatchers.IO) {
                 placesClient.fetchPlace(placeDetailsRequest).await()
             }
-            emit(response.place)
+            places.add(response.place)
         }
+            return places
     }
 
     suspend fun fetchPhotoAsFlow(

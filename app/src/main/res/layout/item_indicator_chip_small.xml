@@ -9,6 +9,7 @@
     android:text="Food"
     android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
     android:textColor="@drawable/selector_food_categories_text"
+    android:textSize="10sp"
     app:chipBackgroundColor="@drawable/selector_food_categories_color"
     app:chipCornerRadius="16dp"
     app:layout_constraintEnd_toEndOf="parent"

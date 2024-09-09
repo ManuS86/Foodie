@@ -209,7 +209,7 @@ class RestaurantsDetailFragment : Fragment() {
                 userViewModel.saveRestaurant(
                     "nopes",
                     restaurant.name!!,
-                    Id(restaurant.name!!, restaurant.id!!)
+                    Id(restaurant.name!!, restaurant.id!!, null)
                 )
             }
 
@@ -217,7 +217,7 @@ class RestaurantsDetailFragment : Fragment() {
                 userViewModel.saveRestaurant(
                     "likes",
                     restaurant.name!!,
-                    Id(restaurant.name!!, restaurant.id!!)
+                    Id(restaurant.name!!, restaurant.id!!, null)
                 )
             }
         }

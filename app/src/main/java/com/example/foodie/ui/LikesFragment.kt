@@ -41,9 +41,7 @@ class LikesFragment : Fragment() {
 
     private fun addPlaceObserverWithLikeObserverAndAdapter() {
         userViewModel.likesIds.observe(viewLifecycleOwner) {
-            it.forEach { placeId ->
-                placesViewModel.loadRestaurantById("likes", placeId)
-            }
+                placesViewModel.loadRestaurantById("likes", it)
             addLikeObserverWithAdapter()
         }
     }
@@ -57,7 +55,8 @@ class LikesFragment : Fragment() {
                     viewLifecycleOwner,
                     locationViewModel,
                     placesViewModel,
-                    userViewModel
+                    userViewModel,
+                    requireView()
                 )
                 recyclerView.setHasFixedSize(true)
             }

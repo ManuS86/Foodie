@@ -68,7 +68,8 @@ class RestaurantsFragment : Fragment() {
                                     restaurants[position].name!!,
                                     Id(
                                         restaurants[position].name!!,
-                                        restaurants[position].id!!
+                                        restaurants[position].id!!,
+                                        null
                                     )
                                 )
                             }
@@ -79,7 +80,8 @@ class RestaurantsFragment : Fragment() {
                                     restaurants[position].name!!,
                                     Id(
                                         restaurants[position].name!!,
-                                        restaurants[position].id!!
+                                        restaurants[position].id!!,
+                                        null
                                     )
                                 )
                             }
