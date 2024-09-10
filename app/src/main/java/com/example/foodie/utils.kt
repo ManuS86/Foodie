@@ -3,6 +3,7 @@ package com.example.foodie
 import android.content.Context
 import android.view.LayoutInflater
 import com.example.foodie.data.model.DiscoverySettings
+import com.example.foodie.ui.viewmodels.UserViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 

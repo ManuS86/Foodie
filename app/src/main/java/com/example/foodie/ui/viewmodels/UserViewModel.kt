@@ -1,4 +1,4 @@
-package com.example.foodie
+package com.example.foodie.ui.viewmodels
 
 import android.app.Activity
 import android.app.Application
@@ -14,6 +14,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.foodie.R
 import com.example.foodie.data.FirestoreRepository
 import com.example.foodie.data.model.AppSettings
 import com.example.foodie.data.model.DiscoverySettings
@@ -162,7 +163,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun loadRestaurantIdList(collection: String) {
+    private fun loadRestaurantIdList(collection: String) {
         viewModelScope.launch {
             try {
                 when (collection) {
@@ -368,7 +369,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             //     detect the incoming verification SMS and perform verification without
             //     user action.
             Log.d(TAG, "onVerificationCompleted:$credential")
-            signInWithPhoneAuthCredential(credential)
         }
 
         override fun onVerificationFailed(e: FirebaseException) {

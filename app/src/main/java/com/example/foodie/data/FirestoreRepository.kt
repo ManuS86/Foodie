@@ -54,7 +54,11 @@ class FirestoreRepository(private var db: FirebaseFirestore) {
         docRef.set(restaurantId).await()
     }
 
-    suspend fun deleteRestaurant(userRef: DocumentReference, restaurantName: String, collection: String) {
+    suspend fun deleteRestaurant(
+        userRef: DocumentReference,
+        restaurantName: String,
+        collection: String
+    ) {
         val docRef = userRef.collection(collection).document(restaurantName)
         docRef.delete().await()
     }

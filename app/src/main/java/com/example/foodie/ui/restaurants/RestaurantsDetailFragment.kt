@@ -12,16 +12,16 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.foodie.LocationViewModel
-import com.example.foodie.PlacesViewModel
 import com.example.foodie.R
-import com.example.foodie.UserViewModel
 import com.example.foodie.adapter.ImageGalleryAdapter
 import com.example.foodie.addIndicatorChip
 import com.example.foodie.data.model.AppSettings
 import com.example.foodie.data.model.DiscoverySettings
 import com.example.foodie.data.model.Id
 import com.example.foodie.databinding.FragmentRestaurantsDetailBinding
+import com.example.foodie.ui.viewmodels.LocationViewModel
+import com.example.foodie.ui.viewmodels.PlacesViewModel
+import com.example.foodie.ui.viewmodels.UserViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -248,9 +248,6 @@ class RestaurantsDetailFragment : Fragment() {
                     .icon(BitmapDescriptorFactory.defaultMarker(HUE_RED))
             )
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(restaurant.latLng!!, 15f))
-        }
-        mapView.setOnClickListener {
-            findNavController().navigate(R.id.navigationDetailFragment)
         }
     }
 

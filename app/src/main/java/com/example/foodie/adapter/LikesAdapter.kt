@@ -10,14 +10,14 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.foodie.LocationViewModel
-import com.example.foodie.PlacesViewModel
 import com.example.foodie.R
-import com.example.foodie.UserViewModel
 import com.example.foodie.addIndicatorChipSmall
 import com.example.foodie.data.model.DiscoverySettings
 import com.example.foodie.data.model.Id
 import com.example.foodie.databinding.ItemLikesBinding
+import com.example.foodie.ui.viewmodels.LocationViewModel
+import com.example.foodie.ui.viewmodels.PlacesViewModel
+import com.example.foodie.ui.viewmodels.UserViewModel
 import com.google.android.libraries.places.api.model.Place
 import java.util.Date
 import java.util.Locale
@@ -130,7 +130,7 @@ class LikesAdapter(
                 }
 
                 binding.cvLikes.setOnClickListener {
-                    placesViewModel.setCurrentRestaurant(position)
+                    placesViewModel.setCurrentRestaurantLikesAndHistory("likes", position)
                     holder.itemView.findNavController().navigate(
                         R.id.restaurantsDetailFragmentNoButtons
                     )
@@ -150,6 +150,15 @@ class LikesAdapter(
     fun addLikes(likes: MutableList<Place>) {
         dataset = likes
         notifyDataSetChanged()
+    }
+
+    fun filterLikes(s: String) {
+        if (placesViewModel.likes.value != null) {
+            dataset = placesViewModel.likes.value?.filter {
+                it.name!!.contains(s, true)
+            }?.toMutableList()!!
+            notifyDataSetChanged()
+        }
     }
 
     override fun getItemCount(): Int {

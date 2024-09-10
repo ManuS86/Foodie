@@ -103,7 +103,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:shapeAppearanceOverlay="@style/TopCornerCardview"/>
+                        app:shapeAppearanceOverlay="@style/TopCornerCardview" />
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/btn_image_left"

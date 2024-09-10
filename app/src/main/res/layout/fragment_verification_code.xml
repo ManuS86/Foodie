@@ -63,6 +63,8 @@
             android:ems="1"
             android:gravity="center"
             android:inputType="number"
+            android:maxLength="1"
+            android:nextFocusForward="@+id/et_code2"
             android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge"
             android:textStyle="bold" />
 
@@ -75,6 +77,8 @@
             android:ems="1"
             android:gravity="center"
             android:inputType="number"
+            android:maxLength="1"
+            android:nextFocusForward="@+id/et_code3"
             android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge"
             android:textStyle="bold" />
 
@@ -87,6 +91,8 @@
             android:ems="1"
             android:gravity="center"
             android:inputType="number"
+            android:maxLength="1"
+            android:nextFocusForward="@+id/et_code4"
             android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge"
             android:textStyle="bold" />
 
@@ -99,6 +105,8 @@
             android:ems="1"
             android:gravity="center"
             android:inputType="number"
+            android:maxLength="1"
+            android:nextFocusForward="@+id/et_code5"
             android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge"
             android:textStyle="bold" />
 
@@ -111,6 +119,8 @@
             android:ems="1"
             android:gravity="center"
             android:inputType="number"
+            android:maxLength="1"
+            android:nextFocusForward="@+id/et_code6"
             android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge"
             android:textStyle="bold" />
 
@@ -124,6 +134,7 @@
             android:ems="1"
             android:gravity="center"
             android:inputType="number"
+            android:maxLength="1"
             android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge"
             android:textStyle="bold" />
     </LinearLayout>

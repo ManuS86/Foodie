@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.foodie.UserViewModel
 import com.example.foodie.databinding.FragmentPhoneNumberBinding
+import com.example.foodie.ui.viewmodels.UserViewModel
 
 class PhoneNumberFragment : Fragment() {
     private val userViewModel: UserViewModel by activityViewModels()
@@ -34,6 +34,10 @@ class PhoneNumberFragment : Fragment() {
                     phoneNumber
                 )
             )
+        }
+
+        binding.ivBackArrow.setOnClickListener {
+            findNavController().navigateUp()
         }
     }
 }

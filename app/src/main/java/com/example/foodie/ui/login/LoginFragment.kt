@@ -9,10 +9,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.foodie.LocationViewModel
 import com.example.foodie.R
-import com.example.foodie.UserViewModel
 import com.example.foodie.databinding.FragmentLoginBinding
+import com.example.foodie.ui.viewmodels.LocationViewModel
+import com.example.foodie.ui.viewmodels.UserViewModel
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException

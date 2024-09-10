@@ -22,8 +22,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Button"
-            app:srcCompat="@drawable/burgermeister" />
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Button" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_restaurantNameHistory"
@@ -44,9 +43,9 @@
             android:text="01.01.24"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             android:textColor="@color/off_grey"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_restaurantNameHistory"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_distanceHistory"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_restaurantNameHistory" />
+            app:layout_constraintTop_toTopOf="@+id/tv_distanceHistory" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cpg_categoriesHistory"

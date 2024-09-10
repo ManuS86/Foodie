@@ -1,4 +1,4 @@
-package com.example.foodie.ui
+package com.example.foodie.ui.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.R
-import com.example.foodie.UserViewModel
 import com.example.foodie.databinding.FragmentSettingsBinding
+import com.example.foodie.ui.viewmodels.UserViewModel
 
 class SettingsFragment : Fragment() {
     private val userViewModel: UserViewModel by activityViewModels()

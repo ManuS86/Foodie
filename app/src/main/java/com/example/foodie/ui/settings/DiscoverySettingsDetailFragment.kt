@@ -1,4 +1,4 @@
-package com.example.foodie.ui.restaurants
+package com.example.foodie.ui.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,12 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.R
-import com.example.foodie.UserViewModel
 import com.example.foodie.addSelectorChip
 import com.example.foodie.data.model.AppSettings
 import com.example.foodie.data.model.Category
 import com.example.foodie.data.model.DiscoverySettings
 import com.example.foodie.databinding.FragmentDiscoverySettingsDetailBinding
+import com.example.foodie.ui.viewmodels.UserViewModel
 
 class DiscoverySettingsDetailFragment : Fragment() {
     private val userViewModel: UserViewModel by activityViewModels()

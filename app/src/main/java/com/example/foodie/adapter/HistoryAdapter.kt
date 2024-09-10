@@ -7,13 +7,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.foodie.LocationViewModel
-import com.example.foodie.PlacesViewModel
 import com.example.foodie.R
-import com.example.foodie.UserViewModel
 import com.example.foodie.addIndicatorChipSmall
 import com.example.foodie.data.model.DiscoverySettings
 import com.example.foodie.databinding.ItemHistoryBinding
+import com.example.foodie.ui.viewmodels.LocationViewModel
+import com.example.foodie.ui.viewmodels.PlacesViewModel
+import com.example.foodie.ui.viewmodels.UserViewModel
 import com.google.android.libraries.places.api.model.Place
 import kotlin.math.roundToInt
 
@@ -95,7 +95,7 @@ class HistoryAdapter(
                     }
 
                     binding.cvHistory.setOnClickListener {
-                        placesViewModel.setCurrentRestaurant(position)
+                        placesViewModel.setCurrentRestaurantLikesAndHistory("history", position)
                         holder.itemView.findNavController().navigate(
                             R.id.restaurantsDetailFragmentNoButtons
                         )
@@ -108,6 +108,15 @@ class HistoryAdapter(
     fun addHistory(history: MutableList<Place>) {
         dataset = history
         notifyDataSetChanged()
+    }
+
+    fun filterHistory(s: String) {
+        if (placesViewModel.history.value != null) {
+            dataset = placesViewModel.history.value?.filter {
+                it.name!!.contains(s, true)
+            }?.toMutableList()!!
+            notifyDataSetChanged()
+        }
     }
 
     override fun getItemCount(): Int {

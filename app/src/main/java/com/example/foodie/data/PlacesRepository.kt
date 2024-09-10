@@ -30,14 +30,12 @@ class PlacesRepository {
     suspend fun fetchNearbyRestaurants(
         center: LatLng,
         radius: Double,
-        categories: List<String>,
         placesClient: PlacesClient
-    ): List<Place> {
+    ): MutableList<Place> {
         val circle = CircularBounds.newInstance(center, radius)
 
         val searchNearbyRequest = SearchNearbyRequest.builder(circle, placeFields)
             .setIncludedPrimaryTypes(listOf("restaurant"))
-            .setIncludedTypes(categories)
             .setRankPreference(SearchNearbyRequest.RankPreference.POPULARITY)
             .setRegionCode("de")
             .build()

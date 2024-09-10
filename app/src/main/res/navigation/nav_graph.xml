@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
-        android:name="com.example.foodie.ui.HistoryFragment"
+        android:name="com.example.foodie.ui.restaurants.HistoryFragment"
         android:label="fragment_history"
         tools:layout="@layout/fragment_history">
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/likesFragment"
-        android:name="com.example.foodie.ui.LikesFragment"
+        android:name="com.example.foodie.ui.restaurants.LikesFragment"
         android:label="fragment_likes"
         tools:layout="@layout/fragment_likes">
         <action
@@ -87,7 +87,7 @@
         tools:layout="@layout/fragment_stats_detail" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.foodie.ui.SettingsFragment"
+        android:name="com.example.foodie.ui.settings.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings">
         <action
@@ -96,7 +96,7 @@
     </fragment>
     <fragment
         android:id="@+id/discoveryDetailFragment"
-        android:name="com.example.foodie.ui.restaurants.DiscoverySettingsDetailFragment"
+        android:name="com.example.foodie.ui.settings.DiscoverySettingsDetailFragment"
         android:label="fragment_preferences_detail"
         tools:layout="@layout/fragment_discovery_settings_detail" />
     <fragment

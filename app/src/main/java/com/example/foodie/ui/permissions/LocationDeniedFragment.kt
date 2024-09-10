@@ -10,9 +10,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.foodie.LocationViewModel
 import com.example.foodie.R
 import com.example.foodie.databinding.FragmentLocationDeniedBinding
+import com.example.foodie.ui.viewmodels.LocationViewModel
 
 class LocationDeniedFragment : Fragment() {
     private val locationViewModel: LocationViewModel by activityViewModels()

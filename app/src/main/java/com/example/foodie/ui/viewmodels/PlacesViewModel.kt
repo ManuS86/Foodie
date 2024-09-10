@@ -1,4 +1,4 @@
-package com.example.foodie
+package com.example.foodie.ui.viewmodels
 
 import android.app.Application
 import android.graphics.Bitmap
@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.foodie.BuildConfig
 import com.example.foodie.data.PlacesRepository
 import com.example.foodie.data.model.DiscoverySettings
 import com.example.foodie.data.model.Id
@@ -48,8 +49,15 @@ class PlacesViewModel(application: Application) : AndroidViewModel(application) 
         createPlacesClient()
     }
 
-    fun setCurrentRestaurant(position: Int) {
-        _currentRestaurant.postValue(nearbyRestaurants.value?.get(position))
+    fun setCurrentRestaurant(restaurant: Place) {
+        _currentRestaurant.value = restaurant
+    }
+
+    fun setCurrentRestaurantLikesAndHistory(type: String, position: Int) {
+        when (type) {
+            "history" -> _currentRestaurant.value = _history.value?.get(position)
+            "likes" -> _currentRestaurant.value = _likes.value?.get(position)
+        }
     }
 
     private fun createPlacesClient() {
@@ -72,7 +80,6 @@ class PlacesViewModel(application: Application) : AndroidViewModel(application) 
 
     fun loadNearbyRestaurants(
         center: LatLng,
-        categories: List<String>,
         discoverySettings: DiscoverySettings
     ) {
         viewModelScope.launch {
@@ -80,29 +87,9 @@ class PlacesViewModel(application: Application) : AndroidViewModel(application) 
                 val restaurants = placesRepository.fetchNearbyRestaurants(
                     center,
                     discoverySettings.radius,
-                    categories,
                     placesClient
                 )
-
-                val filteredByRating =
-                    restaurants.filter { it.rating!! >= discoverySettings.minRating }
-                var filteredByRatingAndPriceLevel = filteredByRating
-
-                if (discoverySettings.priceLevels.isNotEmpty()) {
-                    filteredByRatingAndPriceLevel = filteredByRating.filter { filteredRestaurants ->
-                        filteredRestaurants.priceLevel?.let { priceLvl ->
-                            discoverySettings.priceLevels.contains(priceLvl)
-                        } == true
-                    }
-                }
-
-                if (discoverySettings.openNow) {
-                    _nearbyRestaurants.value =
-                        filteredByRatingAndPriceLevel.filter { isPlaceOpenNow(it) == true }
-                            .toMutableList()
-                } else {
-                    _nearbyRestaurants.value = filteredByRatingAndPriceLevel.toMutableList()
-                }
+                _nearbyRestaurants.value = restaurants
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to retrieve nearby places", e)
             }

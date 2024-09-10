@@ -1,18 +1,21 @@
-package com.example.foodie.ui
+package com.example.foodie.ui.restaurants
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.foodie.LocationViewModel
-import com.example.foodie.PlacesViewModel
 import com.example.foodie.R
-import com.example.foodie.UserViewModel
 import com.example.foodie.adapter.HistoryAdapter
 import com.example.foodie.databinding.FragmentHistoryBinding
+import com.example.foodie.ui.viewmodels.LocationViewModel
+import com.example.foodie.ui.viewmodels.PlacesViewModel
+import com.example.foodie.ui.viewmodels.UserViewModel
 
 class HistoryFragment : Fragment() {
     private val locationViewModel: LocationViewModel by activityViewModels()
@@ -47,10 +50,24 @@ class HistoryFragment : Fragment() {
         )
 
         binding.rvHistory.adapter = historyAdapter
+        Log.d(TAG, "History LiveData ${placesViewModel.history.value}")
+        placesViewModel.history.value?.let { historyAdapter.addHistory(it) }
         binding.rvHistory.hasFixedSize()
 
         addLocationPermissionObserver()
         addHistoryObserverWithAdapter()
+
+        binding.etSearch.addTextChangedListener { s ->
+            historyAdapter.filterHistory(s.toString())
+            if (s.isNullOrBlank()) {
+                binding.ivCloseSearch.visibility = View.INVISIBLE
+            } else {
+                binding.ivCloseSearch.visibility = View.VISIBLE
+                binding.ivCloseSearch.setOnClickListener {
+                    binding.etSearch.setText("")
+                }
+            }
+        }
     }
 
     private fun addHistoryObserverWithAdapter() {

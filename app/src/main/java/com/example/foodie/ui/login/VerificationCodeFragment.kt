@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.foodie.LocationViewModel
 import com.example.foodie.R
-import com.example.foodie.UserViewModel
 import com.example.foodie.databinding.FragmentVerificationCodeBinding
+import com.example.foodie.ui.viewmodels.LocationViewModel
+import com.example.foodie.ui.viewmodels.UserViewModel
 
 class VerificationCodeFragment : Fragment() {
     private val args: VerificationCodeFragmentArgs by navArgs()
@@ -36,6 +36,10 @@ class VerificationCodeFragment : Fragment() {
             val code =
                 (binding.etCode1.text.toString() + binding.etCode2.text.toString() + binding.etCode3.text.toString() + binding.etCode4.text.toString() + binding.etCode5.text.toString() + binding.etCode6.text.toString())
             userViewModel.verifyCode(code)
+        }
+
+        binding.ivBackArrow.setOnClickListener {
+            findNavController().navigateUp()
         }
     }
 

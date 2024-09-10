@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/off_white"
-    tools:context="ui.LikesFragment">
+    tools:context=".ui.restaurants.LikesFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tb_likes"
@@ -68,6 +68,7 @@
                 android:id="@+id/iv_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="4dp"
                 android:scaleType="fitCenter"
                 app:layout_constraintBottom_toBottomOf="@+id/et_search"
                 app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +79,6 @@
                 android:id="@+id/et_search"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
                 android:backgroundTint="#CAC0CC"
                 android:ems="10"
                 android:hint="Search ..."
@@ -90,16 +90,16 @@
                 app:layout_constraintEnd_toStartOf="@+id/iv_closeSearch"
                 app:layout_constraintStart_toEndOf="@+id/iv_search"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintVertical_bias="0.7" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_closeSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
+                android:padding="4dp"
                 android:scaleType="center"
-                android:src="@drawable/ic_search_close"
-                android:visibility="invisible"
+                android:src="@drawable/ic_search_clear"
                 app:layout_constraintBottom_toBottomOf="@+id/et_search"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/et_search" />

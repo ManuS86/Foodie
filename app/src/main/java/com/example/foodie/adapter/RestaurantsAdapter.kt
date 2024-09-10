@@ -7,13 +7,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.foodie.LocationViewModel
-import com.example.foodie.PlacesViewModel
 import com.example.foodie.R
-import com.example.foodie.UserViewModel
 import com.example.foodie.addIndicatorChip
 import com.example.foodie.data.model.DiscoverySettings
 import com.example.foodie.databinding.ItemRestaurantBinding
+import com.example.foodie.ui.viewmodels.LocationViewModel
+import com.example.foodie.ui.viewmodels.PlacesViewModel
+import com.example.foodie.ui.viewmodels.UserViewModel
 import com.google.android.libraries.places.api.model.Place
 import kotlin.math.roundToInt
 
@@ -107,8 +107,9 @@ class RestaurantsAdapter(
             binding.tvRating.text = restaurant.rating?.toString() ?: "n/a"
             binding.rbRating.rating = restaurant.rating?.toFloat() ?: 0f
             binding.tvRatingTotal.text = "(${restaurant.userRatingsTotal?.toString() ?: "0"})"
+
             binding.ivDecollapseButton.setOnClickListener {
-                placesViewModel.setCurrentRestaurant(position)
+                placesViewModel.setCurrentRestaurant(restaurant)
                 holder.itemView.findNavController().navigate(
                     R.id.restaurantDetailFragment
                 )

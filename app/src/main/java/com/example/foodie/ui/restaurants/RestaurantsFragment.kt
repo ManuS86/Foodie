@@ -9,15 +9,16 @@ import android.view.animation.AccelerateInterpolator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.foodie.LocationViewModel
-import com.example.foodie.PlacesViewModel
 import com.example.foodie.R
-import com.example.foodie.UserViewModel
 import com.example.foodie.adapter.RestaurantsAdapter
 import com.example.foodie.data.model.DiscoverySettings
 import com.example.foodie.data.model.Id
 import com.example.foodie.databinding.FragmentRestaurantsBinding
+import com.example.foodie.ui.viewmodels.LocationViewModel
+import com.example.foodie.ui.viewmodels.PlacesViewModel
+import com.example.foodie.ui.viewmodels.UserViewModel
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.libraries.places.api.model.Place
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction
@@ -31,6 +32,7 @@ class RestaurantsFragment : Fragment() {
     private lateinit var binding: FragmentRestaurantsBinding
     private lateinit var cardStackLayoutManager: CardStackLayoutManager
     private lateinit var discoverySettings: DiscoverySettings
+    private lateinit var filteredRestaurants: MutableList<Place>
     private lateinit var restaurantsAdapter: RestaurantsAdapter
 
     override fun onCreateView(
@@ -40,12 +42,32 @@ class RestaurantsFragment : Fragment() {
     ): View {
         binding = FragmentRestaurantsBinding.inflate(inflater)
         discoverySettings = userViewModel.currentDiscoverySettings.value ?: DiscoverySettings()
+        restaurantsAdapter = RestaurantsAdapter(
+            requireContext(),
+            mutableListOf(),
+            locationViewModel,
+            placesViewModel,
+            userViewModel
+        )
 
         locationViewModel.isGPSEnabled()
         locationViewModel.checkLocationPermission()
 
+        if (userViewModel.historyIds.value != null) {
+            placesViewModel.loadRestaurantById("history", userViewModel.historyIds.value!!)
+        }
+
+        if (userViewModel.likesIds.value != null) {
+            placesViewModel.loadRestaurantById("likes", userViewModel.likesIds.value!!)
+        }
+
+        if (userViewModel.nopesIds.value != null) {
+            placesViewModel.loadRestaurantById("nopes", userViewModel.nopesIds.value!!)
+        }
+
         addCurrentUserObserver()
         addLocationPermissionObserver()
+        addCurrentLocationObserver()
 
         return binding.root
     }
@@ -53,7 +75,57 @@ class RestaurantsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val restaurants = placesViewModel.nearbyRestaurants.value
+        val nearbyRestaurants = placesViewModel.nearbyRestaurants.value
+        if (nearbyRestaurants != null) {
+            val filteredByRating =
+                nearbyRestaurants.filter { it.rating!! >= discoverySettings.minRating }
+
+            var filteredByRatingAndPriceLevel = filteredByRating
+            if (discoverySettings.priceLevels.isNotEmpty()) {
+                filteredByRatingAndPriceLevel =
+                    filteredByRating.filter { filteredRestaurants ->
+                        discoverySettings.priceLevels.any { priceLevel ->
+                            filteredRestaurants.priceLevel == priceLevel
+                        }
+                    }
+            }
+
+            val restaurantsFilteredByHistory =
+                filteredByRatingAndPriceLevel.filter { restaurantsWithoutNopesAndLikes ->
+                    restaurantsWithoutNopesAndLikes != placesViewModel.history.value
+                }
+
+            val matchingCategories =
+                userViewModel.firestoreRepository.foodCategories.filter { category ->
+                    discoverySettings.placeTypes.any { categoryString -> category.name == categoryString }
+                }.map { it.type }
+            val filteredRestaurantsFilteredByCategories =
+                restaurantsFilteredByHistory.filter { restaurants ->
+                    if (matchingCategories.isNotEmpty()) {
+                        matchingCategories.any { categories ->
+                            if (restaurants.placeTypes.isNullOrEmpty()) {
+                                true
+                            } else {
+                                restaurants.placeTypes!!.contains(categories)
+                            }
+                        }
+                    } else {
+                        true
+                    }
+                }
+
+            if (discoverySettings.openNow) {
+                filteredRestaurants =
+                    filteredRestaurantsFilteredByCategories.filter {
+                        placesViewModel.isPlaceOpenNow(it) == true
+                    }.toMutableList()
+                restaurantsAdapter.addRestaurants(filteredRestaurants)
+            } else {
+                filteredRestaurants =
+                    filteredRestaurantsFilteredByCategories.toMutableList()
+                restaurantsAdapter.addRestaurants(filteredRestaurants)
+            }
+        }
 
         cardStackLayoutManager =
             CardStackLayoutManager(requireContext(), object : CardStackListener {
@@ -63,70 +135,66 @@ class RestaurantsFragment : Fragment() {
                 override fun onCardSwiped(direction: Direction?) {
                     val position = cardStackLayoutManager.topPosition - 1
 
-                    if (restaurants != null) {
-                        when (direction) {
-                            Direction.Right -> {
-                                placesViewModel.addRestaurantToLiveData(
-                                    "likes",
-                                    restaurants[position]
-                                )
+                    when (direction) {
+                        Direction.Right -> {
+                            placesViewModel.addRestaurantToLiveData(
+                                "likes",
+                                filteredRestaurants[position]
+                            )
 
-                                userViewModel.saveRestaurant(
-                                    "likes",
-                                    restaurants[position].name!!,
-                                    Id(
-                                        restaurants[position].name!!,
-                                        restaurants[position].id!!,
-                                        null
-                                    )
+                            userViewModel.saveRestaurant(
+                                "likes",
+                                filteredRestaurants[position].name!!,
+                                Id(
+                                    filteredRestaurants[position].name!!,
+                                    filteredRestaurants[position].id!!,
+                                    null
                                 )
-                            }
+                            )
+                        }
 
-                            Direction.Left -> {
-                                placesViewModel.addRestaurantToLiveData(
-                                    "nopes",
-                                    restaurants[position]
+                        Direction.Left -> {
+                            placesViewModel.addRestaurantToLiveData(
+                                "nopes",
+                                filteredRestaurants[position]
+                            )
+
+                            userViewModel.saveRestaurant(
+                                "nopes",
+                                filteredRestaurants[position].name!!,
+                                Id(
+                                    filteredRestaurants[position].name!!,
+                                    filteredRestaurants[position].id!!,
+                                    null
                                 )
+                            )
+                        }
 
-                                userViewModel.saveRestaurant(
-                                    "nopes",
-                                    restaurants[position].name!!,
-                                    Id(
-                                        restaurants[position].name!!,
-                                        restaurants[position].id!!,
-                                        null
-                                    )
-                                )
-                            }
-
-                            else -> {
-                                // Handle other directions if needed
-                            }
+                        else -> {
+                            // Handle other directions if needed
                         }
                     }
                 }
 
                 override fun onCardRewound() {
-                    val position = cardStackLayoutManager.topPosition - 1
+                    val position = cardStackLayoutManager.topPosition
 
-                    if (restaurants != null) {
-                        placesViewModel.removeRestaurantFromLiveData(
-                            "likes",
-                            restaurants[position]
-                        )
+                    placesViewModel.removeRestaurantFromLiveData(
+                        "likes",
+                        filteredRestaurants[position]
+                    )
 
-                        placesViewModel.removeRestaurantFromLiveData(
-                            "nopes",
-                            restaurants[position]
-                        )
+                    placesViewModel.removeRestaurantFromLiveData(
+                        "nopes",
+                        filteredRestaurants[position]
+                    )
 
-                        restaurants[position].name?.let {
-                            userViewModel.deleteRestaurant("likes", it)
-                        }
+                    filteredRestaurants[position].name?.let {
+                        userViewModel.deleteRestaurant("likes", it)
+                    }
 
-                        restaurants[position].name?.let {
-                            userViewModel.deleteRestaurant("nopes", it)
-                        }
+                    filteredRestaurants[position].name?.let {
+                        userViewModel.deleteRestaurant("nopes", it)
                     }
                 }
 
@@ -139,25 +207,14 @@ class RestaurantsFragment : Fragment() {
                 override fun onCardDisappeared(view: View?, position: Int) {
                 }
             })
-
         cardStackLayoutManager.setMaxDegree(30.0f)
         cardStackLayoutManager.setDirections(Direction.HORIZONTAL)
-
-        restaurantsAdapter = RestaurantsAdapter(
-            requireContext(),
-            mutableListOf(),
-            locationViewModel,
-            placesViewModel,
-            userViewModel
-        )
 
         binding.rvRestaurantsStack.let { cardStackView ->
             cardStackView.adapter = restaurantsAdapter
             cardStackView.layoutManager = cardStackLayoutManager
             cardStackView.hasFixedSize()
         }
-
-        addCurrentLocationObserverWithNearbyRestaurantsObserver()
 
         binding.fabNope.setOnClickListener {
             val setting = SwipeAnimationSetting.Builder()
@@ -188,49 +245,36 @@ class RestaurantsFragment : Fragment() {
         }
     }
 
-    private fun addCurrentLocationObserverWithNearbyRestaurantsObserver() {
+    private fun addCurrentLocationObserver() {
         locationViewModel.currentLocation.observe(viewLifecycleOwner) { location ->
             if (location != null) {
-                val matchingCategories =
-                    userViewModel.firestoreRepository.foodCategories.filter { category ->
-                        discoverySettings.placeTypes.any { categoryString -> category.name == categoryString }
-                    }.map { it.type }
                 val currentPosition = LatLng(location.latitude, location.longitude)
 
                 placesViewModel.loadNearbyRestaurants(
                     currentPosition,
-                    matchingCategories,
                     discoverySettings
                 )
             } else {
                 Log.e("RestaurantsFragment", "Failed to obtain location.")
             }
-            addNearbyRestaurantObserverWithAdapterData()
         }
     }
 
     private fun addNearbyRestaurantObserverWithAdapterData() {
-        placesViewModel.nearbyRestaurants.observe(viewLifecycleOwner) { nearbyRestaurants ->
-            placesViewModel.nopes.observe(viewLifecycleOwner) { nopes ->
-                placesViewModel.likes.observe(viewLifecycleOwner) { likes ->
-                    placesViewModel.history.observe(viewLifecycleOwner) { history ->
-                        val nearbyRestaurantsFilterByNopes =
-                            nearbyRestaurants.filter { restaurants ->
-                                restaurants != nopes
-                            }.toMutableList()
-                        val restaurantsFilteredByNopesAndLikes =
-                            nearbyRestaurantsFilterByNopes.filter { restaurantsWithoutNopes ->
-                                restaurantsWithoutNopes != likes
-                            }.toMutableList()
-                        val restaurantsFilteredByNopesLikesAndHistory =
-                            restaurantsFilteredByNopesAndLikes.filter { restaurantsWithoutNopesAndLikes ->
-                                restaurantsWithoutNopesAndLikes != history
-                            }.toMutableList()
-                        restaurantsAdapter.addRestaurants(restaurantsFilteredByNopesLikesAndHistory)
-                    }
-                }
-            }
-        }
+
+//            placesViewModel.likes.observe(viewLifecycleOwner) { likes ->
+//                placesViewModel.nopes.observe(viewLifecycleOwner) { nopes ->
+//                                        val nearbyRestaurantsFilterByNopes =
+//                        filteredByRatingAndPriceLevel.filter { restaurants ->
+//                            restaurants != nopes
+//                        }
+//
+//                    val restaurantsFilteredByNopesAndLikes =
+//                        nearbyRestaurantsFilterByNopes.filter { restaurantsWithoutNopes ->
+//                            restaurantsWithoutNopes != likes
+//                        }
+//                }
+//            }
     }
 
     private fun addLocationPermissionObserver() {

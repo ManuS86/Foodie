@@ -1,4 +1,4 @@
-package com.example.foodie
+package com.example.foodie.ui.viewmodels
 
 import android.Manifest
 import android.app.Activity
