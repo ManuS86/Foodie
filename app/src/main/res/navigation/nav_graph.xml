@@ -29,14 +29,14 @@
         android:label="fragment_history"
         tools:layout="@layout/fragment_history">
         <action
-            android:id="@+id/action_historyFragment_to_restaurantDetailFragment"
-            app:destination="@id/restaurantDetailFragment" />
-        <action
             android:id="@+id/action_historyFragment_to_noGpsFragment"
             app:destination="@id/noGpsFragment" />
         <action
             android:id="@+id/action_historyFragment_to_locationPermissionFragment"
             app:destination="@id/locationPermissionFragment" />
+        <action
+            android:id="@+id/action_historyFragment_to_restaurantsDetailFragmentNoButtons"
+            app:destination="@id/restaurantsDetailFragmentNoButtons" />
     </fragment>
     <fragment
         android:id="@+id/likesFragment"
@@ -44,11 +44,11 @@
         android:label="fragment_likes"
         tools:layout="@layout/fragment_likes">
         <action
-            android:id="@+id/action_likesFragment_to_restaurantDetailFragment"
-            app:destination="@id/restaurantDetailFragment" />
-        <action
             android:id="@+id/action_likesFragment_to_locationPermissionFragment"
             app:destination="@id/locationPermissionFragment" />
+        <action
+            android:id="@+id/action_likesFragment_to_restaurantsDetailFragmentNoButtons"
+            app:destination="@id/restaurantsDetailFragmentNoButtons" />
     </fragment>
     <fragment
         android:id="@+id/restaurantDetailFragment"
@@ -182,5 +182,14 @@
         <action
             android:id="@+id/action_verificationCodeFragment_to_restaurantsFragment"
             app:destination="@id/restaurantsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/restaurantsDetailFragmentNoButtons"
+        android:name="com.example.foodie.ui.restaurants.RestaurantsDetailFragmentNoButtons"
+        android:label="RestaurantsDetailFragmentNoButtons"
+        tools:layout="@layout/fragment_restaurants_detail_no_buttons">
+        <action
+            android:id="@+id/action_restaurantsDetailFragmentNoButtons_to_navigationDetailFragment"
+            app:destination="@id/navigationDetailFragment" />
     </fragment>
 </navigation>

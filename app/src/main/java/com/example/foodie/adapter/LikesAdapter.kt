@@ -1,13 +1,13 @@
 package com.example.foodie.adapter
 
 import android.content.Context
+import android.icu.text.SimpleDateFormat
 import android.location.Location
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodie.LocationViewModel
@@ -19,12 +19,13 @@ import com.example.foodie.data.model.DiscoverySettings
 import com.example.foodie.data.model.Id
 import com.example.foodie.databinding.ItemLikesBinding
 import com.google.android.libraries.places.api.model.Place
+import java.util.Date
+import java.util.Locale
 import kotlin.math.roundToInt
 
 class LikesAdapter(
     private val context: Context,
-    private val dataset: List<Place>,
-    private val lifecycleOwner: LifecycleOwner,
+    private var dataset: MutableList<Place>,
     private val locationViewModel: LocationViewModel,
     private val placesViewModel: PlacesViewModel,
     private val userViewModel: UserViewModel,
@@ -56,61 +57,53 @@ class LikesAdapter(
             }
             val userLocation = locationViewModel.currentLocation.value
             val distanceInMeters = userLocation?.distanceTo(restaurantLocation)
-//        val photoMetadata = restaurant?.photoMetadatas?.get(0)
 
             val alertDialogHistory =
-                AlertDialog.Builder(view.context).setMessage("Are you sure you want to mark ${restaurant.name} as visited?")
+                AlertDialog.Builder(view.context)
+                    .setMessage("Are you sure you want to mark ${restaurant.name} as visited?")
                     .setTitle("Add to History").setPositiveButton("Move") { _, _ ->
-                        userViewModel.likesIds.value?.remove(restaurant.id!!)
-                        userViewModel.historyIds.value?.add(restaurant.id!!)
-                        val date = ""
-                        userViewModel.saveRestaurant(
-                            "history",
-                            restaurant.name!!,
-                            Id(restaurant.name!!, restaurant.id!!, date)
-                        )
-//                        dataset.removeAt(position)
+                        val currentTime = System.currentTimeMillis()
+                        val date = Date(currentTime)
+                        val formattedDate =
+                            SimpleDateFormat("dd.mm.yyyy", Locale.getDefault()).format(date)
+                        val restaurantId = Id(restaurant.name, restaurant.id, formattedDate)
+
+                        userViewModel.likesIds.value?.removeAll { it.id == restaurantId.id }
+                        userViewModel.saveRestaurant("history", restaurant.name!!, restaurantId)
+                        userViewModel.historyIds.value?.add(restaurantId)
+                        dataset.removeAt(position)
+                        notifyItemRemoved(position)
                     }.setNegativeButton("Cancel") { _, _ ->
                     }.create()
 
             val alertDialogRemove = AlertDialog.Builder(view.context)
-                .setMessage("Are you sure you want to remove ${restaurant.name} from your Likes?").setTitle("Remove Like")
+                .setMessage("Are you sure you want to remove ${restaurant.name} from your Likes?")
+                .setTitle("Remove Like")
                 .setPositiveButton("Remove") { _, _ ->
-                    userViewModel.likesIds.value?.remove(restaurant.id!!)
+                    val restaurantId = Id(restaurant.name, restaurant.id, null)
+
+                    userViewModel.likesIds.value?.removeAll { it.id == restaurantId.id }
                     userViewModel.deleteLikedRestaurant(restaurant.name!!)
-//                    dataset.removeAt(position)
+                    dataset.removeAt(position)
+                    notifyItemRemoved(position)
                 }.setNegativeButton("Cancel") { _, _ ->
                 }.create()
 
             holder.binding.let { binding ->
-//                if (photoMetadata != null) {
-//                    placesViewModel.getPhoto(photoMetadata)
-//                        .observe(lifecycleOwner) { bitmap ->
-//                            if (bitmap != null) {
-//                                binding.ivRestaurantPicLikes.setImageBitmap(bitmap)
-//                            } else {
-//                                binding.ivRestaurantPicLikes.setImageResource(R.drawable.placeholder_image)
-//                            }
-//                        }
-//                }
                 if (restaurant.photoMetadatas?.isNotEmpty() == true) {
                     val photoMetadata = restaurant.photoMetadatas?.get(0)
                     if (photoMetadata != null) {
-                        placesViewModel.resetPhotosLiveData()
-                        placesViewModel.loadPhoto(photoMetadata)
+                        placesViewModel.loadPhoto(photoMetadata) { photo ->
+                            binding.ivRestaurantPicLikes.setImageBitmap(photo)
+                        }
                     }
                 } else {
-                    Log.e("Error", "Photos list is empty")
-                }
-                if (placesViewModel.photos.value?.isNotEmpty() == true) {
-                    binding.ivRestaurantPicLikes.setImageBitmap(
-                        placesViewModel.photos.value?.get(0)
-                    )
-                } else {
                     binding.ivRestaurantPicLikes.setImageResource(R.drawable.placeholder_image)
+                    Log.e("Error", "Photos list is empty")
                 }
                 binding.tvRestaurantNameLikes.text = restaurant.name
                 val chipGroup = binding.cpgCategoriesLikes
+                chipGroup.removeAllViews()
                 matchingCategories.forEach { category ->
                     addIndicatorChipSmall(
                         category.name,
@@ -139,7 +132,7 @@ class LikesAdapter(
                 binding.cvLikes.setOnClickListener {
                     placesViewModel.setCurrentRestaurant(position)
                     holder.itemView.findNavController().navigate(
-                        R.id.restaurantDetailFragment
+                        R.id.restaurantsDetailFragmentNoButtons
                     )
                 }
 
@@ -152,6 +145,11 @@ class LikesAdapter(
                 }
             }
         }
+    }
+
+    fun addLikes(likes: MutableList<Place>) {
+        dataset = likes
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {

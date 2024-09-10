@@ -14,4 +14,6 @@
     app:chipCornerRadius="16dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+    app:layout_constraintTop_toTopOf="parent"
+    app:textEndPadding="4dp"
+    app:textStartPadding="4dp" />

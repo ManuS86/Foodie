@@ -58,16 +58,16 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     val currentUser: LiveData<FirebaseUser?>
         get() = _currentUser
 
-    private var _likesIds = MutableLiveData<MutableList<String>>()
-    val likesIds: LiveData<MutableList<String>>
+    private var _likesIds = MutableLiveData<MutableList<Id>>()
+    val likesIds: LiveData<MutableList<Id>>
         get() = _likesIds
 
-    private var _nopesIds = MutableLiveData<MutableList<String>>()
-    val nopesIds: LiveData<MutableList<String>>
+    private var _nopesIds = MutableLiveData<MutableList<Id>>()
+    val nopesIds: LiveData<MutableList<Id>>
         get() = _nopesIds
 
-    private var _historyIds = MutableLiveData<MutableList<String>>()
-    val historyIds: LiveData<MutableList<String>>
+    private var _historyIds = MutableLiveData<MutableList<Id>>()
+    val historyIds: LiveData<MutableList<Id>>
         get() = _historyIds
 
     private var _currentAppSettings = MutableLiveData<AppSettings>()
@@ -162,7 +162,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    private fun loadRestaurantIdList(collection: String) {
+    fun loadRestaurantIdList(collection: String) {
         viewModelScope.launch {
             try {
                 when (collection) {

@@ -37,7 +37,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/iv_restaurant"
+                android:id="@+id/iv_Placeholder"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginBottom="-64dp"

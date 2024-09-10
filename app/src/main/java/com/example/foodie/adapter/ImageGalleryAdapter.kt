@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.foodie.databinding.ItemImageGalleryBinding
 
 class ImageGalleryAdapter(
-    private val dataset: List<Bitmap>?
+    private val dataset: MutableList<Bitmap>?
 ) : RecyclerView.Adapter<ImageGalleryAdapter.ItemViewHolder>() {
 
     inner class ItemViewHolder(val binding: ItemImageGalleryBinding) :
@@ -23,6 +23,16 @@ class ImageGalleryAdapter(
         val image = dataset?.get(position)
 
         holder.binding.ivGallery.setImageBitmap(image)
+    }
+
+    fun addPhoto(photo: Bitmap) {
+        dataset?.add(photo)
+        notifyItemInserted(itemCount - 1)
+    }
+
+    fun addFirstPhoto(photo: Bitmap) {
+        dataset?.add(0, photo)
+        notifyItemInserted(0)
     }
 
     override fun getItemCount(): Int {

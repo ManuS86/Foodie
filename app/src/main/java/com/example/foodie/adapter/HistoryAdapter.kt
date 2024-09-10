@@ -5,7 +5,6 @@ import android.location.Location
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodie.LocationViewModel
@@ -20,8 +19,7 @@ import kotlin.math.roundToInt
 
 class HistoryAdapter(
     private val context: Context,
-    private val dataset: List<Place>,
-    private val lifecycleOwner: LifecycleOwner,
+    private var dataset: List<Place>,
     private val locationViewModel: LocationViewModel,
     private val placesViewModel: PlacesViewModel,
     private val userViewModel: UserViewModel
@@ -52,36 +50,22 @@ class HistoryAdapter(
                 }
                 val userLocation = locationViewModel.currentLocation.value
                 val distanceInMeters = userLocation?.distanceTo(restaurantLocation)
-//        val photoMetadata = restaurant?.photoMetadatas?.get(0)
+
                 holder.binding.let { binding ->
-//                if (photoMetadata != null) {
-//                    placesViewModel.getPhoto(photoMetadata)
-//                        .observe(lifecycleOwner) { bitmap ->
-//                            if (bitmap != null) {
-//                                binding.ivRestaurantPicHistory.setImageBitmap(bitmap)
-//                            } else {
-//                                binding.ivRestaurantPicHistory.setImageResource(R.drawable.placeholder_image)
-//                            }
-//                        }
-//                }
                     if (restaurant.photoMetadatas?.isNotEmpty() == true) {
                         val photoMetadata = restaurant.photoMetadatas?.get(0)
                         if (photoMetadata != null) {
-                            placesViewModel.resetPhotosLiveData()
-                            placesViewModel.loadPhoto(photoMetadata)
+                            placesViewModel.loadPhoto(photoMetadata) { photo ->
+                                binding.ivRestaurantPicHistory.setImageBitmap(photo)
+                            }
                         }
                     } else {
-                        Log.e("Error", "Photos list is empty")
-                    }
-                    if (placesViewModel.photos.value?.isNotEmpty() == true) {
-                        binding.ivRestaurantPicHistory.setImageBitmap(
-                            placesViewModel.photos.value?.get(0)
-                        )
-                    } else {
                         binding.ivRestaurantPicHistory.setImageResource(R.drawable.placeholder_image)
+                        Log.e("Error", "Photos list is empty")
                     }
                     binding.tvRestaurantNameHistory.text = restaurant.name
                     val chipGroup = binding.cpgCategoriesHistory
+                    chipGroup.removeAllViews()
                     matchingCategories.forEach { category ->
                         addIndicatorChipSmall(
                             category.name,
@@ -91,7 +75,8 @@ class HistoryAdapter(
                         )
                     }
 
-//                    binding.tvDateHistory.text = userViewModel.historyIds.value(position)
+                    val date = userViewModel.historyIds.value?.get(position)?.date
+                    binding.tvDateHistory.text = date
 
                     binding.tvDistanceHistory.text = if (appSettings?.distanceUnit == "Km") {
                         val distanceInKm = (distanceInMeters?.div(1000.0f))?.roundToInt()
@@ -112,7 +97,7 @@ class HistoryAdapter(
                     binding.cvHistory.setOnClickListener {
                         placesViewModel.setCurrentRestaurant(position)
                         holder.itemView.findNavController().navigate(
-                            R.id.restaurantDetailFragment
+                            R.id.restaurantsDetailFragmentNoButtons
                         )
                     }
                 }
@@ -120,7 +105,12 @@ class HistoryAdapter(
         }
     }
 
+    fun addHistory(history: MutableList<Place>) {
+        dataset = history
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount(): Int {
-        return dataset?.size ?: 0
+        return dataset.size ?: 0
     }
 }

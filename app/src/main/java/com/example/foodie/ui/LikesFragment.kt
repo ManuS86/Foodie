@@ -19,6 +19,7 @@ class LikesFragment : Fragment() {
     private val placesViewModel: PlacesViewModel by activityViewModels()
     private val userViewModel: UserViewModel by activityViewModels()
     private lateinit var binding: FragmentLikesBinding
+    private lateinit var likesAdapter: LikesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,37 +30,32 @@ class LikesFragment : Fragment() {
 
         locationViewModel.isGPSEnabled()
         locationViewModel.checkLocationPermission()
+        userViewModel.likesIds.value?.let { placesViewModel.loadRestaurantById("likes", it) }
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        addLocationPermissionObserver()
-        addPlaceObserverWithLikeObserverAndAdapter()
-    }
+        likesAdapter = LikesAdapter(
+            requireContext(),
+            mutableListOf(),
+            locationViewModel,
+            placesViewModel,
+            userViewModel,
+            requireView()
+        )
 
-    private fun addPlaceObserverWithLikeObserverAndAdapter() {
-        userViewModel.likesIds.observe(viewLifecycleOwner) {
-                placesViewModel.loadRestaurantById("likes", it)
-            addLikeObserverWithAdapter()
-        }
+        binding.rvLikes.adapter = likesAdapter
+        binding.rvLikes.hasFixedSize()
+
+        addLocationPermissionObserver()
+        addLikeObserverWithAdapter()
     }
 
     private fun addLikeObserverWithAdapter() {
         placesViewModel.likes.observe(viewLifecycleOwner) { likes ->
-            binding.rvLikes.let { recyclerView ->
-                recyclerView.adapter = LikesAdapter(
-                    requireContext(),
-                    likes,
-                    viewLifecycleOwner,
-                    locationViewModel,
-                    placesViewModel,
-                    userViewModel,
-                    requireView()
-                )
-                recyclerView.setHasFixedSize(true)
-            }
+            likesAdapter.addLikes(likes)
         }
     }
 

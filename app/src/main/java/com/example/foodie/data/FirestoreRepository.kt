@@ -26,17 +26,19 @@ class FirestoreRepository(private var db: FirebaseFirestore) {
     suspend fun getRestaurantIdList(
         userRef: DocumentReference,
         collection: String
-    ): MutableList<String> {
+    ): MutableList<Id> {
         val collRef = userRef.collection(collection)
         val querySnapshot = withContext(Dispatchers.IO) {
             collRef.get().await()
         }
 
-        val restaurantIdList = mutableListOf<String>()
+        val restaurantIdList = mutableListOf<Id>()
         for (document in querySnapshot.documents) {
             if (document != null) {
                 val restaurantId = document.toObject(Id::class.java)
-                restaurantIdList.add(restaurantId?.id!!)
+                if (restaurantId != null) {
+                    restaurantIdList.add(restaurantId)
+                }
             }
         }
         return restaurantIdList
@@ -49,30 +51,23 @@ class FirestoreRepository(private var db: FirebaseFirestore) {
         restaurantId: Id
     ) {
         val docRef = userRef.collection(collection).document(restaurantName)
-        withContext(Dispatchers.IO) {
-            docRef.set(restaurantId).await()
-        }
+        docRef.set(restaurantId).await()
     }
 
     suspend fun deleteLikedRestaurant(userRef: DocumentReference, restaurantName: String) {
         val docRef = userRef.collection("likes").document(restaurantName)
-        withContext(Dispatchers.IO) {
-            docRef.delete().await()
-        }
+        docRef.delete().await()
     }
 
     suspend fun setAppSettings(userRef: DocumentReference, appSettings: AppSettings) {
         val docRef = userRef.collection("settings").document("app settings")
-        withContext(Dispatchers.IO) {
-            docRef.set(appSettings).await()
-        }
+        docRef.set(appSettings).await()
     }
 
     suspend fun getAppSettings(userRef: DocumentReference): AppSettings? {
         val docRef = userRef.collection("settings").document("app settings")
-        val documentSnapshot = withContext(Dispatchers.IO) {
-            docRef.get().await()
-        }
+        val documentSnapshot = docRef.get().await()
+
         return documentSnapshot.toObject(AppSettings::class.java)
     }
 
@@ -81,16 +76,13 @@ class FirestoreRepository(private var db: FirebaseFirestore) {
         discoverySettings: DiscoverySettings
     ) {
         val docRef = userRef.collection("settings").document("discovery settings")
-        withContext(Dispatchers.IO) {
-            docRef.set(discoverySettings).await()
-        }
+        docRef.set(discoverySettings).await()
     }
 
     suspend fun getDiscoverySettings(userRef: DocumentReference): DiscoverySettings? {
         val docRef = userRef.collection("settings").document("discovery settings")
-        val documentSnapshot = withContext(Dispatchers.IO) {
-            docRef.get().await()
-        }
+        val documentSnapshot = docRef.get().await()
+
         return documentSnapshot.toObject(DiscoverySettings::class.java)
     }
 

@@ -1,6 +1,7 @@
 package com.example.foodie.data
 
 import android.graphics.Bitmap
+import com.example.foodie.data.model.Id
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.model.CircularBounds
 import com.google.android.libraries.places.api.model.PhotoMetadata
@@ -9,11 +10,7 @@ import com.google.android.libraries.places.api.net.FetchPhotoRequest
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.api.net.SearchNearbyRequest
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 
 class PlacesRepository {
     private val placeFields = listOf(
@@ -45,42 +42,57 @@ class PlacesRepository {
             .setRegionCode("de")
             .build()
 
-        val response = withContext(Dispatchers.IO) {
-            placesClient.searchNearby(searchNearbyRequest).await()
-        }
+        val response = placesClient.searchNearby(searchNearbyRequest).await()
+
         return response.places
     }
 
     suspend fun fetchRestaurantsById(
-        placeIdList: List<String>,
+        placeIdList: List<Id>,
         placesClient: PlacesClient
-    ): List<Place> {
+    ): MutableList<Place> {
         val places = mutableListOf<Place>()
         placeIdList.forEach { placeId ->
-            val placeDetailsRequest = FetchPlaceRequest.newInstance(placeId, placeFields)
-            val response = withContext(Dispatchers.IO) {
-                placesClient.fetchPlace(placeDetailsRequest).await()
+            val placeDetailsRequest =
+                placeId.id?.let { FetchPlaceRequest.newInstance(it, placeFields) }
+            val response = placeDetailsRequest?.let { placesClient.fetchPlace(it).await() }
+
+            if (response != null) {
+                places.add(response.place)
             }
-            places.add(response.place)
         }
-            return places
+        return places
     }
 
-    suspend fun fetchPhotoAsFlow(
+    suspend fun fetchPhoto(
         photoMetadata: PhotoMetadata,
         placesClient: PlacesClient
-    ): Flow<Bitmap?> {
-        return flow {
+    ): Bitmap {
+        val photoRequest = FetchPhotoRequest.builder(photoMetadata)
+            .setMaxWidth(1000)
+            .setMaxHeight(1000)
+            .build()
+
+        val response = placesClient.fetchPhoto(photoRequest).await()
+
+        return response.bitmap
+    }
+
+    suspend fun fetchPhotoList(
+        photoMetadataList: List<PhotoMetadata>,
+        placesClient: PlacesClient
+    ): List<Bitmap> {
+        val photos = mutableListOf<Bitmap>()
+        photoMetadataList.forEach { photoMetadata ->
             val photoRequest = FetchPhotoRequest.builder(photoMetadata)
                 .setMaxWidth(1000)
                 .setMaxHeight(1000)
                 .build()
 
-            val response = withContext(Dispatchers.IO) {
-                placesClient.fetchPhoto(photoRequest).await()
-            }
-            emit(response.bitmap)
+            val response = placesClient.fetchPhoto(photoRequest).await()
+            photos.add(response.bitmap)
         }
+        return photos
     }
 }
 

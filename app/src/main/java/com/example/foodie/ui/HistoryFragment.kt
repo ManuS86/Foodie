@@ -19,6 +19,7 @@ class HistoryFragment : Fragment() {
     private val placesViewModel: PlacesViewModel by activityViewModels()
     private val userViewModel: UserViewModel by activityViewModels()
     private lateinit var binding: FragmentHistoryBinding
+    private lateinit var historyAdapter: HistoryAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,36 +31,31 @@ class HistoryFragment : Fragment() {
         locationViewModel.isGPSEnabled()
         locationViewModel.checkLocationPermission()
 
+        userViewModel.historyIds.value?.let { placesViewModel.loadRestaurantById("history", it) }
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        historyAdapter = HistoryAdapter(
+            requireContext(),
+            mutableListOf(),
+            locationViewModel,
+            placesViewModel,
+            userViewModel
+        )
+
+        binding.rvHistory.adapter = historyAdapter
+        binding.rvHistory.hasFixedSize()
 
         addLocationPermissionObserver()
-        addPlaceObserverWithHistoryObserverAndAdapter()
-    }
-
-    private fun addPlaceObserverWithHistoryObserverAndAdapter() {
-        userViewModel.historyIds.observe(viewLifecycleOwner) {
-                placesViewModel.loadRestaurantById("history", it)
-            addHistoryObserverWithAdapter()
-        }
+        addHistoryObserverWithAdapter()
     }
 
     private fun addHistoryObserverWithAdapter() {
         placesViewModel.history.observe(viewLifecycleOwner) { history ->
-            binding.rvHistory.let { recyclerView ->
-                recyclerView.adapter = HistoryAdapter(
-                    requireContext(),
-                    history,
-                    viewLifecycleOwner,
-                    locationViewModel,
-                    placesViewModel,
-                    userViewModel
-                )
-                recyclerView.setHasFixedSize(true)
-            }
+            historyAdapter.addHistory(history)
         }
     }
 

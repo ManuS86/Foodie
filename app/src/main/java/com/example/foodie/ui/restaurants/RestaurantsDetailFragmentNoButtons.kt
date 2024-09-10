@@ -20,8 +20,7 @@ import com.example.foodie.adapter.ImageGalleryAdapter
 import com.example.foodie.addIndicatorChip
 import com.example.foodie.data.model.AppSettings
 import com.example.foodie.data.model.DiscoverySettings
-import com.example.foodie.data.model.Id
-import com.example.foodie.databinding.FragmentRestaurantsDetailBinding
+import com.example.foodie.databinding.FragmentRestaurantsDetailNoButtonsBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -30,12 +29,12 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.model.Place
 import kotlin.math.roundToInt
 
-class RestaurantsDetailFragment : Fragment() {
+class RestaurantsDetailFragmentNoButtons : Fragment() {
     private val locationViewModel: LocationViewModel by activityViewModels()
     private val placesViewModel: PlacesViewModel by activityViewModels()
     private val userViewModel: UserViewModel by activityViewModels()
     private lateinit var appSettings: AppSettings
-    private lateinit var binding: FragmentRestaurantsDetailBinding
+    private lateinit var binding: FragmentRestaurantsDetailNoButtonsBinding
     private lateinit var discoverySettings: DiscoverySettings
     private lateinit var mapView: MapView
 
@@ -44,7 +43,7 @@ class RestaurantsDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRestaurantsDetailBinding.inflate(inflater)
+        binding = FragmentRestaurantsDetailNoButtonsBinding.inflate(inflater)
         appSettings = userViewModel.currentAppSettings.value ?: AppSettings()
         discoverySettings = userViewModel.currentDiscoverySettings.value ?: DiscoverySettings()
         mapView = binding.ivMapPreview
@@ -214,22 +213,6 @@ class RestaurantsDetailFragment : Fragment() {
 
             binding.fabNavigate.setOnClickListener {
                 findNavController().navigate(R.id.navigationDetailFragment)
-            }
-
-            binding.fabNope.setOnClickListener {
-                userViewModel.saveRestaurant(
-                    "nopes",
-                    restaurant.name!!,
-                    Id(restaurant.name!!, restaurant.id!!, null)
-                )
-            }
-
-            binding.fabLike.setOnClickListener {
-                userViewModel.saveRestaurant(
-                    "likes",
-                    restaurant.name!!,
-                    Id(restaurant.name!!, restaurant.id!!, null)
-                )
             }
         }
     }

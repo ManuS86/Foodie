@@ -11,6 +11,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.foodie.data.PlacesRepository
 import com.example.foodie.data.model.DiscoverySettings
+import com.example.foodie.data.model.Id
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.PhotoMetadata
@@ -25,24 +26,24 @@ class PlacesViewModel(application: Application) : AndroidViewModel(application) 
     private val placesRepository = PlacesRepository()
     private lateinit var placesClient: PlacesClient
 
-    private var _nearbyRestaurants = MutableLiveData<List<Place>>()
-    val nearbyRestaurants: LiveData<List<Place>>
+    private var _nearbyRestaurants = MutableLiveData<MutableList<Place>>()
+    val nearbyRestaurants: LiveData<MutableList<Place>>
         get() = _nearbyRestaurants
 
     private var _currentRestaurant = MutableLiveData<Place>()
     val currentRestaurant: LiveData<Place>
         get() = _currentRestaurant
 
-    private var _likes = MutableLiveData<List<Place>>()
-    val likes: LiveData<List<Place>>
+    private var _likes = MutableLiveData<MutableList<Place>>()
+    val likes: LiveData<MutableList<Place>>
         get() = _likes
 
-    private var _nopes = MutableLiveData<List<Place>>()
-    val nopes: LiveData<List<Place>>
+    private var _nopes = MutableLiveData<MutableList<Place>>()
+    val nopes: LiveData<MutableList<Place>>
         get() = _nopes
 
-    private var _history = MutableLiveData<List<Place>>()
-    val history: LiveData<List<Place>>
+    private var _history = MutableLiveData<MutableList<Place>>()
+    val history: LiveData<MutableList<Place>>
         get() = _history
 
     private var _photos = MutableStateFlow<List<Bitmap>>(emptyList())
@@ -89,10 +90,24 @@ class PlacesViewModel(application: Application) : AndroidViewModel(application) 
                     placesClient
                 )
 
+                val filteredByRating =
+                    restaurants.filter { it.rating!! >= discoverySettings.minRating }
+                var filteredByRatingAndPriceLevel = filteredByRating
+
+                if (discoverySettings.priceLevels.isNotEmpty()) {
+                    filteredByRatingAndPriceLevel = filteredByRating.filter { filteredRestaurants ->
+                        filteredRestaurants.priceLevel?.let { priceLvl ->
+                            discoverySettings.priceLevels.contains(priceLvl)
+                        } == true
+                    }
+                }
+
                 if (discoverySettings.openNow) {
-                    _nearbyRestaurants.value = restaurants.filter { isPlaceOpenNow(it) == true }
+                    _nearbyRestaurants.value =
+                        filteredByRatingAndPriceLevel.filter { isPlaceOpenNow(it) == true }
+                            .toMutableList()
                 } else {
-                    _nearbyRestaurants.value = restaurants
+                    _nearbyRestaurants.value = filteredByRatingAndPriceLevel.toMutableList()
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to retrieve nearby places", e)
@@ -100,14 +115,14 @@ class PlacesViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun loadRestaurantById(collection: String, placeIdList: List<String>) {
+    fun loadRestaurantById(collection: String, placeIdList: MutableList<Id>) {
         viewModelScope.launch {
             try {
                 val restaurants = placesRepository.fetchRestaurantsById(placeIdList, placesClient)
                 when (collection) {
-                    "history" -> _history.value = restaurants
-                    "likes" -> _likes.value = restaurants
-                    "nopes" -> _nopes.value = restaurants
+                    "history" -> _history.postValue(restaurants)
+                    "likes" -> _likes.postValue(restaurants)
+                    "nopes" -> _nopes.postValue(restaurants)
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to fetch place", e)
@@ -115,23 +130,50 @@ class PlacesViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun loadPhoto(photoMetadata: PhotoMetadata) {
+    fun addRestaurantToLiveData(liveData: String, restaurant: Place) {
+        when (liveData) {
+            "history" -> {
+                _history.value?.add(restaurant)
+                _history.value = _history.value
+            }
+
+            "likes" -> {
+                _likes.value?.add(restaurant)
+                _likes.value = _likes.value
+            }
+
+            "nopes" -> {
+                _nopes.value?.add(restaurant)
+                _nopes.value = _nopes.value
+            }
+        }
+    }
+
+    fun loadPhoto(photoMetadata: PhotoMetadata, onCompletion: (Bitmap) -> (Unit)) {
         viewModelScope.launch {
             try {
-                placesRepository.fetchPhotoAsFlow(photoMetadata, placesClient)
-                    .collect { photo ->
-                        if (photo != null) {
-                            _photos.value += photo
-                        }
-                    }
+                val photo = placesRepository.fetchPhoto(photoMetadata, placesClient)
+
+                onCompletion(photo)
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to fetch photo", e)
             }
         }
     }
 
-    fun resetPhotosLiveData() {
-        _photos.value = emptyList()
+    fun loadPhotoList(
+        photoMetadataList: List<PhotoMetadata>,
+        onCompletion: (List<Bitmap>) -> (Unit)
+    ) {
+        viewModelScope.launch {
+            try {
+                val photoList = placesRepository.fetchPhotoList(photoMetadataList, placesClient)
+
+                onCompletion(photoList)
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to fetch photos", e)
+            }
+        }
     }
 
     fun isPlaceOpenNow(place: Place): Boolean? {
@@ -167,44 +209,6 @@ class PlacesViewModel(application: Application) : AndroidViewModel(application) 
         }
         return false
     }
-
-//    fun getPhoto(photoMetadata: PhotoMetadata): MutableLiveData<Bitmap?> {
-//        val photoRequest = FetchPhotoRequest.builder(photoMetadata)
-//            .setMaxWidth(1000)
-//            .setMaxHeight(1000)
-//            .build()
-//
-//        val liveData = MutableLiveData<Bitmap?>()
-//
-//        viewModelScope.launch(Dispatchers.IO) {
-//            try {
-//                val response = placesClient.fetchPhoto(photoRequest).await()
-//                liveData.postValue(response.bitmap)
-//            } catch (e: Exception) {
-//                Log.e(TAG, "Failed to fetch photo", e)
-//                liveData.postValue(null) // Or handle the error differently
-//            }
-//        }
-//        return liveData
-//    }
-
-//    fun filterList(list: List<Place>, conditions: List<Condition>): List<Place> {
-//        val filteredList = mutableListOf<Place>()
-//        for (element in list) {
-//            var meetsAllConditions = true
-//            for (condition in conditions) {
-//                if (!condition.apply(element)) {
-//                    meetsAllConditions = false
-//                    break
-//                }
-//            }
-//            if (meetsAllConditions) {
-//                filteredList.add(element)
-//            }
-//        }
-//        return filteredList
-//    }
-
 
 //                val restaurants = response.places.map {
 //                    val periods = mutableListOf<CustomPeriod>()

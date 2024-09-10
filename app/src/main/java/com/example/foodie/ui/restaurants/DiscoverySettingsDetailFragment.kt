@@ -138,27 +138,27 @@ class DiscoverySettingsDetailFragment : Fragment() {
 
         binding.cpPriceRangeLow.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                discoverySettings.priceLevels.add("€")
+                discoverySettings.priceLevels.add(1)
             } else {
-                discoverySettings.priceLevels.remove("€")
+                discoverySettings.priceLevels.remove(1)
             }
             userViewModel.saveDiscoverySettings()
         }
 
         binding.cpPriceRangeMed.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                discoverySettings.priceLevels.add("€€")
+                discoverySettings.priceLevels.add(2)
             } else {
-                discoverySettings.priceLevels.remove("€€")
+                discoverySettings.priceLevels.remove(2)
             }
             userViewModel.saveDiscoverySettings()
         }
 
         binding.cpPriceRangeHi.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                discoverySettings.priceLevels.add("€€€")
+                discoverySettings.priceLevels.add(3)
             } else {
-                discoverySettings.priceLevels.remove("€€€")
+                discoverySettings.priceLevels.remove(3)
             }
             userViewModel.saveDiscoverySettings()
         }
@@ -202,15 +202,15 @@ class DiscoverySettingsDetailFragment : Fragment() {
         }
 
         val priceLevel = discoverySettings.priceLevels
-        if (priceLevel.contains("€")) {
+        if (priceLevel.contains(1)) {
             binding.cpPriceRangeLow.isChecked = true
         }
 
-        if (priceLevel.contains("€€")) {
+        if (priceLevel.contains(2)) {
             binding.cpPriceRangeMed.isChecked = true
         }
 
-        if (priceLevel.contains("€€€")) {
+        if (priceLevel.contains(3)) {
             binding.cpPriceRangeHi.isChecked = true
         }
     }
