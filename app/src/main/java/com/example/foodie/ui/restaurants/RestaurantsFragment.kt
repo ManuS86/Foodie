@@ -62,9 +62,15 @@ class RestaurantsFragment : Fragment() {
 
                 override fun onCardSwiped(direction: Direction?) {
                     val position = cardStackLayoutManager.topPosition - 1
+
                     if (restaurants != null) {
                         when (direction) {
                             Direction.Right -> {
+                                placesViewModel.addRestaurantToLiveData(
+                                    "likes",
+                                    restaurants[position]
+                                )
+
                                 userViewModel.saveRestaurant(
                                     "likes",
                                     restaurants[position].name!!,
@@ -73,14 +79,15 @@ class RestaurantsFragment : Fragment() {
                                         restaurants[position].id!!,
                                         null
                                     )
-                                )
-                                placesViewModel.addRestaurantToLiveData(
-                                    "likes",
-                                    restaurants[position]
                                 )
                             }
 
                             Direction.Left -> {
+                                placesViewModel.addRestaurantToLiveData(
+                                    "nopes",
+                                    restaurants[position]
+                                )
+
                                 userViewModel.saveRestaurant(
                                     "nopes",
                                     restaurants[position].name!!,
@@ -89,10 +96,6 @@ class RestaurantsFragment : Fragment() {
                                         restaurants[position].id!!,
                                         null
                                     )
-                                )
-                                placesViewModel.addRestaurantToLiveData(
-                                    "nopes",
-                                    restaurants[position]
                                 )
                             }
 
@@ -104,6 +107,27 @@ class RestaurantsFragment : Fragment() {
                 }
 
                 override fun onCardRewound() {
+                    val position = cardStackLayoutManager.topPosition - 1
+
+                    if (restaurants != null) {
+                        placesViewModel.removeRestaurantFromLiveData(
+                            "likes",
+                            restaurants[position]
+                        )
+
+                        placesViewModel.removeRestaurantFromLiveData(
+                            "nopes",
+                            restaurants[position]
+                        )
+
+                        restaurants[position].name?.let {
+                            userViewModel.deleteRestaurant("likes", it)
+                        }
+
+                        restaurants[position].name?.let {
+                            userViewModel.deleteRestaurant("nopes", it)
+                        }
+                    }
                 }
 
                 override fun onCardCanceled() {

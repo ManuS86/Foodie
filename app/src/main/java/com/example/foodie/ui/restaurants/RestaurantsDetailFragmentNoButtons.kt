@@ -232,6 +232,9 @@ class RestaurantsDetailFragmentNoButtons : Fragment() {
             )
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(restaurant.latLng!!, 15f))
         }
+        mapView.setOnClickListener {
+            findNavController().navigate(R.id.navigationDetailFragment)
+        }
     }
 
     private fun addLocationPermissionObserver() {

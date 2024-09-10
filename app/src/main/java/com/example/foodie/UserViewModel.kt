@@ -193,10 +193,10 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun deleteLikedRestaurant(restaurantName: String) {
+    fun deleteRestaurant(collection: String, restaurantName: String) {
         viewModelScope.launch {
             try {
-                firestoreRepository.deleteLikedRestaurant(userRef, restaurantName)
+                firestoreRepository.deleteRestaurant(userRef, restaurantName, collection)
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to delete $restaurantName from likes", e)
             }

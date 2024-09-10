@@ -83,7 +83,7 @@ class LikesAdapter(
                     val restaurantId = Id(restaurant.name, restaurant.id, null)
 
                     userViewModel.likesIds.value?.removeAll { it.id == restaurantId.id }
-                    userViewModel.deleteLikedRestaurant(restaurant.name!!)
+                    userViewModel.deleteRestaurant("likes", restaurant.name!!)
                     dataset.removeAt(position)
                     notifyItemRemoved(position)
                 }.setNegativeButton("Cancel") { _, _ ->

@@ -73,24 +73,10 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    //Retrofit und Moshi
-    implementation(libs.retrofit)
-    implementation(libs.converter.moshi)
-    implementation(libs.moshi.kotlin)
-
-    //Coil
-    implementation(libs.coil)
-
     //Room
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
-
-    //HttpLoggingInterceptor
-    implementation(libs.logging.interceptor)
-
-    //FlexBox
-    implementation(libs.flexbox)
 
     //Play Services for Map, Location and Places
     implementation(libs.play.services.maps)
@@ -119,4 +105,12 @@ dependencies {
 
     //Actionbar Scroll Behavior
     implementation(libs.androidx.coordinatorlayout)
+
+    //    //Retrofit und Moshi
+//    implementation(libs.retrofit)
+//    implementation(libs.converter.moshi)
+//    implementation(libs.moshi.kotlin)
+//
+//    //Coil
+//    implementation(libs.coil)
 }

@@ -54,8 +54,8 @@ class FirestoreRepository(private var db: FirebaseFirestore) {
         docRef.set(restaurantId).await()
     }
 
-    suspend fun deleteLikedRestaurant(userRef: DocumentReference, restaurantName: String) {
-        val docRef = userRef.collection("likes").document(restaurantName)
+    suspend fun deleteRestaurant(userRef: DocumentReference, restaurantName: String, collection: String) {
+        val docRef = userRef.collection(collection).document(restaurantName)
         docRef.delete().await()
     }
 

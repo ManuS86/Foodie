@@ -7,7 +7,6 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.foodie.data.PlacesRepository
 import com.example.foodie.data.model.DiscoverySettings
@@ -17,7 +16,6 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.PhotoMetadata
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.PlacesClient
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class PlacesViewModel(application: Application) : AndroidViewModel(application) {
@@ -46,16 +44,12 @@ class PlacesViewModel(application: Application) : AndroidViewModel(application) 
     val history: LiveData<MutableList<Place>>
         get() = _history
 
-    private var _photos = MutableStateFlow<List<Bitmap>>(emptyList())
-    val photos: LiveData<List<Bitmap>>
-        get() = _photos.asLiveData()
+    init {
+        createPlacesClient()
+    }
 
     fun setCurrentRestaurant(position: Int) {
         _currentRestaurant.postValue(nearbyRestaurants.value?.get(position))
-    }
-
-    init {
-        createPlacesClient()
     }
 
     private fun createPlacesClient() {
@@ -144,6 +138,25 @@ class PlacesViewModel(application: Application) : AndroidViewModel(application) 
 
             "nopes" -> {
                 _nopes.value?.add(restaurant)
+                _nopes.value = _nopes.value
+            }
+        }
+    }
+
+    fun removeRestaurantFromLiveData(liveData: String, restaurant: Place) {
+        when (liveData) {
+            "history" -> {
+                _history.value?.remove(restaurant)
+                _history.value = _history.value
+            }
+
+            "likes" -> {
+                _likes.value?.remove(restaurant)
+                _likes.value = _likes.value
+            }
+
+            "nopes" -> {
+                _nopes.value?.remove(restaurant)
                 _nopes.value = _nopes.value
             }
         }
