@@ -35,71 +35,70 @@ class HistoryAdapter(
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         if (dataset.isNotEmpty()) {
-            val restaurant = dataset?.get(position)
+            val restaurant = dataset[position]
             val appSettings = userViewModel.currentAppSettings.value
             val discoverySettings = userViewModel.currentDiscoverySettings.value
 
-            if (restaurant != null) {
-                val matchingCategories =
-                    userViewModel.firestoreRepository.foodCategories.filter { category ->
-                        restaurant.placeTypes!!.any { categoryString -> category.type == categoryString }
-                    }
-                val restaurantLocation = Location("").apply {
-                    latitude = restaurant.latLng?.latitude!!
-                    longitude = restaurant.latLng?.longitude!!
+            val matchingCategories =
+                userViewModel.firestoreRepository.foodCategories.filter { category ->
+                    restaurant.placeTypes!!.any { categoryString -> category.type == categoryString }
                 }
-                val userLocation = locationViewModel.currentLocation.value
-                val distanceInMeters = userLocation?.distanceTo(restaurantLocation)
 
-                holder.binding.let { binding ->
-                    if (restaurant.photoMetadatas?.isNotEmpty() == true) {
-                        val photoMetadata = restaurant.photoMetadatas?.get(0)
-                        if (photoMetadata != null) {
-                            placesViewModel.loadPhoto(photoMetadata) { photo ->
-                                binding.ivRestaurantPicHistory.setImageBitmap(photo)
-                            }
+            val restaurantLocation = Location("").apply {
+                latitude = restaurant.latLng?.latitude!!
+                longitude = restaurant.latLng?.longitude!!
+            }
+            val userLocation = locationViewModel.currentLocation.value
+            val distanceInMeters = userLocation?.distanceTo(restaurantLocation)
+
+            holder.binding.let { binding ->
+                if (restaurant.photoMetadatas?.isNotEmpty() == true) {
+                    val photoMetadata = restaurant.photoMetadatas?.get(0)
+                    if (photoMetadata != null) {
+                        placesViewModel.loadPhoto(photoMetadata) { photo ->
+                            binding.ivRestaurantPicHistory.setImageBitmap(photo)
                         }
+                    }
+                } else {
+                    binding.ivRestaurantPicHistory.setImageResource(R.drawable.placeholder_image)
+                    Log.e("Error", "Photos list is empty")
+                }
+                binding.tvRestaurantNameHistory.text = restaurant.name
+                val chipGroup = binding.cpgCategoriesHistory
+                chipGroup.removeAllViews()
+                matchingCategories.forEach { category ->
+                    addIndicatorChipSmall(
+                        category.name,
+                        chipGroup,
+                        context,
+                        discoverySettings ?: DiscoverySettings()
+                    )
+                }
+
+                val date = userViewModel.historyIds.value?.get(position)?.date
+                binding.tvDateHistory.text = date
+
+                binding.tvDistanceHistory.text = if (appSettings?.distanceUnit == "Km") {
+                    val distanceInKm = (distanceInMeters?.div(1000.0f))?.roundToInt()
+                    if (distanceInKm!! < 1) {
+                        "Less than 1 Km away"
                     } else {
-                        binding.ivRestaurantPicHistory.setImageResource(R.drawable.placeholder_image)
-                        Log.e("Error", "Photos list is empty")
+                        "$distanceInKm Km away"
                     }
-                    binding.tvRestaurantNameHistory.text = restaurant.name
-                    val chipGroup = binding.cpgCategoriesHistory
-                    chipGroup.removeAllViews()
-                    matchingCategories.forEach { category ->
-                        addIndicatorChipSmall(
-                            category.name,
-                            chipGroup,
-                            context,
-                            discoverySettings ?: DiscoverySettings()
-                        )
-                    }
-
-                    val date = userViewModel.historyIds.value?.get(position)?.date
-                    binding.tvDateHistory.text = date
-
-                    binding.tvDistanceHistory.text = if (appSettings?.distanceUnit == "Km") {
-                        val distanceInKm = (distanceInMeters?.div(1000.0f))?.roundToInt()
-                        if (distanceInKm!! < 1) {
-                            "Less than 1 Km away"
-                        } else {
-                            "$distanceInKm Km away"
-                        }
+                } else {
+                    val distanceInMi = (distanceInMeters?.div(621.371f))?.roundToInt()
+                    if (distanceInMi!! < 1) {
+                        "Less than 1 Mi away"
                     } else {
-                        val distanceInMi = (distanceInMeters?.div(621.371f))?.roundToInt()
-                        if (distanceInMi!! < 1) {
-                            "Less than 1 Mi away"
-                        } else {
-                            "$distanceInMi Mi away"
-                        }
+                        "$distanceInMi Mi away"
                     }
+                }
 
-                    binding.cvHistory.setOnClickListener {
-                        placesViewModel.setCurrentRestaurantLikesAndHistory("history", position)
-                        holder.itemView.findNavController().navigate(
-                            R.id.restaurantsDetailFragmentNoButtons
-                        )
-                    }
+                binding.cvHistory.setOnClickListener {
+                    placesViewModel.setCurrentRestaurantLikesAndHistory("history", position)
+                    holder.itemView.findNavController().navigate(
+                        R.id.restaurantsDetailFragmentNoButtons
+                    )
                 }
             }
         }
