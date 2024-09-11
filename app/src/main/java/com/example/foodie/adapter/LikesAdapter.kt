@@ -71,6 +71,7 @@ class LikesAdapter(
                         userViewModel.likesIds.value?.removeAll { it.id == restaurantId.id }
                         userViewModel.saveRestaurant("history", restaurant.name!!, restaurantId)
                         userViewModel.historyIds.value?.add(restaurantId)
+                        userViewModel.deleteRestaurant("likes", restaurant.name!!)
                         dataset.removeAt(position)
                         notifyItemRemoved(position)
                     }.setNegativeButton("Cancel") { _, _ ->

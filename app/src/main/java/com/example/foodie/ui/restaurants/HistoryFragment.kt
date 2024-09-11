@@ -34,7 +34,9 @@ class HistoryFragment : Fragment() {
         locationViewModel.isGPSEnabled()
         locationViewModel.checkLocationPermission()
 
-        userViewModel.historyIds.value?.let { placesViewModel.loadRestaurantById("history", it) }
+        if (userViewModel.historyIds.value != null) {
+            placesViewModel.loadRestaurantById("history", userViewModel.historyIds.value!!)
+        }
 
         return binding.root
     }
