@@ -1,6 +1,8 @@
 package com.example.foodie.ui.restaurants
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,7 +56,7 @@ class LikesFragment : Fragment() {
         binding.rvLikes.hasFixedSize()
 
         addLocationPermissionObserver()
-        addLikeObserverWithAdapter()
+        addLikesObserver()
 
         binding.etSearch.addTextChangedListener { s ->
             likesAdapter.filterLikes(s.toString())
@@ -69,8 +71,9 @@ class LikesFragment : Fragment() {
         }
     }
 
-    private fun addLikeObserverWithAdapter() {
+    private fun addLikesObserver() {
         placesViewModel.likes.observe(viewLifecycleOwner) { likes ->
+            Log.d(TAG, "LikesLiveData $likes")
             likesAdapter.addLikes(likes)
         }
     }

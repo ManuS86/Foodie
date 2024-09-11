@@ -37,6 +37,7 @@ class HistoryAdapter(
         if (dataset.isNotEmpty()) {
             val restaurant = dataset[position]
             val appSettings = userViewModel.currentAppSettings.value
+            val date = userViewModel.historyIds.value?.get(position)?.date
             val discoverySettings = userViewModel.currentDiscoverySettings.value
 
             val matchingCategories =
@@ -75,9 +76,7 @@ class HistoryAdapter(
                     )
                 }
 
-                val date = userViewModel.historyIds.value?.get(position)?.date
                 binding.tvDateHistory.text = date
-
                 binding.tvDistanceHistory.text = if (appSettings?.distanceUnit == "Km") {
                     val distanceInKm = (distanceInMeters?.div(1000.0f))?.roundToInt()
                     if (distanceInKm!! < 1) {

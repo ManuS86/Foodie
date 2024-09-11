@@ -1,8 +1,6 @@
 package com.example.foodie.ui.restaurants
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,12 +50,10 @@ class HistoryFragment : Fragment() {
         )
 
         binding.rvHistory.adapter = historyAdapter
-        Log.d(TAG, "History LiveData ${placesViewModel.history.value}")
-        placesViewModel.history.value?.let { historyAdapter.addHistory(it) }
         binding.rvHistory.hasFixedSize()
 
         addLocationPermissionObserver()
-        addHistoryObserverWithAdapter()
+        addHistoryObserver()
 
         binding.etSearch.addTextChangedListener { s ->
             historyAdapter.filterHistory(s.toString())
@@ -72,7 +68,7 @@ class HistoryFragment : Fragment() {
         }
     }
 
-    private fun addHistoryObserverWithAdapter() {
+    private fun addHistoryObserver() {
         placesViewModel.history.observe(viewLifecycleOwner) { history ->
             historyAdapter.addHistory(history)
         }
