@@ -13,6 +13,7 @@ import com.example.foodie.databinding.ItemRestaurantBinding
 import com.example.foodie.ui.viewmodels.LocationViewModel
 import com.example.foodie.ui.viewmodels.PlacesViewModel
 import com.example.foodie.ui.viewmodels.UserViewModel
+import com.example.foodie.utils.addGalleryPip
 import com.example.foodie.utils.addIndicatorChip
 import com.google.android.libraries.places.api.model.Place
 import kotlin.math.roundToInt
@@ -56,6 +57,7 @@ class RestaurantsAdapter(
         holder.binding.let { binding ->
             if (restaurant.photoMetadatas != null) {
                 val adapter = ImageGalleryAdapter(mutableListOf())
+                val galleryChipGroup = binding.cpgGalleryPips
                 val restaurantPhotoMetadata = restaurant.photoMetadatas?.toMutableList()
 
                 binding.vpGalleryRestaurant.adapter = adapter
@@ -70,6 +72,14 @@ class RestaurantsAdapter(
                         binding.vpGalleryRestaurant.currentItem = nextItem
                     }
                 }
+
+//                restaurantPhotoMetadata?.take(9).let { photoMetadatas ->
+//                    photoMetadatas?.forEach {
+//                        if (it != null) {
+//                            addGalleryPip(galleryChipGroup, context)
+//                        }
+//                    }
+//                }
 
                 restaurantPhotoMetadata?.removeAt(0)?.let { photoMetadata ->
                     placesViewModel.loadPhoto(photoMetadata) { photo ->

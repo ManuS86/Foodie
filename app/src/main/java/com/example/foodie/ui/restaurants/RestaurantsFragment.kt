@@ -220,6 +220,7 @@ class RestaurantsFragment : Fragment() {
         locationViewModel.currentLocation.observe(viewLifecycleOwner) { location ->
             if (location != null) {
                 val currentPosition = LatLng(location.latitude, location.longitude)
+                val alexanderPlatz = LatLng(52.521992, 13.413244)
 
                 placesViewModel.loadNearbyRestaurants(
                     currentPosition,
@@ -274,7 +275,9 @@ class RestaurantsFragment : Fragment() {
                 }
 
                 val allPlaceIds = mutableListOf<Id>()
-
+                userViewModel.historyIds.value?.let {
+                    allPlaceIds += it
+                }
                 userViewModel.likesIds.value?.let {
                     allPlaceIds += it
                 }

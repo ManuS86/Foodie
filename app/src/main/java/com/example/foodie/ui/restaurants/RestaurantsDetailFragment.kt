@@ -22,6 +22,7 @@ import com.example.foodie.ui.viewmodels.LocationViewModel
 import com.example.foodie.ui.viewmodels.PlacesViewModel
 import com.example.foodie.ui.viewmodels.UserViewModel
 import com.example.foodie.utils.ListType
+import com.example.foodie.utils.addGalleryPip
 import com.example.foodie.utils.addIndicatorChip
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
@@ -99,6 +100,7 @@ class RestaurantsDetailFragment : Fragment() {
             initializeMap(restaurant)
             if (restaurant.photoMetadatas != null) {
                 val adapter = ImageGalleryAdapter(mutableListOf())
+                val galleryChipGroup = binding.cpgGalleryPips
                 val restaurantPhotoMetadata = restaurant.photoMetadatas?.toMutableList()
 
                 binding.vpGalleryProfile.adapter = adapter
@@ -113,6 +115,14 @@ class RestaurantsDetailFragment : Fragment() {
                         binding.vpGalleryProfile.currentItem = nextItem
                     }
                 }
+
+//                restaurantPhotoMetadata?.take(9).let { photoMetadatas ->
+//                    photoMetadatas?.forEach {
+//                        if (it != null) {
+//                            addGalleryPip(galleryChipGroup, requireContext())
+//                        }
+//                    }
+//                }
 
                 restaurantPhotoMetadata?.removeAt(0)?.let { photoMetadata ->
                     placesViewModel.loadPhoto(photoMetadata) { photo ->

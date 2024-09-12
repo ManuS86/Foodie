@@ -92,9 +92,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:shapeAppearanceOverlay="@style/TopCornerCardview">
-
-                    </androidx.viewpager2.widget.ViewPager2>
+                        app:shapeAppearanceOverlay="@style/TopCornerCardview" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/iv_placeholder"
@@ -107,9 +105,21 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:shapeAppearanceOverlay="@style/TopCornerCardview" />
 
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/cpg_gallery_pips"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:weightSum="1"
+                        app:chipSpacingHorizontal="0dp"
+                        app:chipSpacingVertical="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:singleLine="true" />
+
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/btn_image_left"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:clickable="true"
                         android:focusable="true"
