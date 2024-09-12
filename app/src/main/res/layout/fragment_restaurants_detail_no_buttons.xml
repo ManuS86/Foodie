@@ -133,7 +133,7 @@
                         app:layout_constraintStart_toEndOf="@id/btn_image_left"
                         app:layout_constraintTop_toTopOf="parent"
                         app:rippleColor="@color/colorless"
-                        app:strokeWidth="0dp" >
+                        app:strokeWidth="0dp">
 
                     </com.google.android.material.card.MaterialCardView>
 

@@ -222,7 +222,12 @@ class RestaurantsDetailFragment : Fragment() {
                 val shareIntent = Intent(Intent.ACTION_SEND)
                 shareIntent.type = "text/plain"
                 shareIntent.putExtra(Intent.EXTRA_TEXT, restaurant.websiteUri?.toString())
-                startActivity(Intent.createChooser(shareIntent, "Check out this restaurant: $restaurant."))
+                startActivity(
+                    Intent.createChooser(
+                        shareIntent,
+                        "Check out this restaurant: $restaurant."
+                    )
+                )
             }
 
             binding.fabNavigate.setOnClickListener {
@@ -245,11 +250,14 @@ class RestaurantsDetailFragment : Fragment() {
                     }
                 }
 
-                userViewModel.saveRestaurant(
-                    "nopes",
-                    restaurant.name!!,
-                    restaurantId
-                )
+                restaurant.name?.let { restaurantName ->
+                    userViewModel.saveRestaurant(
+                        "nopes",
+                        restaurantName,
+                        restaurantId
+                    )
+                }
+
                 findNavController().navigateUp()
             }
 
@@ -267,10 +275,12 @@ class RestaurantsDetailFragment : Fragment() {
                     if (!it.contains(restaurantId)) {
                         userViewModel.likesIds.value?.add(restaurantId)
                     }
+                }
 
+                restaurant.name?.let { restaurantName ->
                     userViewModel.saveRestaurant(
                         "likes",
-                        restaurant.name!!,
+                        restaurantName,
                         restaurantId
                     )
                 }
@@ -287,13 +297,16 @@ class RestaurantsDetailFragment : Fragment() {
             googleMap.uiSettings.isCompassEnabled = true
             googleMap.uiSettings.isMyLocationButtonEnabled = false
             googleMap.uiSettings.setAllGesturesEnabled(true)
-            googleMap.addMarker(
-                MarkerOptions()
-                    .position(restaurant.latLng!!)
-                    .title(restaurant.name)
-                    .icon(BitmapDescriptorFactory.defaultMarker(HUE_RED))
-            )
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(restaurant.latLng!!, 15f))
+
+            restaurant.latLng?.let { latLng ->
+                googleMap.addMarker(
+                    MarkerOptions()
+                        .position(latLng)
+                        .title(restaurant.name)
+                        .icon(BitmapDescriptorFactory.defaultMarker(HUE_RED))
+                )
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+            }
         }
     }
 

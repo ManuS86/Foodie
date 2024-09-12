@@ -102,7 +102,12 @@ class SettingsFragment : Fragment() {
             val shareIntent = Intent(Intent.ACTION_SEND)
             shareIntent.type = "text/plain"
             shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out Foodie!")
-            startActivity(Intent.createChooser(shareIntent, "Hey check out this cool restaurant finder app."))
+            startActivity(
+                Intent.createChooser(
+                    shareIntent,
+                    "Hey check out this cool restaurant finder app."
+                )
+            )
         }
 
         binding.cvLogOut.setOnClickListener {

@@ -105,10 +105,12 @@ class RestaurantsFragment : Fragment() {
                                 if (!it.contains(restaurantId)) {
                                     userViewModel.likesIds.value?.add(restaurantId)
                                 }
+                            }
 
+                            filteredRestaurants[position].name?.let { restaurantName ->
                                 userViewModel.saveRestaurant(
                                     "likes",
-                                    filteredRestaurants[position].name!!,
+                                    restaurantName,
                                     restaurantId
                                 )
                             }
@@ -130,11 +132,13 @@ class RestaurantsFragment : Fragment() {
                                 }
                             }
 
-                            userViewModel.saveRestaurant(
-                                "nopes",
-                                filteredRestaurants[position].name!!,
-                                restaurantId
-                            )
+                            filteredRestaurants[position].name?.let { restaurantName ->
+                                userViewModel.saveRestaurant(
+                                    "nopes",
+                                    restaurantName,
+                                    restaurantId
+                                )
+                            }
                         }
 
                         else -> {

@@ -34,8 +34,8 @@ class LikesFragment : Fragment() {
         locationViewModel.isGPSEnabled()
         locationViewModel.checkLocationPermission()
 
-        if (userViewModel.likesIds.value != null) {
-            placesViewModel.loadRestaurantById("likes", userViewModel.likesIds.value!!)
+        userViewModel.likesIds.value?.let {
+            placesViewModel.loadRestaurantById("likes", it)
         }
 
         return binding.root

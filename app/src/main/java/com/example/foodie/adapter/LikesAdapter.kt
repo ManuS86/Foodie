@@ -69,11 +69,13 @@ class LikesAdapter(
                         val restaurantId = Id(restaurant.name, restaurant.id, formattedDate)
 
                         userViewModel.likesIds.value?.removeAll { it.id == restaurantId.id }
-                        userViewModel.saveRestaurant(
-                            "history",
-                            restaurant.name!!,
-                            restaurantId
-                        )
+                        restaurant.name?.let { restaurantName ->
+                            userViewModel.saveRestaurant(
+                                "history",
+                                restaurantName,
+                                restaurantId
+                            )
+                        }
                         userViewModel.historyIds.value?.add(restaurantId)
                         userViewModel.deleteRestaurant("likes", restaurant.name!!)
                         dataset.removeAt(position)

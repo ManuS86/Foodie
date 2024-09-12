@@ -211,7 +211,12 @@ class RestaurantsDetailFragmentNoButtons : Fragment() {
                 val shareIntent = Intent(Intent.ACTION_SEND)
                 shareIntent.type = "text/plain"
                 shareIntent.putExtra(Intent.EXTRA_TEXT, restaurant.websiteUri?.toString())
-                startActivity(Intent.createChooser(shareIntent, "Check out this restaurant: $restaurant."))
+                startActivity(
+                    Intent.createChooser(
+                        shareIntent,
+                        "Check out this restaurant: $restaurant."
+                    )
+                )
             }
 
             binding.ivDecollapse.setOnClickListener {

@@ -33,8 +33,14 @@ class VerificationCodeFragment : Fragment() {
 
         binding.tvPhoneNumber.text = args.phoneNumber
         binding.btnNext.setOnClickListener {
-            val code =
-                (binding.etCode1.text.toString() + binding.etCode2.text.toString() + binding.etCode3.text.toString() + binding.etCode4.text.toString() + binding.etCode5.text.toString() + binding.etCode6.text.toString())
+            val code = (
+                        binding.etCode1.text.toString() +
+                        binding.etCode2.text.toString() +
+                        binding.etCode3.text.toString() +
+                        binding.etCode4.text.toString() +
+                        binding.etCode5.text.toString() +
+                        binding.etCode6.text.toString()
+                        )
             userViewModel.verifyCode(code)
         }
 

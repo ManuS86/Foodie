@@ -32,9 +32,10 @@ class HistoryFragment : Fragment() {
         locationViewModel.isGPSEnabled()
         locationViewModel.checkLocationPermission()
 
-        if (userViewModel.historyIds.value != null) {
-            placesViewModel.loadRestaurantById("history", userViewModel.historyIds.value!!)
+        userViewModel.historyIds.value?.let {
+            placesViewModel.loadRestaurantById("history", it)
         }
+
 
         return binding.root
     }

@@ -38,12 +38,14 @@ class RestaurantsAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val restaurant = dataset[position]
         val appSettings = userViewModel.currentAppSettings.value
+        val chipGroup = holder.binding.cpgCategoriesRestaurant
         val discoverySettings = userViewModel.currentDiscoverySettings.value
 
         val matchingCategories =
             userViewModel.firestoreRepository.foodCategories.filter { category ->
                 restaurant.placeTypes!!.any { categoryString -> category.type == categoryString }
             }
+
         val restaurantLocation = Location("").apply {
             latitude = restaurant.latLng?.latitude!!
             longitude = restaurant.latLng?.longitude!!
@@ -86,15 +88,16 @@ class RestaurantsAdapter(
                 binding.ivPlaceholder.setImageResource(R.drawable.placeholder_image)
             }
             binding.tvRestaurantName.text =
-                restaurant.name!! +
-                        when (restaurant.priceLevel?.toString()) {
-                            "1" -> ", €"
-                            "2" -> ", €€"
-                            "3" -> ", €€€"
-                            "4" -> ", €€€€"
-                            else -> ""
-                        }
-            val chipGroup = binding.cpgCategoriesRestaurant
+                restaurant.name?.let { restaurantName ->
+                    restaurantName + when (restaurant.priceLevel?.toString()) {
+                        "1" -> ", €"
+                        "2" -> ", €€"
+                        "3" -> ", €€€"
+                        "4" -> ", €€€€"
+                        else -> ""
+                    }
+                }
+
             chipGroup.removeAllViews()
             matchingCategories.forEach { category ->
                 addIndicatorChip(

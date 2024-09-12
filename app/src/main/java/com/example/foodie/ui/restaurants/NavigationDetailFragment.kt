@@ -72,14 +72,14 @@ class NavigationDetailFragment : Fragment() {
             googleMap.uiSettings.isMyLocationButtonEnabled = false
             googleMap.uiSettings.setAllGesturesEnabled(true)
 
-            if (restaurant.latLng != null) {
+            restaurant.latLng?.let { latLng ->
                 googleMap.addMarker(
                     MarkerOptions()
-                        .position(restaurant.latLng!!)
+                        .position(latLng)
                         .title(restaurant.name)
                         .icon(BitmapDescriptorFactory.defaultMarker(HUE_RED))
                 )
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(restaurant.latLng!!, 15f))
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
             }
         }
     }
