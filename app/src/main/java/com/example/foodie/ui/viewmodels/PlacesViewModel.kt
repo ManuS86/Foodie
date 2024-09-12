@@ -12,6 +12,7 @@ import com.example.foodie.BuildConfig
 import com.example.foodie.data.PlacesRepository
 import com.example.foodie.data.model.DiscoverySettings
 import com.example.foodie.data.model.Id
+import com.example.foodie.utils.ListType
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.PhotoMetadata
@@ -25,7 +26,7 @@ class PlacesViewModel(application: Application) : AndroidViewModel(application) 
     private val placesRepository = PlacesRepository()
     private lateinit var placesClient: PlacesClient
 
-    private var _nearbyRestaurants = MutableLiveData<MutableList<Place>>()
+    private var _nearbyRestaurants = MutableLiveData<MutableList<Place>>(mutableListOf())
     val nearbyRestaurants: LiveData<MutableList<Place>>
         get() = _nearbyRestaurants
 
@@ -33,15 +34,15 @@ class PlacesViewModel(application: Application) : AndroidViewModel(application) 
     val currentRestaurant: LiveData<Place>
         get() = _currentRestaurant
 
-    private var _likes = MutableLiveData<MutableList<Place>>()
+    private var _likes = MutableLiveData<MutableList<Place>>(mutableListOf())
     val likes: LiveData<MutableList<Place>>
         get() = _likes
 
-    private var _nopes = MutableLiveData<MutableList<Place>>()
+    private var _nopes = MutableLiveData<MutableList<Place>>(mutableListOf())
     val nopes: LiveData<MutableList<Place>>
         get() = _nopes
 
-    private var _history = MutableLiveData<MutableList<Place>>()
+    private var _history = MutableLiveData<MutableList<Place>>(mutableListOf())
     val history: LiveData<MutableList<Place>>
         get() = _history
 
@@ -111,38 +112,38 @@ class PlacesViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun addRestaurantToLiveData(liveData: String, restaurant: Place) {
+    fun addRestaurantToLiveData(liveData: ListType, restaurant: Place) {
         when (liveData) {
-            "history" -> {
+            ListType.HISTORY -> {
                 _history.value?.add(restaurant)
                 _history.value = _history.value
             }
 
-            "likes" -> {
+            ListType.LIKES -> {
                 _likes.value?.add(restaurant)
                 _likes.value = _likes.value
             }
 
-            "nopes" -> {
+            ListType.NOPES -> {
                 _nopes.value?.add(restaurant)
                 _nopes.value = _nopes.value
             }
         }
     }
 
-    fun removeRestaurantFromLiveData(liveData: String, restaurant: Place) {
+    fun removeRestaurantFromLiveData(liveData: ListType, restaurant: Place) {
         when (liveData) {
-            "history" -> {
+            ListType.HISTORY -> {
                 _history.value?.remove(restaurant)
                 _history.value = _history.value
             }
 
-            "likes" -> {
+            ListType.LIKES -> {
                 _likes.value?.remove(restaurant)
                 _likes.value = _likes.value
             }
 
-            "nopes" -> {
+            ListType.NOPES -> {
                 _nopes.value?.remove(restaurant)
                 _nopes.value = _nopes.value
             }

@@ -59,15 +59,15 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     val currentUser: LiveData<FirebaseUser?>
         get() = _currentUser
 
-    private var _likesIds = MutableLiveData<MutableList<Id>>()
+    private var _likesIds = MutableLiveData<MutableList<Id>>(mutableListOf())
     val likesIds: LiveData<MutableList<Id>>
         get() = _likesIds
 
-    private var _nopesIds = MutableLiveData<MutableList<Id>>()
+    private var _nopesIds = MutableLiveData<MutableList<Id>>(mutableListOf())
     val nopesIds: LiveData<MutableList<Id>>
         get() = _nopesIds
 
-    private var _historyIds = MutableLiveData<MutableList<Id>>()
+    private var _historyIds = MutableLiveData<MutableList<Id>>(mutableListOf())
     val historyIds: LiveData<MutableList<Id>>
         get() = _historyIds
 

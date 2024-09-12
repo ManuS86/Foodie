@@ -14,7 +14,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.R
 import com.example.foodie.adapter.ImageGalleryAdapter
-import com.example.foodie.addIndicatorChip
 import com.example.foodie.data.model.AppSettings
 import com.example.foodie.data.model.DiscoverySettings
 import com.example.foodie.data.model.Id
@@ -22,6 +21,7 @@ import com.example.foodie.databinding.FragmentRestaurantsDetailBinding
 import com.example.foodie.ui.viewmodels.LocationViewModel
 import com.example.foodie.ui.viewmodels.PlacesViewModel
 import com.example.foodie.ui.viewmodels.UserViewModel
+import com.example.foodie.utils.addIndicatorChip
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -210,6 +210,13 @@ class RestaurantsDetailFragment : Fragment() {
 
             binding.ivDecollapse.setOnClickListener {
                 findNavController().navigateUp()
+            }
+
+            binding.ivShareBtn.setOnClickListener {
+                val shareIntent = Intent(Intent.ACTION_SEND)
+                shareIntent.type = "text/plain"
+                shareIntent.putExtra(Intent.EXTRA_TEXT, restaurant.websiteUri?.toString())
+                startActivity(Intent.createChooser(shareIntent, "Check out this restaurant: $restaurant."))
             }
 
             binding.fabNavigate.setOnClickListener {

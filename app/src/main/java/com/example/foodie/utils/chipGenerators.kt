@@ -1,7 +1,8 @@
-package com.example.foodie
+package com.example.foodie.utils
 
 import android.content.Context
 import android.view.LayoutInflater
+import com.example.foodie.R
 import com.example.foodie.data.model.DiscoverySettings
 import com.example.foodie.ui.viewmodels.UserViewModel
 import com.google.android.material.chip.Chip

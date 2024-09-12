@@ -4,25 +4,29 @@ import android.content.Context
 import android.location.Location
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodie.R
-import com.example.foodie.addIndicatorChipSmall
 import com.example.foodie.data.model.DiscoverySettings
+import com.example.foodie.data.model.Id
 import com.example.foodie.databinding.ItemHistoryBinding
 import com.example.foodie.ui.viewmodels.LocationViewModel
 import com.example.foodie.ui.viewmodels.PlacesViewModel
 import com.example.foodie.ui.viewmodels.UserViewModel
+import com.example.foodie.utils.addIndicatorChipSmall
 import com.google.android.libraries.places.api.model.Place
 import kotlin.math.roundToInt
 
 class HistoryAdapter(
     private val context: Context,
-    private var dataset: List<Place>,
+    private var dataset: MutableList<Place>,
     private val locationViewModel: LocationViewModel,
     private val placesViewModel: PlacesViewModel,
-    private val userViewModel: UserViewModel
+    private val userViewModel: UserViewModel,
+    private val view: View
 ) : RecyclerView.Adapter<HistoryAdapter.ItemViewHolder>() {
 
     inner class ItemViewHolder(val binding: ItemHistoryBinding) :
@@ -51,6 +55,19 @@ class HistoryAdapter(
             }
             val userLocation = locationViewModel.currentLocation.value
             val distanceInMeters = userLocation?.distanceTo(restaurantLocation)
+
+            val alertDialogRemove = AlertDialog.Builder(view.context)
+                .setMessage("Are you sure you want to remove ${restaurant.name} from your History?")
+                .setTitle("Remove History Entry")
+                .setPositiveButton("Remove") { _, _ ->
+                    val restaurantId = Id(restaurant.name, restaurant.id, null)
+
+                    userViewModel.historyIds.value?.removeAll { it.id == restaurantId.id }
+                    userViewModel.deleteRestaurant("history", restaurant.name!!)
+                    dataset.removeAt(position)
+                    notifyItemRemoved(position)
+                }.setNegativeButton("Cancel") { _, _ ->
+                }.create()
 
             holder.binding.let { binding ->
                 if (restaurant.photoMetadatas?.isNotEmpty() == true) {
@@ -98,6 +115,10 @@ class HistoryAdapter(
                     holder.itemView.findNavController().navigate(
                         R.id.restaurantsDetailFragmentNoButtons
                     )
+                }
+
+                binding.ivRemoveEntry.setOnClickListener {
+                    alertDialogRemove.show()
                 }
             }
         }

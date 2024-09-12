@@ -1,7 +1,5 @@
 package com.example.foodie.ui.restaurants
 
-import android.content.ContentValues.TAG
-import android.nfc.Tag
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,6 +17,7 @@ import com.example.foodie.databinding.FragmentRestaurantsBinding
 import com.example.foodie.ui.viewmodels.LocationViewModel
 import com.example.foodie.ui.viewmodels.PlacesViewModel
 import com.example.foodie.ui.viewmodels.UserViewModel
+import com.example.foodie.utils.ListType
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.model.Place
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
@@ -93,33 +92,42 @@ class RestaurantsFragment : Fragment() {
 
                     when (direction) {
                         Direction.Right -> {
-//                            if (!placesViewModel.likes.value?.contains(filteredRestaurants[position])) {
-                                placesViewModel.addRestaurantToLiveData(
-                                    "likes",
-                                    filteredRestaurants[position]
-                                )
-//                            }
-                            if (!userViewModel.likesIds.value!!.contains(restaurantId)) {
-                                userViewModel.likesIds.value?.add(restaurantId)
+                            placesViewModel.likes.value?.let {
+                                if (!it.contains(filteredRestaurants[position])) {
+                                    placesViewModel.addRestaurantToLiveData(
+                                        ListType.LIKES,
+                                        filteredRestaurants[position]
+                                    )
+                                }
                             }
-                            userViewModel.saveRestaurant(
-                                "likes",
-                                filteredRestaurants[position].name!!,
-                                restaurantId
-                            )
+                            userViewModel.likesIds.value?.let {
+                                if (!it.contains(restaurantId)) {
+                                    userViewModel.likesIds.value?.add(restaurantId)
+                                }
+                                userViewModel.saveRestaurant(
+                                    "likes",
+                                    filteredRestaurants[position].name!!,
+                                    restaurantId
+                                )
+                            }
                         }
 
                         Direction.Left -> {
-//                            if (!placesViewModel.nopes.value!!.contains(filteredRestaurants[position])) {
-                                placesViewModel.addRestaurantToLiveData(
-                                    "nopes",
-                                    filteredRestaurants[position]
-                                )
-//                            }
-
-                            if (!userViewModel.nopesIds.value!!.contains(restaurantId)) {
-                                userViewModel.nopesIds.value?.add(restaurantId)
+                            placesViewModel.nopes.value?.let {
+                                if (!it.contains(filteredRestaurants[position])) {
+                                    placesViewModel.addRestaurantToLiveData(
+                                        ListType.NOPES,
+                                        filteredRestaurants[position]
+                                    )
+                                }
                             }
+
+                            userViewModel.nopesIds.value?.let {
+                                if (!it.contains(restaurantId)) {
+                                    userViewModel.nopesIds.value?.add(restaurantId)
+                                }
+                            }
+
                             userViewModel.saveRestaurant(
                                 "nopes",
                                 filteredRestaurants[position].name!!,
@@ -137,12 +145,12 @@ class RestaurantsFragment : Fragment() {
                     val position = cardStackLayoutManager.topPosition
 
                     placesViewModel.removeRestaurantFromLiveData(
-                        "likes",
+                        ListType.LIKES,
                         filteredRestaurants[position]
                     )
 
                     placesViewModel.removeRestaurantFromLiveData(
-                        "nopes",
+                        ListType.NOPES,
                         filteredRestaurants[position]
                     )
 
@@ -220,25 +228,25 @@ class RestaurantsFragment : Fragment() {
     private fun addNearbyRestaurantObserver() {
         placesViewModel.nearbyRestaurants.observe(viewLifecycleOwner) { nearbyRestaurants ->
             if (nearbyRestaurants != null) {
-                val filteredByRating =
+                filteredRestaurants =
                     nearbyRestaurants.filter { it.rating!! >= discoverySettings.minRating }
+                        .toMutableList()
 
-                var filteredByRatingAndPriceLevel = filteredByRating
                 if (discoverySettings.priceLevels.isNotEmpty()) {
-                    filteredByRatingAndPriceLevel =
-                        filteredByRating.filter { filteredRestaurants ->
+                    filteredRestaurants =
+                        filteredRestaurants.filter { restaurants ->
                             discoverySettings.priceLevels.any { priceLevel ->
-                                filteredRestaurants.priceLevel == priceLevel
+                                restaurants.priceLevel == priceLevel
                             }
-                        }
+                        }.toMutableList()
                 }
 
                 val matchingCategories =
                     userViewModel.firestoreRepository.foodCategories.filter { category ->
                         discoverySettings.placeTypes.any { categoryString -> category.name == categoryString }
                     }.map { it.type }
-                val filteredRestaurantsFilteredByCategories =
-                    filteredByRatingAndPriceLevel.filter { restaurants ->
+                filteredRestaurants =
+                    filteredRestaurants.filter { restaurants ->
                         if (matchingCategories.isNotEmpty()) {
                             matchingCategories.any { categories ->
                                 if (restaurants.placeTypes.isNullOrEmpty()) {
@@ -250,19 +258,31 @@ class RestaurantsFragment : Fragment() {
                         } else {
                             true
                         }
-                    }
+                    }.toMutableList()
 
                 if (discoverySettings.openNow) {
                     filteredRestaurants =
-                        filteredRestaurantsFilteredByCategories.filter {
+                        filteredRestaurants.filter {
                             placesViewModel.isPlaceOpenNow(it) == true
                         }.toMutableList()
-                    restaurantsAdapter.addRestaurants(filteredRestaurants)
-                } else {
-                    filteredRestaurants =
-                        filteredRestaurantsFilteredByCategories.toMutableList()
-                    restaurantsAdapter.addRestaurants(filteredRestaurants)
                 }
+
+                val allPlaceIds = mutableListOf<Id>()
+
+                userViewModel.likesIds.value?.let {
+                    allPlaceIds += it
+                }
+                userViewModel.nopesIds.value?.let {
+                    allPlaceIds += it
+                }
+
+                filteredRestaurants = filteredRestaurants.filter { restaurant ->
+                    !allPlaceIds.any { restaurantId ->
+                        restaurant.id == restaurantId.id
+                    }
+                }.toMutableList()
+
+                restaurantsAdapter.addRestaurants(filteredRestaurants)
             }
         }
     }

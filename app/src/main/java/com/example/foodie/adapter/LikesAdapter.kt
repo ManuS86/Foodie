@@ -11,13 +11,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodie.R
-import com.example.foodie.addIndicatorChipSmall
 import com.example.foodie.data.model.DiscoverySettings
 import com.example.foodie.data.model.Id
 import com.example.foodie.databinding.ItemLikesBinding
 import com.example.foodie.ui.viewmodels.LocationViewModel
 import com.example.foodie.ui.viewmodels.PlacesViewModel
 import com.example.foodie.ui.viewmodels.UserViewModel
+import com.example.foodie.utils.addIndicatorChipSmall
 import com.google.android.libraries.places.api.model.Place
 import java.util.Date
 import java.util.Locale
@@ -69,7 +69,11 @@ class LikesAdapter(
                         val restaurantId = Id(restaurant.name, restaurant.id, formattedDate)
 
                         userViewModel.likesIds.value?.removeAll { it.id == restaurantId.id }
-                        userViewModel.saveRestaurant("history", restaurant.name!!, restaurantId)
+                        userViewModel.saveRestaurant(
+                            "history",
+                            restaurant.name!!,
+                            restaurantId
+                        )
                         userViewModel.historyIds.value?.add(restaurantId)
                         userViewModel.deleteRestaurant("likes", restaurant.name!!)
                         dataset.removeAt(position)

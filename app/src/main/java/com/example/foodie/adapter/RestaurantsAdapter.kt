@@ -8,12 +8,12 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodie.R
-import com.example.foodie.addIndicatorChip
 import com.example.foodie.data.model.DiscoverySettings
 import com.example.foodie.databinding.ItemRestaurantBinding
 import com.example.foodie.ui.viewmodels.LocationViewModel
 import com.example.foodie.ui.viewmodels.PlacesViewModel
 import com.example.foodie.ui.viewmodels.UserViewModel
+import com.example.foodie.utils.addIndicatorChip
 import com.google.android.libraries.places.api.model.Place
 import kotlin.math.roundToInt
 

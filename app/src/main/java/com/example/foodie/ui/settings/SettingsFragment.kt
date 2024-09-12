@@ -1,5 +1,6 @@
 package com.example.foodie.ui.settings
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -95,6 +96,13 @@ class SettingsFragment : Fragment() {
             binding.btnDarkModeCheckmark.alpha = 0f
             binding.btnLightModeCheckmark.alpha = 0f
             binding.btnSystemDefaultCheckmark.alpha = 1f
+        }
+
+        binding.cvShareFoodie.setOnClickListener {
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.type = "text/plain"
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out Foodie!")
+            startActivity(Intent.createChooser(shareIntent, "Hey check out this cool restaurant finder app."))
         }
 
         binding.cvLogOut.setOnClickListener {

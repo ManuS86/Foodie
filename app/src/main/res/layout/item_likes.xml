@@ -26,12 +26,14 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_restaurantNameLikes"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:text="Restaurant Name"
             android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            app:layout_constraintEnd_toStartOf="@+id/iv_approveLikes"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/iv_restaurantPicLikes"
             app:layout_constraintTop_toTopOf="parent" />
 

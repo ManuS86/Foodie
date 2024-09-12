@@ -9,12 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.foodie.R
-import com.example.foodie.addSelectorChip
 import com.example.foodie.data.model.AppSettings
 import com.example.foodie.data.model.Category
 import com.example.foodie.data.model.DiscoverySettings
 import com.example.foodie.databinding.FragmentDiscoverySettingsDetailBinding
 import com.example.foodie.ui.viewmodels.UserViewModel
+import com.example.foodie.utils.addSelectorChip
 
 class DiscoverySettingsDetailFragment : Fragment() {
     private val userViewModel: UserViewModel by activityViewModels()
@@ -99,14 +99,15 @@ class DiscoverySettingsDetailFragment : Fragment() {
                 // Perform actions based on the clicked star index
                 when (clickedStarIndex) {
                     1 -> {
-
-//                        if (ratingBar.rating == 1f) {
-//                            ratingBar.rating = 0f
-//                        } else {
-                        discoverySettings.minRating = 1f
-                        ratingBar.rating = discoverySettings.minRating
-                        userViewModel.saveDiscoverySettings()
-//                        }
+                        if (ratingBar.rating == 1f) {
+                            ratingBar.rating = 0f
+                            ratingBar.rating = discoverySettings.minRating
+                            userViewModel.saveDiscoverySettings()
+                        } else {
+                            discoverySettings.minRating = 1f
+                            ratingBar.rating = discoverySettings.minRating
+                            userViewModel.saveDiscoverySettings()
+                        }
                     }
 
                     2 -> {

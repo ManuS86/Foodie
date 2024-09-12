@@ -61,7 +61,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -105,12 +104,4 @@ dependencies {
 
     //Actionbar Scroll Behavior
     implementation(libs.androidx.coordinatorlayout)
-
-    //    //Retrofit und Moshi
-//    implementation(libs.retrofit)
-//    implementation(libs.converter.moshi)
-//    implementation(libs.moshi.kotlin)
-//
-//    //Coil
-//    implementation(libs.coil)
 }

@@ -46,7 +46,8 @@ class HistoryFragment : Fragment() {
             mutableListOf(),
             locationViewModel,
             placesViewModel,
-            userViewModel
+            userViewModel,
+            requireView()
         )
 
         binding.rvHistory.adapter = historyAdapter

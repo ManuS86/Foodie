@@ -52,7 +52,7 @@ class LocationPermissionFragment : Fragment() {
         locationViewModel.locationPermission.observe(viewLifecycleOwner) { granted ->
             if (granted == true) {
                 // Permissions granted, start location tracking
-                locationViewModel.requestLocationUpdates(60000, 30000)
+                locationViewModel.requestLocationUpdates(300000, 150000)
                 addGPSObserver()
             }
         }

@@ -50,7 +50,7 @@ class LocationDeniedFragment : Fragment() {
             if (granted == true) {
                 // Permissions granted, start location tracking
                 addGPSObserver()
-                locationViewModel.requestLocationUpdates(60000, 30000)
+                locationViewModel.requestLocationUpdates(300000, 150000)
             }
         }
     }
