@@ -21,6 +21,7 @@ import com.example.foodie.databinding.FragmentRestaurantsDetailBinding
 import com.example.foodie.ui.viewmodels.LocationViewModel
 import com.example.foodie.ui.viewmodels.PlacesViewModel
 import com.example.foodie.ui.viewmodels.UserViewModel
+import com.example.foodie.utils.ListType
 import com.example.foodie.utils.addIndicatorChip
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
@@ -88,6 +89,11 @@ class RestaurantsDetailFragment : Fragment() {
             }
             val userLocation = locationViewModel.currentLocation.value
             val distanceInMeters = userLocation?.distanceTo(restaurantLocation)
+            val restaurantId = Id(
+                restaurant.name!!,
+                restaurant.id!!,
+                null
+            )
 
             addLocationPermissionObserver()
             initializeMap(restaurant)
@@ -224,19 +230,52 @@ class RestaurantsDetailFragment : Fragment() {
             }
 
             binding.fabNope.setOnClickListener {
+                placesViewModel.nopes.value?.let {
+                    if (!it.contains(restaurant)) {
+                        placesViewModel.addRestaurantToLiveData(
+                            ListType.NOPES,
+                            restaurant
+                        )
+                    }
+                }
+
+                userViewModel.nopesIds.value?.let {
+                    if (!it.contains(restaurantId)) {
+                        userViewModel.nopesIds.value?.add(restaurantId)
+                    }
+                }
+
                 userViewModel.saveRestaurant(
                     "nopes",
                     restaurant.name!!,
-                    Id(restaurant.name!!, restaurant.id!!, null)
+                    restaurantId
                 )
+                findNavController().navigateUp()
             }
 
             binding.fabLike.setOnClickListener {
-                userViewModel.saveRestaurant(
-                    "likes",
-                    restaurant.name!!,
-                    Id(restaurant.name!!, restaurant.id!!, null)
-                )
+                placesViewModel.likes.value?.let {
+                    if (!it.contains(restaurant)) {
+                        placesViewModel.addRestaurantToLiveData(
+                            ListType.LIKES,
+                            restaurant
+                        )
+                    }
+                }
+
+                userViewModel.likesIds.value?.let {
+                    if (!it.contains(restaurantId)) {
+                        userViewModel.likesIds.value?.add(restaurantId)
+                    }
+
+                    userViewModel.saveRestaurant(
+                        "likes",
+                        restaurant.name!!,
+                        restaurantId
+                    )
+                }
+
+                findNavController().navigateUp()
             }
         }
     }

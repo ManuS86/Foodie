@@ -100,10 +100,12 @@ class RestaurantsFragment : Fragment() {
                                     )
                                 }
                             }
+
                             userViewModel.likesIds.value?.let {
                                 if (!it.contains(restaurantId)) {
                                     userViewModel.likesIds.value?.add(restaurantId)
                                 }
+
                                 userViewModel.saveRestaurant(
                                     "likes",
                                     filteredRestaurants[position].name!!,
@@ -246,13 +248,13 @@ class RestaurantsFragment : Fragment() {
                         discoverySettings.placeTypes.any { categoryString -> category.name == categoryString }
                     }.map { it.type }
                 filteredRestaurants =
-                    filteredRestaurants.filter { restaurants ->
+                    filteredRestaurants.filter { restaurant ->
                         if (matchingCategories.isNotEmpty()) {
                             matchingCategories.any { categories ->
-                                if (restaurants.placeTypes.isNullOrEmpty()) {
+                                if (restaurant.placeTypes.isNullOrEmpty()) {
                                     true
                                 } else {
-                                    restaurants.placeTypes!!.contains(categories)
+                                    restaurant.placeTypes!!.contains(categories)
                                 }
                             }
                         } else {
