@@ -18,7 +18,7 @@ import com.example.foodie.ui.viewmodels.PlacesViewModel
 import com.example.foodie.ui.viewmodels.UserViewModel
 import com.example.foodie.utils.addIndicatorChipSmall
 import com.google.android.libraries.places.api.model.Place
-import kotlin.math.roundToInt
+import java.text.DecimalFormat
 
 class HistoryAdapter(
     private val context: Context,
@@ -94,21 +94,18 @@ class HistoryAdapter(
                 }
 
                 binding.tvDateHistory.text = date
-                binding.tvDistanceHistory.text = if (appSettings?.distanceUnit == "Km") {
-                    val distanceInKm = (distanceInMeters?.div(1000.0f))?.roundToInt()
-                    if (distanceInKm!! < 1) {
-                        "Less than 1 Km away"
+                binding.tvDistanceHistory.text =
+                    if (appSettings?.distanceUnit == "Km") {
+                        val decimalFormat = DecimalFormat("#.#")
+                        val distanceInKm = distanceInMeters?.div(1000.0f)?.toDouble()
+                        val formattedDistanceInKm = decimalFormat.format(distanceInKm)
+                        "$formattedDistanceInKm Km away"
                     } else {
-                        "$distanceInKm Km away"
+                        val decimalFormat = DecimalFormat("#.#")
+                        val distanceInMi = distanceInMeters?.let { it / 1609.34 }
+                        val formattedDistanceInMi = decimalFormat.format(distanceInMi)
+                        "$formattedDistanceInMi Mi away"
                     }
-                } else {
-                    val distanceInMi = (distanceInMeters?.div(621.371f))?.roundToInt()
-                    if (distanceInMi!! < 1) {
-                        "Less than 1 Mi away"
-                    } else {
-                        "$distanceInMi Mi away"
-                    }
-                }
 
                 binding.cvHistory.setOnClickListener {
                     placesViewModel.setCurrentRestaurantLikesAndHistory("history", position)

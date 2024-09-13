@@ -20,7 +20,6 @@ import com.example.foodie.databinding.FragmentRestaurantsDetailNoButtonsBinding
 import com.example.foodie.ui.viewmodels.LocationViewModel
 import com.example.foodie.ui.viewmodels.PlacesViewModel
 import com.example.foodie.ui.viewmodels.UserViewModel
-import com.example.foodie.utils.addGalleryPip
 import com.example.foodie.utils.addIndicatorChip
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
@@ -28,7 +27,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_RED
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.model.Place
-import kotlin.math.roundToInt
+import java.text.DecimalFormat
 
 class RestaurantsDetailFragmentNoButtons : Fragment() {
     private val locationViewModel: LocationViewModel by activityViewModels()
@@ -144,19 +143,15 @@ class RestaurantsDetailFragmentNoButtons : Fragment() {
             }
             binding.tvDistanceProfile.text =
                 if (appSettings.distanceUnit == "Km") {
-                    val distanceInKm = (distanceInMeters?.div(1000.0f))?.roundToInt()
-                    if (distanceInKm!! < 1) {
-                        "Less than 1 Km away"
-                    } else {
-                        "$distanceInKm Km away"
-                    }
+                    val decimalFormat = DecimalFormat("#.#")
+                    val distanceInKm = distanceInMeters?.div(1000.0f)?.toDouble()
+                    val formattedDistanceInKm = decimalFormat.format(distanceInKm)
+                    "$formattedDistanceInKm Km away"
                 } else {
-                    val distanceInMi = (distanceInMeters?.div(621.371f))?.roundToInt()
-                    if (distanceInMi!! < 1) {
-                        "Less than 1 Mi away"
-                    } else {
-                        "$distanceInMi Mi away"
-                    }
+                    val decimalFormat = DecimalFormat("#.#")
+                    val distanceInMi = distanceInMeters?.let { it / 1609.34 }
+                    val formattedDistanceInMi = decimalFormat.format(distanceInMi)
+                    "$formattedDistanceInMi Mi away"
                 }
             binding.tvTodaysHours.text =
                 when (placesViewModel.isPlaceOpenNow(restaurant)) {

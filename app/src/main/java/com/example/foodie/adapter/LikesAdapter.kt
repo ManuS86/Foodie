@@ -19,9 +19,9 @@ import com.example.foodie.ui.viewmodels.PlacesViewModel
 import com.example.foodie.ui.viewmodels.UserViewModel
 import com.example.foodie.utils.addIndicatorChipSmall
 import com.google.android.libraries.places.api.model.Place
+import java.text.DecimalFormat
 import java.util.Date
 import java.util.Locale
-import kotlin.math.roundToInt
 
 class LikesAdapter(
     private val context: Context,
@@ -120,21 +120,18 @@ class LikesAdapter(
                     )
                 }
 
-                binding.tvDistanceLikes.text = if (appSettings?.distanceUnit == "Km") {
-                    val distanceInKm = (distanceInMeters?.div(1000.0f))?.roundToInt()
-                    if (distanceInKm!! < 1) {
-                        "Less than 1 Km away"
+                binding.tvDistanceLikes.text =
+                    if (appSettings?.distanceUnit == "Km") {
+                        val decimalFormat = DecimalFormat("#.#")
+                        val distanceInKm = distanceInMeters?.div(1000.0f)?.toDouble()
+                        val formattedDistanceInKm = decimalFormat.format(distanceInKm)
+                        "$formattedDistanceInKm Km away"
                     } else {
-                        "$distanceInKm Km away"
+                        val decimalFormat = DecimalFormat("#.#")
+                        val distanceInMi = distanceInMeters?.let { it / 1609.34 }
+                        val formattedDistanceInMi = decimalFormat.format(distanceInMi)
+                        "$formattedDistanceInMi Mi away"
                     }
-                } else {
-                    val distanceInMi = (distanceInMeters?.div(621.371f))?.roundToInt()
-                    if (distanceInMi!! < 1) {
-                        "Less than 1 Mi away"
-                    } else {
-                        "$distanceInMi Mi away"
-                    }
-                }
 
                 binding.cvLikes.setOnClickListener {
                     placesViewModel.setCurrentRestaurantLikesAndHistory("likes", position)

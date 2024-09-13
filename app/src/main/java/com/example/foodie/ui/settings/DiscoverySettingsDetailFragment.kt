@@ -15,6 +15,7 @@ import com.example.foodie.data.model.DiscoverySettings
 import com.example.foodie.databinding.FragmentDiscoverySettingsDetailBinding
 import com.example.foodie.ui.viewmodels.UserViewModel
 import com.example.foodie.utils.addSelectorChip
+import kotlin.math.roundToInt
 
 class DiscoverySettingsDetailFragment : Fragment() {
     private val userViewModel: UserViewModel by activityViewModels()
@@ -45,8 +46,9 @@ class DiscoverySettingsDetailFragment : Fragment() {
         binding.sbDistanceSlider.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(
-                seekBar: SeekBar?, progress:
-                Int, fromUser: Boolean
+                seekBar: SeekBar?,
+                progress: Int,
+                fromUser: Boolean
             ) {
                 if (appSettings.distanceUnit == "Km") {
                     binding.tvKmMi.text = "${progress} Km"
@@ -172,11 +174,11 @@ class DiscoverySettingsDetailFragment : Fragment() {
     private fun setSettingsUI() {
         val radius = userViewModel.currentDiscoverySettings.value?.radius
         if (appSettings.distanceUnit == "Km") {
-            binding.sbDistanceSlider.progress = (radius?.div(1000))?.toInt() ?: 2000
-            binding.tvKmMi.text = "${(radius?.div(1000)?.toInt())} Km"
+            binding.sbDistanceSlider.progress = (radius?.div(1000))?.roundToInt() ?: 2000
+            binding.tvKmMi.text = "${(radius?.div(1000)?.roundToInt())} Km"
         } else if (appSettings.distanceUnit == "Mi") {
-            binding.sbDistanceSlider.progress = (radius?.div(621.371))?.toInt() ?: 1000
-            binding.tvKmMi.text = "${(radius?.div(1609.34))?.toInt()} Mi"
+            binding.sbDistanceSlider.progress = (radius?.div(621.371))?.roundToInt() ?: 1000
+            binding.tvKmMi.text = "${(radius?.div(1609.34))?.roundToInt()} Mi"
         }
 
         val openNow = discoverySettings.openNow
