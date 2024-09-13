@@ -136,6 +136,6 @@ class HistoryAdapter(
     }
 
     override fun getItemCount(): Int {
-        return dataset.size ?: 0
+        return dataset.size
     }
 }

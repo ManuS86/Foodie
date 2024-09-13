@@ -148,6 +148,6 @@ class RestaurantsAdapter(
     }
 
     override fun getItemCount(): Int {
-        return dataset.size ?: 0
+        return dataset.size
     }
 }
