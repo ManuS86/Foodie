@@ -96,16 +96,14 @@ class RestaurantsAdapter(
             } else {
                 binding.ivPlaceholder.setImageResource(R.drawable.placeholder_image)
             }
-            binding.tvRestaurantName.text =
-                restaurant.name?.let { restaurantName ->
-                    restaurantName + when (restaurant.priceLevel?.toString()) {
-                        "1" -> ", €"
-                        "2" -> ", €€"
-                        "3" -> ", €€€"
-                        "4" -> ", €€€€"
-                        else -> ""
-                    }
-                }
+            binding.tvRestaurantName.text = restaurant.name
+            binding.tvPriceLvl.text = when (restaurant.priceLevel?.toString()) {
+                "1" -> "€"
+                "2" -> "€€"
+                "3" -> "€€€"
+                "4" -> "€€€€"
+                else -> ""
+            }
 
             chipGroup.removeAllViews()
             matchingCategories.forEach { category ->

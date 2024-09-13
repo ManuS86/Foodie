@@ -123,7 +123,7 @@ class LikesAdapter(
                 binding.tvDistanceLikes.text =
                     if (appSettings?.distanceUnit == "Km") {
                         val decimalFormat = DecimalFormat("#.#")
-                        val distanceInKm = distanceInMeters?.div(1000.0f)?.toDouble()
+                        val distanceInKm = distanceInMeters?.let { (it.div(1000.0f)).toDouble() }
                         val formattedDistanceInKm = decimalFormat.format(distanceInKm)
                         "$formattedDistanceInKm Km away"
                     } else {

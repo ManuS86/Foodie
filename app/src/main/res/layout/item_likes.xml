@@ -30,6 +30,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
+            android:ellipsize="end"
+            android:lines="1"
             android:text="Restaurant Name"
             android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
             app:layout_constraintEnd_toStartOf="@+id/iv_approveLikes"

@@ -135,19 +135,37 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_restaurantName"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
+                        android:ellipsize="end"
+                        android:maxWidth="230dp"
                         android:maxLines="2"
-                        android:text="Restaurant Name, €€€"
+                        android:text="Restaurant Name"
                         android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
                         android:textColor="@color/white"
                         app:fontFamily="sans-serif-medium"
-                        app:layout_constraintEnd_toStartOf="@+id/iv_decollapseButton"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_price_lvl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="€€"
+                        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+                        android:textColor="@color/white"
+                        app:fontFamily="sans-serif-light"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_restaurantName"
+                        app:layout_constraintEnd_toStartOf="@+id/iv_decollapseButton"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/tv_restaurantName"
+                        app:layout_constraintTop_toTopOf="@+id/iv_infoGradient"
+                        app:layout_constraintVertical_bias="1.0" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/iv_decollapseButton"
