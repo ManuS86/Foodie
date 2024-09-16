@@ -422,6 +422,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         "Welcome ${_currentUser.value?.phoneNumber}",
                         Toast.LENGTH_SHORT,
                     ).show()
+
+                    setUpUserEnv()
                 } else {
                     _currentUser.postValue(null)
 
