@@ -170,7 +170,7 @@ class DiscoverySettingsDetailFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        binding.tvClearNopesBtn.setOnClickListener {
+        binding.cvClearNopes.setOnClickListener {
             userViewModel.deleteNopes()
         }
     }
