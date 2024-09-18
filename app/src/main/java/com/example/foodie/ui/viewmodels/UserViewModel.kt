@@ -204,6 +204,16 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun deleteNopes() {
+        viewModelScope.launch {
+            try {
+                firestoreRepository.deleteNopesList(userRef)
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to delete Nopes", e)
+            }
+        }
+    }
+
     private fun getCredentialRequest(filterByAuthorizedAccounts: Boolean): GetCredentialRequest {
         val googleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(filterByAuthorizedAccounts)

@@ -28,9 +28,8 @@ class FirestoreRepository(private var db: FirebaseFirestore) {
         collection: String
     ): MutableList<Id> {
         val collRef = userRef.collection(collection)
-        val querySnapshot = withContext(Dispatchers.IO) {
-            collRef.get().await()
-        }
+        val querySnapshot = collRef.get().await()
+
 
         val restaurantIdList = mutableListOf<Id>()
         for (document in querySnapshot.documents) {
@@ -42,6 +41,17 @@ class FirestoreRepository(private var db: FirebaseFirestore) {
             }
         }
         return restaurantIdList
+    }
+
+    suspend fun deleteNopesList(userRef: DocumentReference) {
+        val collectionRef = userRef.collection("nopes")
+        val querySnapshot = collectionRef.get().await()
+
+        querySnapshot.forEach { document ->
+            db.runTransaction { transaction ->
+                transaction.delete(document.reference)
+            }.await()
+        }
     }
 
     suspend fun addRestaurant(

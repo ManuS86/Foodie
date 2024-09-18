@@ -169,6 +169,10 @@ class DiscoverySettingsDetailFragment : Fragment() {
         binding.ivBack.setOnClickListener {
             findNavController().navigateUp()
         }
+
+        binding.tvClearNopesBtn.setOnClickListener {
+            userViewModel.deleteNopes()
+        }
     }
 
     private fun setSettingsUI() {

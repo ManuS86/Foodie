@@ -275,9 +275,6 @@ class RestaurantsFragment : Fragment() {
                 }
 
                 val allPlaceIds = mutableListOf<Id>()
-                userViewModel.historyIds.value?.let {
-                    allPlaceIds += it
-                }
                 userViewModel.likesIds.value?.let {
                     allPlaceIds += it
                 }
